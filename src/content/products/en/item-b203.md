@@ -1,6 +1,6 @@
 ---
 title: 'SF-BN B203'
-description: 'Tap Bolts and Nuts Set'
+description: 'Super Assistant'
 main:
   id: 3
   content: |
