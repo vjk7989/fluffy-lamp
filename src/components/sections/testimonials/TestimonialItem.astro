@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import Icon from '../../ui/icons/Icon.astro';
 
 const { content, author, role, avatarSrc } = Astro.props;
@@ -8,7 +9,7 @@ interface Props {
   content: string;
   author: string;
   role: string;
-  avatarSrc: string;
+  avatarSrc: ImageMetadata;
 }
 ---
 
@@ -29,7 +30,6 @@ interface Props {
           src={avatarSrc}
           alt="Avatar Description"
           loading={'eager'}
-          inferSize
         />
       </div>
       <div class="ms-4 grow">

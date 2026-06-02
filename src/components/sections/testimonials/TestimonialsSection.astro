@@ -1,6 +1,7 @@
 ---
 import TestimonialItem from './TestimonialItem.astro';
 import StatsGrid from '../../ui/blocks/StatsGrid.astro';
+import type { ImageMetadata } from 'astro';
 
 const { title, subTitle, testimonials, statistics } = Astro.props;
 
@@ -16,7 +17,7 @@ type Testimonial = {
   content: string;
   author: string;
   role: string;
-  avatarSrc: string;
+  avatarSrc: ImageMetadata;
 };
 
 // TypeScript type for stats.

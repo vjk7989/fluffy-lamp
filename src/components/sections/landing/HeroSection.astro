@@ -135,8 +135,8 @@ interface Props {
     const wrapper = document.getElementById('heroImageWrapper');
     
     if (wrapper) {
-      const lightImg = wrapper.querySelector('[data-image="light"]');
-      const darkImg = wrapper.querySelector('[data-image="dark"]');
+      const lightImg = wrapper.querySelector<HTMLElement>('[data-image="light"]');
+      const darkImg = wrapper.querySelector<HTMLElement>('[data-image="dark"]');
       
       if (lightImg) lightImg.style.display = isDark ? 'none' : 'block';
       if (darkImg) darkImg.style.display = isDark ? 'block' : 'none';
