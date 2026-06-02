@@ -1,6 +1,6 @@
 ---
 import Icon from '@components/ui/icons/Icon.astro';
-import { withBase } from '@utils/urls';
+import { withBasePage } from '@utils/urls';
 // Destructure the properties from Astro.props
 const { title, url, noArrow } = Astro.props;
 // Define TypeScript interface for the properties
@@ -18,7 +18,7 @@ const bgColorClasses =
 const disableClasses = 'disabled:pointer-events-none disabled:opacity-50';
 const fontSizeClasses = '2xl:text-base';
 const ringClasses = 'dark:ring-zinc-200';
-const href = withBase(url);
+const href = withBasePage(url);
 ---
 
 {/* Link styled as a button, with dynamic title, URL, and optional arrow */}

@@ -6,3 +6,11 @@ export function withBase(path?: string): string | undefined {
   if (!path.startsWith('/')) return path;
   return `${base}${path}`;
 }
+
+export function withBasePage(path?: string): string | undefined {
+  const href = withBase(path);
+  if (!href || href === '#' || href.includes('.') || href.endsWith('/')) {
+    return href;
+  }
+  return `${href}/`;
+}

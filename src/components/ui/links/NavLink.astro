@@ -1,6 +1,6 @@
 ---
 // Destructure the properties from Astro.props
-import { withBase } from '@utils/urls';
+import { withBasePage } from '@utils/urls';
 
 const { url, name } = Astro.props;
 
@@ -11,9 +11,10 @@ interface Props {
 }
 
 const currentPath = Astro.url.pathname.replace(/\/+$|^$/g, '/') || '/';
-const href = withBase(url) || url;
+const href = withBasePage(url) || url;
 const targetPath = href.replace(/\/+$|^$/g, '/') || '/';
 const isActive = currentPath === targetPath;
+const id = url === '/' ? 'home' : url.replace(/^\/|\/$/g, '');
 const textClasses = isActive
   ? 'text-blue-500 dark:text-blue-300'
   : 'text-neutral-600 dark:text-neutral-400';
@@ -30,7 +31,7 @@ by comparing the current URL with the href of each link.
 */
 }
 <a
-  id={url === '/' ? 'home' : url.replace('/', '')}
+  id={id}
   href={href}
   data-astro-prefetch
   style={inlineStyle}

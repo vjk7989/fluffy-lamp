@@ -1,6 +1,6 @@
 ---
 // Destructure the properties from Astro.props
-import { withBase } from '@utils/urls';
+import { withBasePage } from '@utils/urls';
 
 const { title, url } = Astro.props;
 
@@ -22,7 +22,7 @@ const ringClasses = 'ring-zinc-500';
 
 const darkClasses =
   'dark:border-neutral-700 dark:bg-zinc-700 dark:text-neutral-300 dark:ring-zinc-200 dark:hover:bg-zinc-600 dark:focus:outline-hidden';
-const href = withBase(url);
+const href = withBasePage(url);
 ---
 
 {/* Styled hyperlink */}
