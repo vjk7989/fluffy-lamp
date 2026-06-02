@@ -1,0 +1,38 @@
+---
+// Destructure the properties from Astro.props
+const { url, name } = Astro.props;
+
+// Define TypeScript interface for the properties
+interface Props {
+  url: string;
+  name: string;
+}
+
+const currentPath = Astro.url.pathname.replace(/\/+$|^$/g, '/') || '/';
+const targetPath = url.replace(/\/+$|^$/g, '/') || '/';
+const isActive = currentPath === targetPath;
+const textClasses = isActive
+  ? 'text-blue-500 dark:text-blue-300'
+  : 'text-neutral-600 dark:text-neutral-400';
+const hoverClasses = isActive
+  ? 'hover:text-blue-600 dark:hover:text-blue-400'
+  : 'hover:text-neutral-500 dark:hover:text-neutral-500';
+const inlineStyle = isActive ? 'color: #3b82f6;' : undefined;
+---
+
+{
+  /*
+Re-usable link component for navigation bar. Highlights the active link
+by comparing the current URL with the href of each link.
+*/
+}
+<a
+  id={url === '/' ? 'home' : url.replace('/', '')}
+  href={url}
+  data-astro-prefetch
+  style={inlineStyle}
+  class={`rounded-lg text-base font-medium ring-zinc-500 outline-hidden focus-visible:ring-3 md:py-3 md:text-sm 2xl:text-base dark:ring-zinc-200 dark:focus:outline-hidden ${textClasses} ${hoverClasses}`}
+  aria-current={isActive ? 'page' : undefined}
+>
+  {name}
+</a>

@@ -1,0 +1,32 @@
+{
+"faqs": [
+{
+"question": "Why do I need AI infrastructure?",
+"answer": "Using AI is more than just accessing ChatGPT or another AI tool. Businesses need a reliable way to connect AI with their data, systems, and workflows. AI infrastructure provides the foundation that makes AI secure, scalable, and ready for real-world business use."
+},
+{
+"question": "How is PAVII.AI different from Harness, Claude, Perplexity, or similar platforms?",
+"answer": "Most AI platforms are built for general use and provide the same experience to every user. PAVII.AI helps businesses build custom AI solutions designed around their specific needs, processes, and industry requirements. Instead of a one-size-fits-all AI assistant, we create AI systems tailored to your organization."
+},
+{
+"question": "Why not just use A.I agents  ChatGPT, Claude, or Perplexity?",
+"answer": "These tools are excellent for everyday tasks such as writing, research, and answering questions. However, businesses often need AI that understands their internal data, follows company processes, and works with existing software. PAVII.AI helps organizations build AI solutions that are unique to their business."
+},
+{
+"question": "Who is PAVII.AI for?",
+"answer": "PAVII.AI is designed for startups, enterprises, healthcare providers, financial institutions, government organizations, and any business looking to use AI more effectively without needing a large technical team."
+},
+{
+"question": "What problems does PAVII.AI solve?",
+"answer": "Many organizations struggle with integrating AI into their daily operations. PAVII.AI simplifies this process by providing everything needed to deploy, manage, and scale AI solutions, helping businesses save time, improve productivity, and automate repetitive work."
+},
+{
+"question": "Can PAVII.AI work with my existing software?",
+"answer": "Yes. PAVII.AI is designed to integrate with your current systems and workflows, reducing the need for major changes while helping you add AI capabilities quickly."
+},
+{
+"question": "Is my business data secure?",
+"answer": "Yes. Security and privacy are built into the platform. We offer self-hosted deployment options and advanced security controls so organizations can maintain ownership and control of their data."
+}
+]
+}
