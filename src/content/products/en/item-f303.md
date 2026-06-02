@@ -1,6 +1,6 @@
 ---
 title: 'SF-FN F303'
-description: 'Developer Tools'
+description: 'RAM/ROM for A.I'
 main:
   id: 4
   content: |

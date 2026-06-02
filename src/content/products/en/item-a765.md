@@ -1,6 +1,6 @@
 ---
 title: 'SF-AB A765'
-description: 'Context and Inference Engine'
+description: 'Agentic Experience'
 main:
   id: 2
   content: |
