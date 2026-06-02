@@ -1,0 +1,34 @@
+
+> screwfast-template@0.0.1 dev G:\AIDE\ScrewFast
+> astro dev "--" "--host" "127.0.0.1" "--port" "4321"
+
+[vite] connected.
+[2m02:17:23[22m [34m[types][39m Generated [2m2ms[22m
+[vite] connected.
+[2m02:17:24[22m [34m[content][39m Syncing content
+[2m02:17:24[22m [34m[content][39m Astro config changed
+[2m02:17:24[22m [34m[content][39m Clearing content store
+[2m02:17:24[22m [34m[content][39m Synced content
+[2m02:17:24[22m [34m[vite][39m Re-optimizing dependencies because vite config has changed
+[42m[1m astro [22m[49m [32mv6.4.2[39m [2mready in[22m 5233 [2mms[22m
+[2m┃[22m Local    [36mhttp://localhost:4321/fluffy-lamp[39m
+[2m┃[22m Network  [2muse --host to expose[22m
+[2m02:17:24[22m [32mwatching for file changes...[39m
+[2m02:17:59[22m [34m[200][39m / [2m343ms[22m
+[2m02:26:35[22m [34m[200][39m / [2m182ms[22m
+[2m02:26:37[22m [34m[200][39m /_image [2m228ms[22m
+[2m02:26:37[22m [34m[200][39m /_image [2m232ms[22m
+[2m02:26:37[22m [34m[200][39m /_image [2m235ms[22m
+[2m02:26:37[22m [34m[200][39m /_image [2m237ms[22m
+[2m02:26:37[22m [34m[200][39m /manifest.json [2m2ms[22m
+[2m02:26:38[22m [34m[200][39m /_image [2m1033ms[22m
+[2m02:26:38[22m [34m[200][39m /_image [2m1013ms[22m
+[2m02:26:38[22m [34m[200][39m /_image [2m1151ms[22m
+[2m02:26:38[22m [34m[200][39m /_image [2m84ms[22m
+[2m02:26:38[22m [34m[vite][39m [32m✨ new dependencies optimized: [33mlenis, preline[32m[39m
+[2m02:26:38[22m [34m[vite][39m [32m✨ optimized dependencies changed. reloading[39m
+[2m02:26:38[22m [34m[200][39m /_image [2m1761ms[22m
+[2m02:26:38[22m [34m[200][39m /_image [2m26ms[22m
+[2m02:26:38[22m [34m[200][39m /_image [2m22ms[22m
+[2m02:26:38[22m [34m[200][39m /_image [2m3ms[22m
+[2m02:27:13[22m [34m[200][39m /products/ [2m352ms[22m
