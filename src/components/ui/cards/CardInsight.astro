@@ -3,6 +3,7 @@
 import { Image } from 'astro:assets';
 import Icon from '@components/ui/icons/Icon.astro';
 import type { CollectionEntry } from 'astro:content';
+import { withBase } from '@utils/urls';
 
 const {
   insightEntry,
@@ -15,6 +16,9 @@ interface Props {
   insightLocale?: string;
   label?: string;
 }
+const href = insightLocale && insightLocale !== 'en'
+  ? `/${insightLocale}/insights/${insightEntry.id.replace(/^fr\//, '')}/`
+  : `/insights/${insightEntry.id.replace(/^en\//, '')}/`;
 ---
 
 {
@@ -22,9 +26,7 @@ interface Props {
 }
 <a
   class="group rounded-xl ring-zinc-500 outline-hidden transition duration-300 focus-visible:ring-3 dark:ring-zinc-200 dark:focus:outline-hidden"
-  href={insightLocale && insightLocale !== 'en'
-    ? `/${insightLocale}/insights/${insightEntry.id.replace(/^fr\//, '')}/`
-    : `/insights/${insightEntry.id.replace(/^en\//, '')}/`}
+  href={withBase(href)}
 >
   {/* This is the container for the insight's cover image. */}
   <div class="relative overflow-hidden rounded-xl pt-[50%] sm:pt-[70%]">

@@ -5,6 +5,7 @@ import EmailFooterInput from '@components/ui/forms/input/EmailFooterInput.astro'
 import enStrings from '@utils/navigation.ts';
 import Icon from '@components/ui/icons/Icon.astro';
 import { SITE } from '@data/constants';
+import { withBase } from '@utils/urls';
 
 const strings = enStrings;
 const sectionThreeTitle: string = 'Stay up to date';
@@ -34,7 +35,7 @@ const crafted: string = 'Crafted by';
               {section.links.map((link, index) => (
                 <li>
                   <a
-                    href={link.url}
+                    href={withBase(link.url)}
                     class="inline-flex gap-x-2 rounded-lg text-neutral-600 ring-zinc-500 outline-hidden transition duration-300 hover:text-neutral-500 focus-visible:ring-3 dark:text-neutral-400 dark:ring-zinc-200 dark:hover:text-neutral-300 dark:focus:outline-hidden"
                   >
                     {link.name}

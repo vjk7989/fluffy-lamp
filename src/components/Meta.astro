@@ -3,6 +3,7 @@ import { getImage } from 'astro:assets';
 import { OG, SEO, SITE } from '@data/constants';
 import faviconSvgSrc from '@images/icon.svg';
 import faviconSrc from '@images/icon.png';
+import { withBase } from '@utils/urls';
 
 // Default properties for the Meta component. These values are used if props are not provided.
 // 'meta' sets a default description meta tag to describe the page content.
@@ -32,16 +33,20 @@ const ogDescription = customDescription || OG.description;
 
 // Define the metadata for your website and individual pages
 const siteURL = `${Astro.site}`; // Set the website URL in astro.config.mjs
+const siteRoot = siteURL.endsWith('/') ? siteURL : `${siteURL}/`;
+const basePrefix = import.meta.env.BASE_URL.replace(/\/$/, '');
 const author = SITE.author;
 const canonical = new URL(Astro.url.pathname, Astro.site || Astro.url.origin)
   .href;
-const basePath = Astro.url.pathname;
 const socialImageRes = await getImage({
   src: OG.image,
   width: 1200,
   height: 600,
 });
 const socialImage = Astro.url.origin + socialImageRes.src; // Get the full URL of the image (https://stackoverflow.com/a/9858694)
+const manifestHref = withBase('/manifest.json');
+const sitemapHref = withBase('/sitemap-index.xml');
+const faviconHref = withBase('/favicon.ico');
 
 const languages: { [key: string]: string } = {
   en: '',
@@ -49,13 +54,14 @@ const languages: { [key: string]: string } = {
 
 function createHref(lang: string, prefix: string, path: string): string {
   // Remove any existing language prefix
-  const cleanPath = path.replace(/^\/(fr|en)\//, '/');
+  const pathWithoutBase = path.replace(new RegExp(`^${basePrefix}`), '') || '/';
+  const cleanPath = pathWithoutBase.replace(/^\/(fr|en)\//, '/');
 
   // Add the correct language prefix if needed
-  const basePath = prefix ? `/${prefix}${cleanPath}` : cleanPath;
-  const normalizedBasePath = basePath.replace(/\/\/+/g, '/');
+  const langPath = prefix ? `/${prefix}${cleanPath}` : cleanPath;
+  const normalizedPath = langPath.replace(/\/\/+/g, '/').replace(/^\//, '');
 
-  return `${siteURL.slice(0, -1)}${normalizedBasePath}`;
+  return new URL(normalizedPath, siteRoot).href;
 }
 
 const fullPath: string = Astro.url.pathname;
@@ -121,12 +127,12 @@ const appleTouchIcon = await getImage({
 <meta name="twitter:image" content={socialImage} />
 
 {/* Links to the webmanifest and sitemap */}
-<link rel="manifest" href="/manifest.json" />
+<link rel="manifest" href={manifestHref} />
 {/* https://docs.astro.build/en/guides/integrations-guide/sitemap/ */}
-<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="sitemap" href={sitemapHref} />
 
 {/* Links for favicons */}
-<link href="/favicon.ico" rel="icon" sizes="any" type="image/x-icon" />
+<link href={faviconHref} rel="icon" sizes="any" type="image/x-icon" />
 <link href={faviconSvg.src} rel="icon" type="image/svg+xml" sizes="any" />
 <meta name="mobile-web-app-capable" content="yes" />
 <link href={appleTouchIcon.src} rel="apple-touch-icon" />

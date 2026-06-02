@@ -3,6 +3,7 @@
 import { Image } from 'astro:assets';
 import { formatDate } from '@utils/utils';
 import type { CollectionEntry } from 'astro:content';
+import { withBase } from '@utils/urls';
 
 const { blogEntry, recentBlogLocale = '' } = Astro.props;
 
@@ -10,13 +11,14 @@ interface Props {
   blogEntry: CollectionEntry<'blog'>;
   recentBlogLocale?: string;
 }
+const href = recentBlogLocale && recentBlogLocale !== 'en'
+  ? `/${recentBlogLocale}/blog/${blogEntry.id.replace(/^fr\//, '')}/`
+  : `/blog/${blogEntry.id.replace(/^en\//, '')}/`;
 ---
 
 <a
   class="group block rounded-xl ring-zinc-500 outline-hidden transition duration-300 focus-visible:ring-3 dark:ring-zinc-200 dark:focus:outline-hidden"
-  href={recentBlogLocale && recentBlogLocale !== 'en'
-    ? `/${recentBlogLocale}/blog/${blogEntry.id.replace(/^fr\//, '')}/`
-    : `/blog/${blogEntry.id.replace(/^en\//, '')}/`}
+  href={withBase(href)}
   data-astro-prefetch
 >
   <div>

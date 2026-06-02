@@ -1,5 +1,7 @@
 ---
 // Destructure the properties from Astro.props
+import { withBase } from '@utils/urls';
+
 const { title, url } = Astro.props;
 
 // Define TypeScript interface for the properties
@@ -20,12 +22,13 @@ const ringClasses = 'ring-zinc-500';
 
 const darkClasses =
   'dark:border-neutral-700 dark:bg-zinc-700 dark:text-neutral-300 dark:ring-zinc-200 dark:hover:bg-zinc-600 dark:focus:outline-hidden';
+const href = withBase(url);
 ---
 
 {/* Styled hyperlink */}
 <a
   class={`${baseClasses} ${borderClasses} ${bgColorClasses} ${hoverClasses} ${disableClasses} ${fontSizeClasses} ${ringClasses} ${darkClasses}`}
-  href={url}
+  href={href}
 >
   {title}
 </a>

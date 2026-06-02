@@ -3,6 +3,7 @@
 import { Image } from 'astro:assets';
 import Icon from '@components/ui/icons/Icon.astro';
 import type { CollectionEntry } from 'astro:content';
+import { withBase } from '@utils/urls';
 
 const { product, productLocale = '' } = Astro.props;
 
@@ -14,13 +15,14 @@ interface Props {
 // Define classes to be used with the Image component
 const imageClass =
   'absolute inset-0 h-full w-full object-cover object-center transition duration-[600ms] ease-[cubic-bezier(0.45,0,0.55,1)] group-hover:scale-110';
+const href = productLocale && productLocale !== 'en'
+  ? `/${productLocale}/products/${product.id.replace(/^fr\//, '')}/`
+  : `/products/${product.id.replace(/^en\//, '')}/`;
 ---
 
 {/* A clickable card that leads to the details of the product*/}
 <a
-  href={productLocale && productLocale !== 'en'
-    ? `/${productLocale}/products/${product.id.replace(/^fr\//, '')}/`
-    : `/products/${product.id.replace(/^en\//, '')}/`}
+  href={withBase(href)}
   data-astro-prefetch
   class="group relative flex h-48 items-end overflow-hidden rounded-xl shadow-lg ring-zinc-500 outline-hidden focus-visible:ring-3 md:h-80 dark:ring-zinc-200 dark:focus:outline-hidden"
 >

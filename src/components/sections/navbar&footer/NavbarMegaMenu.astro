@@ -5,9 +5,10 @@ import NavLink from '@components/ui/links/NavLink.astro';
 import MegaMenuLink from '@components/ui/links/MegaMenuLink.astro';
 import Authentication from '../misc/Authentication.astro';
 import enStrings from '@utils/navigation.ts';
+import { withBase } from '@utils/urls';
 
 const strings = enStrings;
-const homeUrl = '/';
+const homeUrl = withBase('/');
 ---
 
 {/* Main header component */}

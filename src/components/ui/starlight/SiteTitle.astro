@@ -2,10 +2,11 @@
 import mainLogo from '@images/starlight/screwfast_logo_dark.svg?raw';
 import docsLogo from '@images/starlight/docs_logo.svg?raw';
 import type { Props } from '@astrojs/starlight/props';
+import { withBase } from '@utils/urls';
 
-const main = '/';
+const main = withBase('/');
 const locale = Astro.props.locale ? Astro.props.locale + '/' : '';
-const docs = '/' + locale + 'welcome-to-docs/';
+const docs = withBase('/' + locale + 'welcome-to-docs/');
 ---
 
 <span class="site-title flex">
