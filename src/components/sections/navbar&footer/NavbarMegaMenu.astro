@@ -127,11 +127,7 @@ const homeUrl = withBase('/');
         localStorage.setItem('hs_theme', theme);
       }
 
-      if (theme === 'auto') {
-        theme = window.matchMedia('(prefers-color-scheme: dark)').matches
-          ? 'dark'
-          : 'default';
-      }
+      if (theme === 'auto') theme = 'default';
 
       document.querySelector('html').classList.remove('dark');
       document.querySelector('html').classList.remove('default');
@@ -152,13 +148,8 @@ const homeUrl = withBase('/');
       }
     },
     getAppearance() {
-      let theme = this.getOriginalAppearance();
-      if (theme === 'auto') {
-        theme = window.matchMedia('(prefers-color-scheme: dark)').matches
-          ? 'dark'
-          : 'default';
-      }
-      return theme;
+      const theme = this.getOriginalAppearance();
+      return theme === 'auto' ? 'default' : theme;
     },
     getOriginalAppearance() {
       const defaultTheme = 'default';
@@ -166,14 +157,6 @@ const homeUrl = withBase('/');
     },
   };
   HSThemeAppearance.init();
-
-  window
-    .matchMedia('(prefers-color-scheme: dark)')
-    .addEventListener('change', () => {
-      if (HSThemeAppearance.getOriginalAppearance() === 'auto') {
-        HSThemeAppearance.setAppearance('auto', false);
-      }
-    });
 
   window.addEventListener('load', () => {
     const $clickableThemes = document.querySelectorAll(

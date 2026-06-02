@@ -1,4 +1,7 @@
 @import 'tailwindcss';
+@config '../../../tailwind.config.js';
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 /* Preline UI */
 @source '../../../node_modules/preline/dist/*.js';
@@ -7,8 +10,6 @@
 /* Plugins */
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
-
-@custom-variant dark (&:is(.dark *));
 
 @theme {
   /* https://tailwindcss.com/docs/colors#customizing-your-colors */

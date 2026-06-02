@@ -131,7 +131,7 @@ interface Props {
 
 <script>
   function updateHeroImage() {
-    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const isDark = document.documentElement.classList.contains('dark');
     const wrapper = document.getElementById('heroImageWrapper');
     
     if (wrapper) {
@@ -144,7 +144,7 @@ interface Props {
   }
   
   updateHeroImage();
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateHeroImage);
+  window.addEventListener('on-hs-appearance-change', updateHeroImage);
 </script>
 
 <style>

@@ -94,11 +94,7 @@
   // Initial theme setup
   document.addEventListener('DOMContentLoaded', () => {
     const storedTheme = localStorage.getItem('starlight-theme') as Theme | null;
-    const theme: Theme =
-      storedTheme ||
-      (window.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark'
-        : 'light');
+    const theme: Theme = storedTheme || 'light';
     setTheme(theme);
   });
 </script>
