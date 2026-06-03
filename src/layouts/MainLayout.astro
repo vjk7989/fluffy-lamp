@@ -40,11 +40,23 @@ interface Props {
     <title>{title}</title>
     <script is:inline>
       // Default to light mode unless the visitor has explicitly chosen dark mode.
+      if (location.protocol === 'http:' && location.hostname !== 'localhost') {
+        location.replace(`https:${location.href.substring(location.protocol.length)}`);
+      }
       if (localStorage.getItem('hs_theme') === 'dark') {
         document.documentElement.classList.add('dark');
       } else {
         document.documentElement.classList.remove('dark');
       }
+    </script>
+    <!-- Google tag (gtag.js) -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-5PQSHYRVPG"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-5PQSHYRVPG');
     </script>
     <script>
       import '@scripts/lenisSmoothScroll.js';

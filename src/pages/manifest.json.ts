@@ -44,14 +44,16 @@ export const GET: APIRoute = async () => {
   );
 
   const manifest = {
-    short_name: 'ScrewFast',
-    name: 'ScrewFast',
+    short_name: 'PAVIi.AI',
+    name: 'PAVIi.AI - AI Infrastructure',
+    description:
+      'AI infrastructure for agents, inference, harnesses, security, MCP integrations, and model deployment.',
     icons,
     display: 'minimal-ui',
-    id: '/',
-    start_url: '/',
-    theme_color: '#FFEDD5',
-    background_color: '#262626',
+    id: '/fluffy-lamp/',
+    start_url: '/fluffy-lamp/',
+    theme_color: '#3b82f6',
+    background_color: '#eff6ff',
   };
 
   return new Response(JSON.stringify(manifest));

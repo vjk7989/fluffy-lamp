@@ -86,6 +86,7 @@ const appleTouchIcon = await getImage({
 }{
   structuredData && (
     <script
+      is:inline
       type="application/ld+json"
       set:html={JSON.stringify(structuredData)}
     />
@@ -94,9 +95,21 @@ const appleTouchIcon = await getImage({
 {/* Define the character set, description, author, and viewport settings */}
 <meta charset="utf-8" />
 <meta content={description} name="description" />
+<meta name="keywords" content={SITE.keywords} />
 <meta name="web_author" content={author} />
+<meta name="author" content={author} />
+<meta name="application-name" content={SITE.title} />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+<meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+<meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<meta name="geo.region" content="IN" />
+<meta name="geo.placename" content="Hyderabad, Telangana; Bangalore, Karnataka" />
+<meta name="ICBM" content="17.3850, 78.4867" />
+<meta name="ai-summary" content="PAVIi.AI provides AI infrastructure for agentic experience, inference, AI harnesses, agentic security, MCP integrations, context engines, developer tools, and model deployment." />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
 <link rel="canonical" href={canonical} />
 {
   Object.entries(languages).map(([lang, prefix]) => {
@@ -108,7 +121,7 @@ const appleTouchIcon = await getImage({
 
 {/* Facebook Meta Tags */}
 <meta property="og:locale" content="en_US" />
-<meta property="og:url" content={siteURL} />
+<meta property="og:url" content={canonical} />
 <meta property="og:type" content="website" />
 <meta property="og:title" content={ogTitle} />
 <meta property="og:site_name" content={SITE.title} />
@@ -121,7 +134,7 @@ const appleTouchIcon = await getImage({
 {/* Twitter Meta Tags */}
 <meta name="twitter:card" content="summary_large_image" />
 <meta property="twitter:domain" content={siteURL} />
-<meta property="twitter:url" content={siteURL} />
+<meta property="twitter:url" content={canonical} />
 <meta name="twitter:title" content={ogTitle} />
 <meta name="twitter:description" content={ogDescription} />
 <meta name="twitter:image" content={socialImage} />
@@ -138,4 +151,4 @@ const appleTouchIcon = await getImage({
 <link href={appleTouchIcon.src} rel="apple-touch-icon" />
 <link href={appleTouchIcon.src} rel="shortcut icon" />
 {/* Set theme color */}
-<meta name="theme-color" content="#facc15" />
+<meta name="theme-color" content="#3b82f6" />

@@ -1,22 +1,22 @@
 [
   {
-    "heading": "Dedicated Teams",
-    "content": "Benefit from our committed teams who ensure your success is personal. Count on expert guidance and exceptional results throughout your project journey.",
+    "heading": "AI Workflow Teams",
+    "content": "Work with PAVIi.AI specialists who help developers design, test, evaluate, and ship AI workflows with clearer architecture and production-ready execution.",
     "svg": "groups"
   },
   {
-    "heading": "Simplicity and Affordability",
-    "content": "Find easy-to-use, affordable solutions with ScrewFast's line of tools and equipment. Our products make procurement simple and keep projects within budget.",
+    "heading": "Efficient Inference",
+    "content": "Route workloads to the right model for the task, reduce unnecessary compute, and improve response quality with inference systems built for real business use.",
     "svg": "verified"
   },
   {
-    "heading": "Comprehensive Documentation",
-    "content": "Integrate with ease using ScrewFast's exhaustive guides and libraries. Achieve seamless product adoption with our full suite of documentation designed for your success.",
+    "heading": "Agent-Ready Integrations",
+    "content": "Make products, tools, and websites easier for AI agents to understand through MCP, A2A, structured context, safer permissions, and reliable tool access.",
     "svg": "books"
   },
   {
-    "heading": "User-Centric Design",
-    "content": "Experience the difference with ScrewFast's user-focused design — where functionality meets practicality for an enhanced work experience.",
+    "heading": "Secure Agentic Systems",
+    "content": "Build AI experiences with stronger context controls, tool validation, audit paths, and security patterns designed for agentic workflows.",
     "svg": "frame"
   }
 ]

@@ -26,6 +26,20 @@ export default defineConfig({
   prefetch: true,
   integrations: [
     sitemap({
+      filter: page =>
+        ![
+          '/advanced/',
+          '/construction/',
+          '/tools/',
+          '/guides/',
+          '/welcome-to-docs/',
+          '/de/',
+          '/es/',
+          '/fa/',
+          '/fr/',
+          '/ja/',
+          '/zh-cn/',
+        ].some(path => new URL(page).pathname.startsWith('/fluffy-lamp' + path)),
       i18n: {
         defaultLocale: 'en', // All urls that don't contain language prefix will be treated as default locale
         locales: {
@@ -35,7 +49,7 @@ export default defineConfig({
       },
     }),
     starlight({
-      title: 'ScrewFast Docs',
+      title: 'PAVIi.AI Docs',
       // https://github.com/withastro/starlight/blob/main/packages/starlight/CHANGELOG.md
       // If no Astro and Starlight i18n configurations are provided, the built-in default locale is used in Starlight and a matching Astro i18n configuration is generated/used.
       // If only a Starlight i18n configuration is provided, an equivalent Astro i18n configuration is generated/used.
@@ -68,15 +82,15 @@ export default defineConfig({
           items: [{ autogenerate: { directory: 'guides' } }],
         },
         {
-          label: 'Tools & Equipment',
+          label: 'AI Products',
           items: [
-            { label: 'Tool Guides', link: 'tools/tool-guides/' },
-            { label: 'Equipment Care', link: 'tools/equipment-care/' },
+            { label: 'Dev Tools', link: '/products/dev-tools/' },
+            { label: 'Agentic Experience', link: '/products/AX/' },
           ],
         },
         {
-          label: 'Construction Services',
-          items: [{ autogenerate: { directory: 'construction' } }],
+          label: 'AI Services',
+          items: [{ label: 'Services', link: '/services/' }],
         },
         {
           label: 'Advanced Topics',
@@ -87,7 +101,7 @@ export default defineConfig({
         {
           icon: 'github',
           label: 'GitHub',
-          href: 'https://github.com/mearashadowfax/ScrewFast',
+          href: 'https://github.com/buckleson',
         },
       ],
       disable404Route: true,
@@ -106,14 +120,14 @@ export default defineConfig({
           tag: 'meta',
           attrs: {
             property: 'og:image',
-            content: 'https://screwfast.uk' + '/social.webp',
+            content: 'https://pavii.tech' + '/social.webp',
           },
         },
         {
           tag: 'meta',
           attrs: {
             property: 'twitter:image',
-            content: 'https://screwfast.uk' + '/social.webp',
+            content: 'https://pavii.tech' + '/social.webp',
           },
         },
       ],

@@ -4,11 +4,14 @@ export const SITE = {
   title: 'PAVIi.AI',
   tagline: 'Power Your AI with Infrastructure Built for Scale ',
   description:
-    'A one-stop platform for AI infrastructure. We provide the tools, computing power, and technology needed to build, run, and scale AI solutions with confidence.',
+    'PAVIi.AI is an AI infrastructure company for agentic experiences, inference, AI harnesses, context engines, secure MCP integrations, developer tools, and scalable model deployment.',
   description_short:
-    'A one-stop platform for AI infrastructure with the tools, computing power, and technology to build, run, and scale AI solutions with confidence.',
+    'AI infrastructure for agents, inference, harnesses, context engines, MCP, security, and model deployment.',
   url: 'https://pavii.tech',
   author: 'Buckleson Group',
+  email: 'info@pavii.tech',
+  keywords:
+    'PAVIi.AI, AI infrastructure, agentic experience, AI inference, AI harness, agentic security, MCP integration, context engine, AI developer tools, model hosting, NPU optimized models',
 };
 
 export const SEO = {
@@ -16,18 +19,80 @@ export const SEO = {
   description: SITE.description,
   structuredData: {
     '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    inLanguage: 'en-US',
-    '@id': SITE.url,
-    url: SITE.url,
-    name: SITE.title,
-    description: SITE.description,
-    isPartOf: {
-      '@type': 'WebSite',
-      url: SITE.url,
-      name: SITE.title,
-      description: SITE.description,
-    },
+    '@graph': [
+      {
+        '@type': 'Organization',
+        '@id': `${SITE.url}/#organization`,
+        name: SITE.title,
+        legalName: 'PAVIi.AI',
+        url: SITE.url,
+        email: SITE.email,
+        description: SITE.description,
+        foundingLocation: {
+          '@type': 'Place',
+          name: 'India',
+          address: {
+            '@type': 'PostalAddress',
+            addressCountry: 'IN',
+            addressRegion: 'Telangana and Karnataka',
+            addressLocality: 'Hyderabad and Bangalore',
+          },
+        },
+        sameAs: [
+          'https://www.instagram.com/pavii.ai/',
+          'https://www.linkedin.com/company/112466974/admin/dashboard/',
+          'https://github.com/buckleson',
+          'https://medium.com/@pavii.ai',
+          'https://substack.com/@paviiai',
+          'https://x.com',
+        ],
+        knowsAbout: [
+          'AI infrastructure',
+          'agentic experience',
+          'AI inference',
+          'AI harness',
+          'agentic security',
+          'MCP integrations',
+          'context engines',
+          'developer tools for AI',
+          'model hosting',
+          'NPU optimized AI models',
+          'physical AI',
+        ],
+        contactPoint: {
+          '@type': 'ContactPoint',
+          email: SITE.email,
+          contactType: 'business inquiries',
+          areaServed: 'IN',
+          availableLanguage: ['en'],
+        },
+      },
+      {
+        '@type': 'WebSite',
+        '@id': `${SITE.url}/#website`,
+        url: SITE.url,
+        name: SITE.title,
+        description: SITE.description,
+        publisher: {
+          '@id': `${SITE.url}/#organization`,
+        },
+        inLanguage: 'en-US',
+      },
+      {
+        '@type': 'WebPage',
+        '@id': SITE.url,
+        url: SITE.url,
+        name: SITE.title,
+        description: SITE.description,
+        isPartOf: {
+          '@id': `${SITE.url}/#website`,
+        },
+        about: {
+          '@id': `${SITE.url}/#organization`,
+        },
+        inLanguage: 'en-US',
+      },
+    ],
   },
 };
 
@@ -35,9 +100,9 @@ export const OG = {
   locale: 'en_US',
   type: 'website',
   url: SITE.url,
-  title: `${SITE.title}: : Artificial Intelligence Solutions`,
+  title: `${SITE.title}: AI Infrastructure for Agents, Inference, and Security`,
   description:
-    "A one-stop platform for AI infrastructure. We provide the tools, computing power, harness, and technology needed to build, run, and scale AI solutions with confidence.",
+    'Build AI agents, inference systems, harnesses, MCP integrations, secure workflows, and scalable AI infrastructure with PAVIi.AI.',
   image: ogImageSrc,
 };
 

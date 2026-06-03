@@ -3,24 +3,30 @@ import type { APIRoute } from 'astro';
 
 const robotsTxt = `
 User-agent: Googlebot
-Disallow:
-Allow: /
-Crawl-delay: 10
-
+User-agent: Bingbot
+User-agent: GPTBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: PerplexityBot
+User-agent: CCBot
 User-agent: Yandex
-Disallow:
-Allow: /
-Crawl-delay: 2
-
 User-agent: archive.org_bot
-Disallow:
-Allow: /
-Crawl-delay: 2
-
 User-agent: *
-Disallow: /
+Disallow:
+Disallow: /fluffy-lamp/advanced/
+Disallow: /fluffy-lamp/construction/
+Disallow: /fluffy-lamp/tools/
+Disallow: /fluffy-lamp/guides/
+Disallow: /fluffy-lamp/welcome-to-docs/
+Disallow: /fluffy-lamp/de/
+Disallow: /fluffy-lamp/es/
+Disallow: /fluffy-lamp/fa/
+Disallow: /fluffy-lamp/fr/
+Disallow: /fluffy-lamp/ja/
+Disallow: /fluffy-lamp/zh-cn/
+Allow: /
 
-Sitemap: ${new URL('sitemap-index.xml', import.meta.env.SITE).href}
+Sitemap: ${new URL('sitemap-index.xml', `${import.meta.env.SITE}/`).href}
 `.trim();
 
 export const GET: APIRoute = () => {
