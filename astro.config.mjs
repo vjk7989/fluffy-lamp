@@ -8,7 +8,7 @@ import mdx from '@astrojs/mdx';
 // https://astro.build/config
 export default defineConfig({
   // https://docs.astro.build/en/guides/images/#authorizing-remote-images
-  site: 'https://pavii.tech',
+  site: 'https://www.pavii.tech',
   image: {
     domains: ['images.unsplash.com'],
   },
@@ -119,14 +119,14 @@ export default defineConfig({
           tag: 'meta',
           attrs: {
             property: 'og:image',
-            content: 'https://pavii.tech' + '/social.webp',
+            content: 'https://www.pavii.tech' + '/social.webp',
           },
         },
         {
           tag: 'meta',
           attrs: {
             property: 'twitter:image',
-            content: 'https://pavii.tech' + '/social.webp',
+            content: 'https://www.pavii.tech' + '/social.webp',
           },
         },
       ],

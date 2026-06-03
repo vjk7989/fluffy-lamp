@@ -7,7 +7,7 @@ export const SITE = {
     'PAVIi.AI is an AI infrastructure company for agentic experiences, inference, AI harnesses, context engines, secure MCP integrations, developer tools, and scalable model deployment.',
   description_short:
     'AI infrastructure for agents, inference, harnesses, context engines, MCP, security, and model deployment.',
-  url: 'https://pavii.tech',
+  url: 'https://www.pavii.tech',
   author: 'Buckleson Group',
   email: 'info@pavii.tech',
   keywords:
