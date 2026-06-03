@@ -1,0 +1,13 @@
+---
+import ProductPage from './[id].astro';
+import { getCollection } from 'astro:content';
+
+const products = await getCollection('products', ({ id }) => id.startsWith('en/'));
+const product = products.find(product => product.data.title === 'AX');
+
+if (!product) {
+  throw new Error('AX product content was not found.');
+}
+---
+
+<ProductPage product={product} />

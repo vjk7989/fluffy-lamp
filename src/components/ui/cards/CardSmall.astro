@@ -15,9 +15,15 @@ interface Props {
 // Define classes to be used with the Image component
 const imageClass =
   'absolute inset-0 h-full w-full object-cover object-center transition duration-[600ms] ease-[cubic-bezier(0.45,0,0.55,1)] group-hover:scale-110';
+const productPath =
+  product.data.title === 'AX'
+    ? 'AX'
+    : product.data.title === 'Super Assistant'
+      ? 'Super-Assistant'
+      : product.id.replace(productLocale && productLocale !== 'en' ? /^fr\// : /^en\//, '');
 const href = productLocale && productLocale !== 'en'
   ? `/${productLocale}/products/${product.id.replace(/^fr\//, '')}/`
-  : `/products/${product.id.replace(/^en\//, '')}/`;
+  : `/products/${productPath}/`;
 ---
 
 {/* A clickable card that leads to the details of the product*/}
