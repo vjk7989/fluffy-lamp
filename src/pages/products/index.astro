@@ -25,16 +25,16 @@ const product: CollectionEntry<'products'>[] = (
 // Define variables for page content
 const title: string = 'Products';
 const subTitle: string =
-  'Discover the power of PAVIi’s AI infrastructure platform, built to help businesses deploy, manage, and scale intelligent applications with ease. From AI agents and automation workflows to secure data management and enterprise integrations, PAVIi provides the foundation for building next-generation AI solutions faster, smarter, and more efficiently.';
+  "Discover the power of PAVIi.AI's AI infrastructure platform, built to help businesses deploy, manage, and scale intelligent applications with ease. From AI agents and automation workflows to secure data management and enterprise integrations, PAVIi.AI provides the foundation for building next-generation AI solutions faster, smarter, and more efficiently.";
 
 // Testimonial data that will be rendered in the component
 const testimonials = [
   // First testimonial data
   {
     content:
-      ' "Since switching to ScrewFast\'s hardware tools, the efficiency on our construction sites has skyrocketed. The durability of the hex bolts and precision of the machine screws are simply unmatched. It\'s refreshing to work with a company that truly understands the daily demands of the industry." ',
+      ' "PAVIi.AI helped us move from scattered experiments to production-ready AI workflows. The agent tool kit gave our teams a reliable way to build, test, and ship assistants across departments." ',
     author: 'Jason Clark',
-    role: 'Site Foreman | TopBuild',
+    role: 'Operations Lead | TopBuild',
     avatarSrc:
       'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80',
     avatarAlt: 'Image Description',
@@ -42,9 +42,9 @@ const testimonials = [
   // Second testimonial data
   {
     content:
-      ' "As an interior designer, I\'m always looking for high-quality materials and tools that help bring my visions to life. ScrewFast\'s mixed screws assortment has been a game-changer for my projects, providing the perfect blend of quality and variety. The outstanding customer support was just the cherry on top!" ',
+      ' "The context and inference layer made our customer interactions feel consistent and informed. PAVIi.AI gave us the confidence to scale AI support without losing control of our data or brand voice." ',
     author: 'Maria Gonzalez',
-    role: 'Interior Designer | Creative Spaces',
+    role: 'Customer Experience Director | Creative Spaces',
     avatarSrc:
       'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1376&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80',
     avatarAlt: 'Image Description',
@@ -52,9 +52,9 @@ const testimonials = [
   // Third testimonial data
   {
     content:
-      " \"I've been a professional carpenter for over 15 years, and I can sincerely say that ScrewFast's tap bolts and nuts are some of the best I've used. They grip like no other, and I have full confidence in every joint and fixture. Plus, the service is impeccable – they truly care about my project's success.\" ",
+      ' "Super Assistant changed how quickly our internal teams find answers, summarize work, and act on live business context. It feels less like a chatbot and more like an operating layer for daily decisions." ',
     author: 'Richard Kim',
-    role: 'Master Carpenter | WoodWright',
+    role: 'Product Strategy Lead | WoodWright',
     avatarSrc:
       'https://images.unsplash.com/photo-1474176857210-7287d38d27c6?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80',
     avatarAlt: 'Image Description',
@@ -63,8 +63,8 @@ const testimonials = [
 
 const pageTitle: string = `Products | ${SITE.title}`;
 const metaDescription =
-  'Explore the durability and precision of ScrewFast tools, designed for both professionals and enthusiasts.';
-const ogTitle = 'Hardware Tools | ScrewFast';
+  'Explore PAVIi.AI products for building AI agents, context-aware inference workflows, super assistant experiences, and developer-ready AI infrastructure.';
+const ogTitle = 'AI Infrastructure Products | PAVIi.AI';
 ---
 
 <MainLayout
@@ -74,17 +74,17 @@ const ogTitle = 'Hardware Tools | ScrewFast';
   structuredData={{
     '@context': 'https://schema.org',
     '@type': 'WebPage',
-    '@id': 'https://screwfast.uk/products',
-    url: 'https://screwfast.uk/products',
-    name: 'Hardware Tools | ScrewFast',
+    '@id': 'https://pavii.ai/products',
+    url: 'https://pavii.ai/products',
+    name: 'AI Infrastructure Products | PAVIi.AI',
     description:
-      'Explore the durability and precision of ScrewFast tools, designed for both professionals and enthusiasts.',
+      'Explore PAVIi.AI products for AI agents, inference workflows, super assistant experiences, and developer-ready AI infrastructure.',
     isPartOf: {
       '@type': 'WebSite',
-      url: 'https://screwfast.uk',
-      name: 'ScrewFast',
+      url: 'https://pavii.ai',
+      name: 'PAVIi.AI',
       description:
-        'ScrewFast offers top-tier hardware tools and expert construction services to meet all your project needs.',
+        'PAVIi.AI helps teams deploy, manage, and scale intelligent applications with secure AI infrastructure.',
     },
     inLanguage: 'en-US',
   }}
@@ -128,12 +128,12 @@ const ogTitle = 'Hardware Tools | ScrewFast';
   </div>
   {/* Features statistics section */}
   <FeaturesStatsAlt
-    title="Why Choose ScrewFast?"
-    subTitle="Transform your ideas into tangible results with ScrewFast tools. Whether you're starting with a sketch on a napkin or diving into a comprehensive construction project, our tools are engineered to help you build with confidence."
+    title="Why Choose PAVIi.AI?"
+    subTitle="Move from AI prototypes to dependable production systems with a platform built for agents, context, inference, and secure enterprise workflows. PAVIi.AI gives teams the tools to launch faster, automate smarter, and scale with confidence."
     benefits={[
-      'Robust and reliable tools for long-lasting performance.',
-      'Innovative solutions tailored to modern construction needs.',
-      "Customer support dedicated to your project's success.",
+      'Agent-ready infrastructure for building intelligent workflows faster.',
+      'Context-aware inference designed for accurate, useful business outcomes.',
+      'Developer tools and support built for secure, scalable AI deployment.',
     ]}
   />
   {/* Testimonials section */}
