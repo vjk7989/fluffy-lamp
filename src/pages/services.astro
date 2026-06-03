@@ -7,14 +7,15 @@ import RightSection from '@components/ui/blocks/RightSection.astro';
 import FeaturesStats from '@components/sections/features/FeaturesStats.astro';
 
 // Import necessary images
-import blueprints from '@images/blueprints-image.avif';
-import personWorking from '@images/person-working.avif';
-import beforeAfter from '@images/before-after.avif';
-import constructionWorkers from '@images/construction-workers.avif';
-import aerialView from '@images/aerial-view.avif';
-import usingTools from '@images/using-tools.avif';
-import progressBuilding from '@images/progress-building.avif';
-import underConstruction from '@images/under-construction.avif';
+import aiWorkflow from '@images/service-ai-workflow.png';
+import aiTools from '@images/service-ai-code-assistant.png';
+import customSolution from '@images/service-ai-custom-solution.png';
+import inferenceDiagram from '@images/service-ai-inference-routing.png';
+import inferenceDashboard from '@images/service-ai-inference-hosting.png';
+import mcpSystems from '@images/service-ai-mcp-business.png';
+import npuModel from '@images/service-ai-npu-chip.png';
+import npuInfra from '@images/service-ai-model-efficiency.png';
+import physicalAi from '@images/service-ai-physical-ai.png';
 import { SITE } from '@data/constants';
 
 interface Article {
@@ -36,66 +37,74 @@ interface Article {
 const articles: Article[] = [
   {
     isRightSection: true,
-    title: 'Delivering Expert Guidance',
+    title: 'Full AI Dev Workflow for Your Developers',
     subTitle:
-      'Embarking on a construction project can be overwhelming. With our professional consultation services, we guide you through every stage, ensuring you make informed decisions. Whether you are a DIY enthusiast or a skilled contractor, our experts are on hand to offer tailored advice on product selection, project scope, and compliance with local regulations.',
+      'Give your engineering team a complete AI development workflow from planning and prototyping to testing, evaluation, deployment, and monitoring. PAVIi.AI helps developers build faster with AI agents, code-side model assistance, automated checks, and practical tooling that fits into their daily workflow.',
     single: false,
-    imgOne: blueprints,
-    imgOneAlt: 'Blueprints and digital tablet with construction plans.',
-    imgTwo: personWorking,
-    imgTwoAlt: 'Person working in the office',
+    imgOne: aiWorkflow,
+    imgOneAlt: 'Minimal AI development dashboard for workflow planning and monitoring.',
+    imgTwo: aiTools,
+    imgTwoAlt: 'Clean AI tooling interface for developer automation',
   },
   {
     isRightSection: false,
-    title: 'Transforming Designs into Reality',
+    title: 'Custom AI Solutions Fine-Tuned for Your Needs',
     subTitle:
-      'Our skilled craftsmen bring precision and excellence to every construction project. From minor installations to substantial structural work, ScrewFast offers reliable construction services to turn your plans into tangible outcomes. We ensure the highest standards of safety and workmanship, utilizing top-quality tools and materials from our extensive inventory.',
-    img: beforeAfter,
-    imgAlt: 'Construction site before and after',
+      'We build custom AI solutions around your business needs, including fine-tuned models and AI agents designed for optimal token usage and maximum accuracy. Instead of forcing a generic assistant into every workflow, we shape the model behavior, context, tools, and agent logic around your real use case.',
+    img: customSolution,
+    imgAlt: 'Custom AI solution interface for fine-tuned agents and model workflows',
     btnExists: true,
     btnTitle: 'Learn More',
     btnURL: '#',
   },
   {
     isRightSection: true,
-    title: 'Navigating Projects with Professional Oversight',
+    title: 'Inference Solutions for Hosting and Managing Models',
     subTitle:
-      'Effective project management is at the heart of any successful build. ScrewFast provides thorough planning and robust management services that keep your project on time and within budget. Let us handle the complexities of workflow coordination, resource allocation, and stakeholder communication while you focus on your vision.',
+      'Host, manage, and route your AI models with an inference layer built for production. PAVIi.AI helps you choose the right model for each task, manage performance, reduce compute waste, and keep inference reliable as your product scales.',
     single: false,
-    imgOne: constructionWorkers,
-    imgOneAlt: 'Construction workers orchestrating a project',
-    imgTwo: aerialView,
-    imgTwoAlt: 'Aerial view of managed construction',
+    imgOne: inferenceDiagram,
+    imgOneAlt: 'Diagram of AI inference routing and model management infrastructure',
+    imgTwo: inferenceDashboard,
+    imgTwoAlt: 'Model hosting dashboard for inference operations',
   },
   {
     isRightSection: false,
-    title: 'Ensuring Long-lasting Performance',
+    title: 'MCP for AI-Accessible Business Systems',
     subTitle:
-      "Our commitment to your project doesn't end at completion. ScrewFast offers ongoing maintenance and support services to ensure your construction's longevity and performance. From regular check-ups to emergency assistance, our responsive team is there to provide seamless support.",
-    img: usingTools,
+      'We build MCP and AI-facing interfaces for your business so AI can understand and access your product, tools, website, or internal systems. This makes your business easier for AI agents to discover, reason about, and use with fewer errors.',
+    img: mcpSystems,
     imgAlt:
-      'Man in orange and black vest wearing white helmet holding yellow and black power tool',
+      'AI-accessible business systems connected through protocol tooling',
   },
   {
     isRightSection: true,
-    title: 'Crafting Bespoke Strategies for Unique Challenges',
+    title: 'NPU Optimized Models for Your Needs',
     subTitle:
-      'For our larger enterprise clients, ScrewFast offers custom solutions designed to meet specific industry challenges. By understanding your unique needs, we engineer tailored strategies aimed at optimizing your operations, enhancing efficiency, and driving your business forward.',
+      'Deploy models optimized for Neural Processing Units and edge AI environments. We help tune, compress, route, and adapt models so they can run efficiently on the hardware that fits your product, device, or private infrastructure.',
     single: false,
-    imgOne: progressBuilding,
-    imgOneAlt: 'In progress building structure',
-    imgTwo: underConstruction,
-    imgTwoAlt: 'Brown and gray building under construction',
+    imgOne: npuModel,
+    imgOneAlt: 'Optimized AI model package for NPU deployment',
+    imgTwo: npuInfra,
+    imgTwoAlt: 'Clean infrastructure visual for NPU optimized AI models',
     btnExists: true,
     btnTitle: 'Read more',
     btnURL: '#',
+  },
+  {
+    isRightSection: false,
+    title: 'Physical AI Solutions for Daily Activity',
+    subTitle:
+      'Build Physical AI systems that combine digital intelligence with real-world interaction. PAVIi.AI helps create solutions that connect models, agents, sensors, devices, and workflows so AI can become part of everyday activity in practical, useful ways.',
+    img: physicalAi,
+    imgAlt: 'Physical AI systems connecting software agents with real-world activity',
   },
 ];
 
 const pageTitle: string = `Services | ${SITE.title}`;
 const metaDescription =
-  'Uniting expertise with your vision, ScrewFast provides exceptional service and comprehensive solutions in the hardware and construction industry, from consultation to project completion.';
-const ogTitle = 'Expert Consultation Services | ScrewFast';
+  'PAVIi.AI provides AI development workflows, custom AI agents, inference hosting, MCP integration, NPU optimized models, and Physical AI solutions for modern businesses.';
+const ogTitle = 'AI Infrastructure and Development Services | PAVIi.AI';
 ---
 
 <MainLayout
@@ -105,17 +114,16 @@ const ogTitle = 'Expert Consultation Services | ScrewFast';
   structuredData={{
     '@context': 'https://schema.org',
     '@type': 'WebPage',
-    '@id': 'https://screwfast.uk/services',
-    url: 'https://screwfast.uk/services',
-    name: 'Expert Consultation Services | ScrewFast',
-    description:
-      'Uniting expertise with your vision, ScrewFast provides exceptional service and comprehensive solutions in the hardware and construction industry, from consultation to project completion.',
+    '@id': 'https://pavii.ai/services',
+    url: 'https://pavii.ai/services',
+    name: 'AI Infrastructure and Development Services | PAVIi.AI',
+    description: metaDescription,
     isPartOf: {
       '@type': 'WebSite',
-      url: 'https://screwfast.uk',
-      name: 'ScrewFast',
+      url: 'https://pavii.ai',
+      name: 'PAVIi.AI',
       description:
-        'ScrewFast offers top-tier hardware tools and expert construction services to meet all your project needs.',
+        'PAVIi.AI provides infrastructure, tools, and services for building, deploying, and scaling AI systems.',
     },
     inLanguage: 'en-US',
   }}
@@ -124,11 +132,11 @@ const ogTitle = 'Expert Consultation Services | ScrewFast';
     /* MainSection is the introductory section of the page, it also contains a CTA button */
   }
   <MainSection
-    title="Uniting Expertise with Your Vision"
-    subTitle="At ScrewFast, we take pride in providing comprehensive solutions and exceptional service in the hardware and construction industry. Our experienced team is dedicated to supporting your project from inception to completion with a range of specialized services."
+    title="AI Services Built Around Your Business"
+    subTitle="PAVIi.AI helps teams design, build, host, and optimize AI systems across the full lifecycle. From developer workflows and custom agents to inference, MCP integrations, NPU optimization, and Physical AI, our services are shaped around practical business outcomes."
     btnExists={true}
     btnTitle="Schedule a Consultation"
-    btnURL="#"
+    btnURL="https://cal.com/buckleson-group/30min"
   />
   {
     /* RightSection and LeftSection contain details about various services along with pertinent imagery.
@@ -171,21 +179,21 @@ const ogTitle = 'Expert Consultation Services | ScrewFast';
   {/* FeaturesStats section showcases essential stats valuable to users */}
   <FeaturesStats
     title="By the Numbers"
-    subTitle="Our commitment to quality and reliability is evident in every project we undertake. At ScrewFast, we are dedicated to delivering industry-leading services that ensure your construction projects are built to last."
-    mainStatTitle="96%"
-    mainStatSubTitle="of our clients rate their experience with ScrewFast as exceptional"
+    subTitle="PAVIi.AI services are designed to reduce AI build time, improve model accuracy, optimize token and compute usage, and make business systems easier for AI to access."
+    mainStatTitle="6"
+    mainStatSubTitle="core AI service areas covering development, agents, inference, MCP, NPU optimization, and Physical AI"
     stats={[
       {
-        stat: '99.8%',
-        description: 'project completion rate',
+        stat: '24/7',
+        description: 'model hosting and inference support paths',
       },
       {
-        stat: '5,000+',
-        description: 'successful installations',
+        stat: '100%',
+        description: 'solutions shaped around your business context',
       },
       {
-        stat: '85%',
-        description: 'client growth year-over-year',
+        stat: '1',
+        description: 'partner for the full AI development lifecycle',
       },
     ]}
   />

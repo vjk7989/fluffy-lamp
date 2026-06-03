@@ -30,17 +30,17 @@ const mostRecentPost: CollectionEntry<'blog'> = blogPosts[0];
 const otherPosts: CollectionEntry<'blog'>[] = blogPosts.slice(1);
 
 // Define variables for page content
-const title: string = 'Your Gateway to Construction Excellence';
+const title: string = 'AI Infrastructure, Agents, and Inference Insights';
 const subTitle: string =
-  'Explore the latest news, tips, and insights from ScrewFast to enhance your construction projects. From product spotlights to project management strategies, our blog is your go-to resource for all things hardware and construction.';
-const secondTitle: string = 'Insights';
+  'Explore practical guides from PAVIi.AI on AI inference, LLM architecture, agentic experience, AI harnesses, MCP integrations, context engines, and production-ready AI systems for modern businesses.';
+const secondTitle: string = 'AI Research Notes';
 const secondSubTitle: string =
-  "Stay up-to-date with the latest trends and developments in the construction industry with insights from ScrewFast's team of industry experts. ";
+  'Read deeper notes on AI infrastructure, enterprise agents, context-aware systems, and the technical patterns that help companies build dependable AI products.';
 
 const pageTitle: string = `Blog | ${SITE.title}`;
 const metaDescription =
-  "Stay up-to-date with the latest trends and developments in the construction industry with insights from ScrewFast's team of industry experts.";
-const ogTitle = 'Construction Industry Blog | ScrewFast';
+  'PAVIi.AI blog articles on AI inference, LLM architecture, AI harnesses, agentic experience, MCP, context engines, and enterprise AI infrastructure.';
+const ogTitle = 'AI Infrastructure Blog | PAVIi.AI';
 ---
 
 <MainLayout
@@ -50,17 +50,16 @@ const ogTitle = 'Construction Industry Blog | ScrewFast';
   structuredData={{
     '@context': 'https://schema.org',
     '@type': 'WebPage',
-    '@id': 'https://screwfast.uk/blog',
-    url: 'https://screwfast.uk/blog',
-    name: 'Blog | ScrewFast',
-    description:
-      "Stay up-to-date with the latest trends and developments in the construction industry with insights from ScrewFast's team of industry experts.",
+    '@id': 'https://pavii.ai/blog',
+    url: 'https://pavii.ai/blog',
+    name: 'AI Infrastructure Blog | PAVIi.AI',
+    description: metaDescription,
     isPartOf: {
       '@type': 'WebSite',
-      url: 'https://screwfast.uk',
-      name: 'ScrewFast',
+      url: 'https://pavii.ai',
+      name: 'PAVIi.AI',
       description:
-        'ScrewFast offers top-tier hardware tools and expert construction services to meet all your project needs.',
+        'PAVIi.AI builds AI infrastructure, developer tools, agentic experiences, context engines, and inference systems for modern businesses.',
     },
     inLanguage: 'en-US',
   }}
