@@ -13,17 +13,17 @@ User-agent: Yandex
 User-agent: archive.org_bot
 User-agent: *
 Disallow:
-Disallow: /fluffy-lamp/advanced/
-Disallow: /fluffy-lamp/construction/
-Disallow: /fluffy-lamp/tools/
-Disallow: /fluffy-lamp/guides/
-Disallow: /fluffy-lamp/welcome-to-docs/
-Disallow: /fluffy-lamp/de/
-Disallow: /fluffy-lamp/es/
-Disallow: /fluffy-lamp/fa/
-Disallow: /fluffy-lamp/fr/
-Disallow: /fluffy-lamp/ja/
-Disallow: /fluffy-lamp/zh-cn/
+Disallow: /advanced/
+Disallow: /construction/
+Disallow: /tools/
+Disallow: /guides/
+Disallow: /welcome-to-docs/
+Disallow: /de/
+Disallow: /es/
+Disallow: /fa/
+Disallow: /fr/
+Disallow: /ja/
+Disallow: /zh-cn/
 Allow: /
 
 Sitemap: ${new URL('sitemap-index.xml', `${import.meta.env.SITE}/`).href}

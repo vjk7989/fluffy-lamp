@@ -50,8 +50,8 @@ export const GET: APIRoute = async () => {
       'AI infrastructure for agents, inference, harnesses, security, MCP integrations, and model deployment.',
     icons,
     display: 'minimal-ui',
-    id: '/fluffy-lamp/',
-    start_url: '/fluffy-lamp/',
+    id: '/',
+    start_url: '/',
     theme_color: '#3b82f6',
     background_color: '#eff6ff',
   };
