@@ -11,28 +11,30 @@ const footerLinks = [
   {
     section: 'Ecosystem',
     links: [
-      { name: 'Documentation', url: '/welcome-to-docs/' },
-      { name: 'Tools & Equipment', url: '/products/' },
-      { name: 'Construction Services', url: '/services/' },
+      { name: 'Inference', url: '/blog/post-1/' },
+      { name: 'Harness', url: '/blog/post-2/' },
+      { name: 'Security', url: '/blog/post-5/' },
     ],
   },
   {
     section: 'Company',
     links: [
-      { name: 'About us', url: '#' },
+      { name: 'Home', url: '/' },
+      { name: 'Products', url: '/products/' },
+      { name: 'Services', url: '/services/' },
       { name: 'Blog', url: '/blog/' },
-      { name: 'Careers', url: '#' },
-      { name: 'Customers', url: '#' },
+      { name: 'Contact', url: '/contact/' },
     ],
   },
 ];
 // An object of links for social icons
 const socialLinks = {
-  facebook: 'https://www.facebook.com/',
-  x: 'https://twitter.com/',
-  github: 'https://github.com/mearashadowfax/ScrewFast',
-  google: 'https://www.google.com/',
-  slack: 'https://slack.com/',
+  instagram: 'https://www.instagram.com/pavii.ai/',
+  linkedIn: 'https://www.linkedin.com/company/112466974/admin/dashboard/',
+  github: 'https://github.com/buckleson',
+  medium: 'https://medium.com/@pavii.ai',
+  substack: 'https://substack.com/@paviiai',
+  x: 'https://x.com',
 };
 
 export default {
