@@ -119,14 +119,14 @@ export default defineConfig({
           tag: 'meta',
           attrs: {
             property: 'og:image',
-            content: 'https://www.pavii.tech' + '/social.webp',
+            content: 'https://www.pavii.tech' + '/social.png',
           },
         },
         {
           tag: 'meta',
           attrs: {
             property: 'twitter:image',
-            content: 'https://www.pavii.tech' + '/social.webp',
+            content: 'https://www.pavii.tech' + '/social.png',
           },
         },
       ],

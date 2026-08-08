@@ -38,12 +38,10 @@ const basePrefix = import.meta.env.BASE_URL.replace(/\/$/, '');
 const author = SITE.author;
 const canonical = new URL(Astro.url.pathname, Astro.site || Astro.url.origin)
   .href;
-const socialImageRes = await getImage({
-  src: OG.image,
-  width: 1200,
-  height: 600,
-});
-const socialImage = Astro.url.origin + socialImageRes.src; // Get the full URL of the image (https://stackoverflow.com/a/9858694)
+const socialImage = new URL(
+  withBase('/social.png') ?? '/social.png',
+  Astro.url.origin
+).href;
 const manifestHref = withBase('/manifest.json');
 const sitemapHref = withBase('/sitemap-index.xml');
 const faviconHref = withBase('/favicon.ico');
@@ -99,17 +97,35 @@ const appleTouchIcon = await getImage({
 <meta name="web_author" content={author} />
 <meta name="author" content={author} />
 <meta name="application-name" content={SITE.title} />
-<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-<meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-<meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+<meta
+  name="robots"
+  content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+/>
+<meta
+  name="googlebot"
+  content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+/>
+<meta
+  name="bingbot"
+  content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+/>
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <meta name="geo.region" content="IN" />
-<meta name="geo.placename" content="Hyderabad, Telangana; Bangalore, Karnataka" />
+<meta
+  name="geo.placename"
+  content="Hyderabad, Telangana; Bangalore, Karnataka"
+/>
 <meta name="ICBM" content="17.3850, 78.4867" />
-<meta name="ai-summary" content="PAVIi.AI provides AI infrastructure for agentic experience, inference, AI harnesses, agentic security, MCP integrations, context engines, developer tools, and model deployment." />
+<meta
+  name="ai-summary"
+  content="PAVIi.AI provides AI infrastructure for agentic experience, inference, AI harnesses, agentic security, MCP integrations, context engines, developer tools, and model deployment."
+/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+<meta
+  http-equiv="Content-Security-Policy"
+  content="upgrade-insecure-requests"
+/>
 <link rel="canonical" href={canonical} />
 {
   Object.entries(languages).map(([lang, prefix]) => {
