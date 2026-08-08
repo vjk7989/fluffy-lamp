@@ -17,7 +17,7 @@ tabs:
     title: 'Specifications'
   - id: 'tabs-with-card-item-3'
     dataTab: '#tabs-with-card-3'
-    title: 'Blueprints'
+    title: 'Screenshots'
 longDescription:
   title: 'One Super-Agent for Everyday Work'
   subTitle: |
@@ -50,6 +50,6 @@ specificationsRight:
   - title: 'Best For'
     subTitle: 'People, creators, and businesses that want one AI workspace for tasks, tools, automation, and monetizable workflows.'
 blueprints:
-  first: '@/images/blueprint-1.avif'
-  second: '@/images/blueprint-2.avif'
+  first: '@/images/pavii-super-assistant-workspace.png'
+  second: '@/images/pavii-super-assistant-connectors.png'
 ---

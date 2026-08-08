@@ -34,6 +34,25 @@ const { product } = Astro.props;
 const pageTitle: string = `${product.data.title} | ${SITE.title}`;
 const metaDescription = product.data.description;
 const ogTitle = `${product.data.title} | AI Infrastructure Product | ${SITE.title}`;
+const isSuperAssistant = product.data.title === 'Super Assistant';
+const paviiDownloads = [
+  {
+    os: 'Windows',
+    detail: 'x64 setup',
+    url: 'https://github.com/buckleson/Pavii/releases/latest/download/PAVii-Windows-x64-setup.exe',
+  },
+  {
+    os: 'macOS',
+    detail: 'Apple Silicon DMG',
+    url: 'https://github.com/buckleson/Pavii/releases/latest/download/PAVii-macOS-arm64.dmg',
+  },
+  {
+    os: 'Linux',
+    detail: 'x64 AppImage',
+    url: 'https://github.com/buckleson/Pavii/releases/latest/download/PAVii-Linux-x64.AppImage',
+  },
+];
+const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'preview'}`;
 ---
 
 <MainLayout
@@ -84,6 +103,33 @@ const ogTitle = `${product.data.title} | AI Infrastructure Product | ${SITE.titl
         <p class="text-lg text-neutral-600 dark:text-neutral-400">
           {product.data.description}
         </p>
+        {
+          isSuperAssistant && (
+            <div class="mt-8 max-w-3xl rounded-2xl border border-neutral-200 bg-white/80 p-5 shadow-sm backdrop-blur dark:border-neutral-700 dark:bg-neutral-900/70">
+              <p class="text-sm font-semibold tracking-wide text-neutral-800 uppercase dark:text-neutral-200">
+                Download and try PAVii
+              </p>
+              <p class="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
+                Choose your desktop build. Each button starts the latest
+                official download directly from GitHub Releases.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-3">
+                {paviiDownloads.map(download => (
+                  <a
+                    href={download.url}
+                    class="inline-flex min-w-40 flex-col rounded-xl bg-blue-500 px-5 py-3 font-bold text-white transition duration-300 hover:bg-blue-600 focus-visible:ring-3 focus-visible:ring-blue-300 focus-visible:outline-hidden dark:focus-visible:ring-blue-800"
+                    aria-label={`Download PAVii for ${download.os}`}
+                  >
+                    <span>{download.os}</span>
+                    <span class="mt-1 text-xs font-medium text-blue-100">
+                      {download.detail}
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )
+        }
       </div>
       <div>
         <Image
@@ -251,7 +297,7 @@ const ogTitle = `${product.data.title} | AI Infrastructure Product | ${SITE.titl
             <Image
               src={product.data.blueprints.first}
               class="h-full w-full object-cover object-center"
-              alt="Blueprint Illustration"
+              alt={`${previewAlt} 1`}
               format={'avif'}
             />
           )
@@ -264,7 +310,7 @@ const ogTitle = `${product.data.title} | AI Infrastructure Product | ${SITE.titl
             <Image
               src={product.data.blueprints.second}
               class="h-full w-full object-cover object-center"
-              alt="Blueprint Illustration"
+              alt={`${previewAlt} 2`}
               format={'avif'}
             />
           )
