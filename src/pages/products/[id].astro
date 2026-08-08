@@ -5,7 +5,7 @@ import ProductTabBtn from '@components/ui/buttons/ProductTabBtn.astro';
 import PrimaryCTA from '@components/ui/buttons/PrimaryCTA.astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
-import { SITE } from '@data/constants';
+import { SITE, SOCIAL_PREVIEW_IMAGE_URL } from '@data/constants';
 
 // Global declaration for gsap animation library
 declare global {
@@ -63,6 +63,7 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
     url: `${SITE.url}/products/${product.id.replace(/^en\//, '')}`,
     name: product.data.title,
     description: product.data.description,
+    image: SOCIAL_PREVIEW_IMAGE_URL,
     brand: {
       '@type': 'Brand',
       name: SITE.title,

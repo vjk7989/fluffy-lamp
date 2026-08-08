@@ -1,5 +1,3 @@
-import ogImageSrc from '@images/social.png';
-
 export const SITE = {
   title: 'PAVIi.AI',
   tagline: 'Power Your AI with Infrastructure Built for Scale ',
@@ -13,6 +11,9 @@ export const SITE = {
   keywords:
     'PAVIi.AI, AI infrastructure, agentic experience, AI inference, AI harness, agentic security, MCP integration, context engine, AI developer tools, model hosting, NPU optimized models',
 };
+
+export const SOCIAL_PREVIEW_IMAGE_PATH = '/pavii-social-preview-v2.png';
+export const SOCIAL_PREVIEW_IMAGE_URL = `${SITE.url}${SOCIAL_PREVIEW_IMAGE_PATH}`;
 
 export const SEO = {
   title: SITE.title,
@@ -103,7 +104,7 @@ export const OG = {
   title: `${SITE.title}: AI Infrastructure for Agents, Inference, and Security`,
   description:
     'Build AI agents, inference systems, harnesses, MCP integrations, secure workflows, and scalable AI infrastructure with PAVIi.AI.',
-  image: ogImageSrc,
+  image: SOCIAL_PREVIEW_IMAGE_URL,
 };
 
 export const partnersData = [

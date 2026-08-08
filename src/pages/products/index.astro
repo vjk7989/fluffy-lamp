@@ -10,7 +10,7 @@ import TestimonialsSectionAlt from '@components/sections/testimonials/Testimonia
 // Importing necessary functions from Astro
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
-import { SITE } from '@data/constants';
+import { SITE, SOCIAL_PREVIEW_IMAGE_URL } from '@data/constants';
 
 // Fetching all the product related content and sorting it by main.id
 const product: CollectionEntry<'products'>[] = (
@@ -74,14 +74,15 @@ const ogTitle = 'AI Infrastructure Products | PAVIi.AI';
   structuredData={{
     '@context': 'https://schema.org',
     '@type': 'WebPage',
-    '@id': 'https://pavii.ai/products',
-    url: 'https://pavii.ai/products',
+    '@id': `${SITE.url}/products`,
+    url: `${SITE.url}/products`,
     name: 'AI Infrastructure Products | PAVIi.AI',
     description:
       'Explore PAVIi.AI products for AI agents, inference workflows, super assistant experiences, and developer-ready AI infrastructure.',
+    image: SOCIAL_PREVIEW_IMAGE_URL,
     isPartOf: {
       '@type': 'WebSite',
-      url: 'https://pavii.ai',
+      url: SITE.url,
       name: 'PAVIi.AI',
       description:
         'PAVIi.AI helps teams deploy, manage, and scale intelligent applications with secure AI infrastructure.',

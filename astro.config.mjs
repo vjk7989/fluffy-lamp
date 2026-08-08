@@ -119,14 +119,24 @@ export default defineConfig({
           tag: 'meta',
           attrs: {
             property: 'og:image',
-            content: 'https://www.pavii.tech' + '/social.png',
+            content:
+              'https://www.pavii.tech' + '/pavii-social-preview-v2.png',
           },
         },
         {
           tag: 'meta',
           attrs: {
-            property: 'twitter:image',
-            content: 'https://www.pavii.tech' + '/social.png',
+            property: 'og:image:secure_url',
+            content:
+              'https://www.pavii.tech' + '/pavii-social-preview-v2.png',
+          },
+        },
+        {
+          tag: 'meta',
+          attrs: {
+            name: 'twitter:image',
+            content:
+              'https://www.pavii.tech' + '/pavii-social-preview-v2.png',
           },
         },
       ],

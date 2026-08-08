@@ -1,6 +1,6 @@
 ---
 // Import section components
-import { SITE } from '@data/constants';
+import { SITE, SOCIAL_PREVIEW_IMAGE_URL } from '@data/constants';
 import MainLayout from '@/layouts/MainLayout.astro';
 import { Image } from 'astro:assets';
 import { getCollection, render } from 'astro:content';
@@ -38,7 +38,7 @@ const ogTitle = `${post.data.title} | Insights | ${SITE.title}`;
     '@type': 'Article',
     headline: post.data.title,
     description: metaDescription,
-    image: post.data.cardImage.src,
+    image: SOCIAL_PREVIEW_IMAGE_URL,
     author: {
       '@type': 'Organization',
       name: SITE.title,

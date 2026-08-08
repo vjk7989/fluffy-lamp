@@ -6,7 +6,7 @@ import CardBlogRecent from '@components/ui/cards/CardBlogRecent.astro';
 import CardInsight from '@components/ui/cards/CardInsight.astro';
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
-import { SITE } from '@data/constants';
+import { SITE, SOCIAL_PREVIEW_IMAGE_URL } from '@data/constants';
 
 // Get all blogs post in English and sort them based on publish date
 
@@ -50,13 +50,14 @@ const ogTitle = 'AI Infrastructure Blog | PAVIi.AI';
   structuredData={{
     '@context': 'https://schema.org',
     '@type': 'WebPage',
-    '@id': 'https://pavii.ai/blog',
-    url: 'https://pavii.ai/blog',
+    '@id': `${SITE.url}/blog`,
+    url: `${SITE.url}/blog`,
     name: 'AI Infrastructure Blog | PAVIi.AI',
     description: metaDescription,
+    image: SOCIAL_PREVIEW_IMAGE_URL,
     isPartOf: {
       '@type': 'WebSite',
-      url: 'https://pavii.ai',
+      url: SITE.url,
       name: 'PAVIi.AI',
       description:
         'PAVIi.AI builds AI infrastructure, developer tools, agentic experiences, context engines, and inference systems for modern businesses.',

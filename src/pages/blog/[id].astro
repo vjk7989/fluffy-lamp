@@ -10,7 +10,7 @@ import { Image } from 'astro:assets';
 import { capitalize, formatDate } from '@utils/utils';
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
-import { SITE } from '@data/constants';
+import { SITE, SOCIAL_PREVIEW_IMAGE_URL } from '@data/constants';
 
 // Update getStaticPaths for English posts
 export async function getStaticPaths() {
@@ -57,7 +57,7 @@ const ogTitle = `${post.data.title} | Blog | ${SITE.title}`;
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     headline: post.data.title,
-    image: post.data.cardImage.src,
+    image: SOCIAL_PREVIEW_IMAGE_URL,
     datePublished: post.data.pubDate.toISOString(),
     author: {
       '@type': 'Person',
@@ -68,12 +68,12 @@ const ogTitle = `${post.data.title} | Blog | ${SITE.title}`;
       name: SITE.title,
       logo: {
         '@type': 'ImageObject',
-        url: 'https://pavii.ai/favicon.ico',
+        url: `${SITE.url}/favicon.ico`,
       },
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://pavii.ai/blog/${post.id.replace(/^en\//, '')}`,
+      '@id': `${SITE.url}/blog/${post.id.replace(/^en\//, '')}`,
     },
   }}
 >
