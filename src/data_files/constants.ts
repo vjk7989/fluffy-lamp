@@ -1,15 +1,15 @@
 export const SITE = {
-  title: 'PAVIi.AI',
+  title: 'PAVii.AI',
   tagline: 'Power Your AI with Infrastructure Built for Scale ',
   description:
-    'PAVIi.AI is an AI infrastructure company for agentic experiences, inference, AI harnesses, context engines, secure MCP integrations, developer tools, and scalable model deployment.',
+    'PAVii.AI is an AI infrastructure company for agentic experiences, inference, AI harnesses, context engines, secure MCP integrations, developer tools, and scalable model deployment.',
   description_short:
     'AI infrastructure for agents, inference, harnesses, context engines, MCP, security, and model deployment.',
   url: 'https://www.pavii.tech',
   author: 'Buckleson Group',
   email: 'info@pavii.tech',
   keywords:
-    'PAVIi.AI, AI infrastructure, agentic experience, AI inference, AI harness, agentic security, MCP integration, context engine, AI developer tools, model hosting, NPU optimized models',
+    'PAVii.AI, AI infrastructure, agentic experience, AI inference, AI harness, agentic security, MCP integration, context engine, AI developer tools, model hosting, NPU optimized models',
 };
 
 export const SOCIAL_PREVIEW_IMAGE_PATH = '/pavii-social-preview-v2.png';
@@ -25,7 +25,7 @@ export const SEO = {
         '@type': 'Organization',
         '@id': `${SITE.url}/#organization`,
         name: SITE.title,
-        legalName: 'PAVIi.AI',
+        legalName: 'PAVii.AI',
         url: SITE.url,
         email: SITE.email,
         description: SITE.description,
@@ -103,7 +103,7 @@ export const OG = {
   url: SITE.url,
   title: `${SITE.title}: AI Infrastructure for Agents, Inference, and Security`,
   description:
-    'Build AI agents, inference systems, harnesses, MCP integrations, secure workflows, and scalable AI infrastructure with PAVIi.AI.',
+    'Build AI agents, inference systems, harnesses, MCP integrations, secure workflows, and scalable AI infrastructure with PAVii.AI.',
   image: SOCIAL_PREVIEW_IMAGE_URL,
 };
 

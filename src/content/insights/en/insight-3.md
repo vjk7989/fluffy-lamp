@@ -17,4 +17,4 @@ Choosing the right model is an architecture decision, not just a pricing decisio
 
 Efficient AI systems combine model routing, context control, caching, evaluation, and hardware-aware deployment. NPU optimized models and edge inference can support private, low-latency, and cost-sensitive workloads.
 
-PAVIi.AI Compute helps teams select the right model path, manage longer context, reduce unnecessary token usage, and build inference systems that fit the actual business workload.
+PAVii.AI Compute helps teams select the right model path, manage longer context, reduce unnecessary token usage, and build inference systems that fit the actual business workload.

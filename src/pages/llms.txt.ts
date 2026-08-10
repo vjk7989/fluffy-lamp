@@ -5,7 +5,7 @@ const baseUrl = import.meta.env.SITE.replace(/\/$/, '');
 
 const llmsTxt = `# ${SITE.title}
 
-> PAVIi.AI provides AI infrastructure for agentic experiences, inference, AI harnesses, agentic security, MCP integrations, context engines, developer tools, model hosting, NPU optimization, and physical AI.
+> PAVii.AI provides AI infrastructure for agentic experiences, inference, AI harnesses, agentic security, MCP integrations, context engines, developer tools, model hosting, NPU optimization, and physical AI.
 
 ## Primary Pages
 - Home: ${baseUrl}/

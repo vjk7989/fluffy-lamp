@@ -1,10 +1,10 @@
 ---
 title: 'What Is Agentic Experience and How Can It Help Your Company?'
 description: 'Agentic experience helps AI understand your application, call tools, complete workflows, and give customers better results through MCP and AI-ready interfaces.'
-author: 'PAVIi.AI Product'
+author: 'PAVii.AI Product'
 role: 'Agentic Experience Team'
 authorImage: '@/images/blog/jacob.avif'
-authorImageAlt: 'PAVIi.AI product writer avatar'
+authorImageAlt: 'PAVii.AI product writer avatar'
 pubDate: 2026-06-03
 cardImage: '@/images/service-ai-mcp-business.png'
 cardImageAlt: 'Team planning AI-ready business integrations and protocol connections'
@@ -17,6 +17,6 @@ contents:
     'This is where MCP-style and A2A-style interfaces become valuable. They help applications expose what they can do in a format AI agents can understand. Instead of scraping a page or guessing what a button means, the agent can discover available actions, call the right tool, and reduce errors.',
     'For a company, agentic experience can improve customer support, onboarding, internal operations, sales workflows, knowledge search, product automation, and partner integrations. Users get better answers because the AI can access the right business context and complete real actions instead of stopping at advice.',
     'Agentic systems also create new business opportunities. If your product is easy for AI agents to understand, it can become easier to discover, integrate, and use across the growing AI ecosystem. That can increase product accessibility for customers who prefer to interact through assistants or automated workflows.',
-    'PAVIi.AI AX helps businesses create AI-accessible interfaces for products, tools, websites, and internal systems. The result is a cleaner bridge between your company and the AI agents your users will increasingly rely on.'
+    'PAVii.AI AX helps businesses create AI-accessible interfaces for products, tools, websites, and internal systems. The result is a cleaner bridge between your company and the AI agents your users will increasingly rely on.'
   ]
 ---

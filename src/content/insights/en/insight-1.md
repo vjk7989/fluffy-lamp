@@ -17,7 +17,7 @@ For companies, this matters because users expect answers that match their actual
 
 Longer context is useful, but more tokens alone do not solve the problem. The system must decide what is relevant, what is trusted, what is outdated, and what should stay private.
 
-PAVIi.AI designs context engines that help AI products retrieve cleaner information, reduce hallucinations, improve answer quality, and use tokens more efficiently.
+PAVii.AI designs context engines that help AI products retrieve cleaner information, reduce hallucinations, improve answer quality, and use tokens more efficiently.
 
 ## The Business Impact
 

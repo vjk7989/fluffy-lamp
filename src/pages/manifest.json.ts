@@ -44,8 +44,8 @@ export const GET: APIRoute = async () => {
   );
 
   const manifest = {
-    short_name: 'PAVIi.AI',
-    name: 'PAVIi.AI - AI Infrastructure',
+    short_name: 'PAVii.AI',
+    name: 'PAVii.AI - AI Infrastructure',
     description:
       'AI infrastructure for agents, inference, harnesses, security, MCP integrations, and model deployment.',
     icons,

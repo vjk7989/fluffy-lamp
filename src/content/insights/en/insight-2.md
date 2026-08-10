@@ -17,4 +17,4 @@ This helps AI systems call the right tool, pass the right inputs, and return bet
 
 AI-ready interfaces can improve support automation, internal operations, customer onboarding, analytics workflows, and product integrations. They also make your business easier to interact with through future assistants and agent marketplaces.
 
-PAVIi.AI AX helps companies build these AI-facing layers so existing products, websites, and internal systems can communicate with agents more reliably.
+PAVii.AI AX helps companies build these AI-facing layers so existing products, websites, and internal systems can communicate with agents more reliably.

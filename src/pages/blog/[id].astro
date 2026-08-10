@@ -45,7 +45,7 @@ const relatedPosts: CollectionEntry<'blog'>[] = blogPosts.filter(
 const pageTitle: string = `${post.data.title} | ${SITE.title}`;
 // For the meta description, use the first paragraph of content if available
 const metaDescription =
-  post.data.description || post.data.contents[0] || `Read ${post.data.title} on PAVIi.AI's blog`;
+  post.data.description || post.data.contents[0] || `Read ${post.data.title} on PAVii.AI's blog`;
 const ogTitle = `${post.data.title} | Blog | ${SITE.title}`;
 ---
 

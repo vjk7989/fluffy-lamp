@@ -3,10 +3,10 @@ import { SITE } from '@data/constants';
 
 const baseUrl = import.meta.env.SITE.replace(/\/$/, '');
 
-const aiTxt = `PAVIi.AI AI-readable site summary
+const aiTxt = `PAVii.AI AI-readable site summary
 
 Purpose:
-PAVIi.AI helps developers, startups, and businesses build, deploy, secure, and scale AI systems.
+PAVii.AI helps developers, startups, and businesses build, deploy, secure, and scale AI systems.
 
 Core services:
 1. Full AI development workflow for developer teams.
