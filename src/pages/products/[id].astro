@@ -251,7 +251,7 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
                           {item.description}
                         </p>
                       </div>
-                      <div class="mt-2 flex min-w-0 flex-col gap-2 sm:flex-row sm:items-stretch">
+                      <div class="mt-2 flex min-w-0 flex-col gap-2 sm:flex-row sm:items-start">
                         <pre class="min-w-0 flex-1 overflow-x-auto rounded-lg bg-neutral-950 px-3 py-3 text-xs leading-5 text-white"><code>{item.command}</code></pre>
                         <button
                           type="button"
@@ -260,6 +260,7 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
                           data-copy-command
                           data-copy-text={item.command}
                           data-copy-success="Command copied. Paste it into PowerShell and press Enter."
+                          aria-label={`Copy ${item.label} command`}
                           aria-describedby={item.statusId}
                         >
                           <svg
@@ -336,6 +337,7 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
                         data-copy-command
                         data-copy-text={macosQuarantineCommand}
                         data-copy-success="Command copied. Paste it into Terminal after moving PAVii to Applications."
+                        aria-label="Copy macOS command"
                         aria-describedby="macos-copy-status"
                       >
                         <svg
