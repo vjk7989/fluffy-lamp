@@ -225,8 +225,25 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
                   </a>
                 ))}
               </div>
+              <details class="group mt-5 border-t border-neutral-200 pt-1 dark:border-neutral-700">
+                <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 rounded-lg px-1 py-3 font-bold text-neutral-900 outline-hidden transition hover:text-blue-700 focus-visible:ring-3 focus-visible:ring-blue-300 dark:text-white dark:hover:text-blue-300 dark:focus-visible:ring-blue-800 [&::-webkit-details-marker]:hidden">
+                  <span>Having trouble downloading or installing PAVii?</span>
+                  <svg
+                    class="size-5 shrink-0 text-neutral-500 transition-transform duration-200 group-open:rotate-180 dark:text-neutral-400"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </summary>
+                <div class="pb-1 pt-2">
               <section
-                class="mt-5 border-t border-neutral-200 pt-5 dark:border-neutral-700"
+                class="pb-5"
                 aria-labelledby="windows-command-title"
               >
                 <div class="max-w-2xl">
@@ -289,7 +306,7 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
                 </div>
               </section>
               <section
-                class="mt-5 rounded-xl border border-blue-200 bg-blue-50/80 p-4 text-sm dark:border-blue-900 dark:bg-blue-950/35"
+                class="rounded-xl border border-blue-200 bg-blue-50/80 p-4 text-sm dark:border-blue-900 dark:bg-blue-950/35"
                 aria-labelledby="macos-install-title"
               >
                 <div class="flex min-w-0 items-start gap-3">
@@ -361,20 +378,22 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
                       class="mt-2 min-h-5 text-blue-900 dark:text-blue-200"
                       aria-live="polite"
                     ></p>
-                    <details class="mt-2 text-blue-950/80 dark:text-blue-100/80">
-                      <summary class="cursor-pointer py-1 font-semibold text-blue-950 dark:text-blue-100">
+                    <div class="mt-4 text-blue-950/80 dark:text-blue-100/80">
+                      <h3 class="font-semibold text-blue-950 dark:text-blue-100">
                         Still blocked? Run these support checks
-                      </summary>
+                      </h3>
                       <div class="mt-2 space-y-2">
                         <code class="block overflow-x-auto rounded-lg bg-neutral-950 px-3 py-2 text-xs whitespace-nowrap text-white">uname -m</code>
                         <p>The result must be <code>arm64</code>. Intel Macs are not supported by this build.</p>
                         <code class="block overflow-x-auto rounded-lg bg-neutral-950 px-3 py-2 text-xs whitespace-nowrap text-white">hdiutil verify ~/Downloads/PAVii-macOS-arm64.dmg</code>
                         <code class="block overflow-x-auto rounded-lg bg-neutral-950 px-3 py-2 text-xs whitespace-nowrap text-white">codesign --verify --deep --strict "/Applications/PAVii.app"</code>
                       </div>
-                    </details>
+                    </div>
                   </div>
                 </div>
               </section>
+                </div>
+              </details>
             </div>
           )
         }
