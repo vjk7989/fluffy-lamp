@@ -54,6 +54,23 @@ const paviiDownloads = [
 ];
 const macosQuarantineCommand =
   'xattr -dr com.apple.quarantine "/Applications/PAVii.app"';
+const windowsInstallCommands = [
+  {
+    label: 'PowerShell',
+    description: 'Download with Invoke-WebRequest and open the installer.',
+    command: String.raw`$installer = "$env:TEMP\PAVii-Windows-x64-setup.exe"
+Invoke-WebRequest "https://github.com/vjk7989/pavii-release/releases/latest/download/PAVii-Windows-x64-setup.exe" -OutFile $installer
+Start-Process $installer`,
+    statusId: 'windows-powershell-copy-status',
+  },
+  {
+    label: 'curl.exe',
+    description: 'Use the curl command included with current Windows versions.',
+    command: String.raw`curl.exe -L "https://github.com/vjk7989/pavii-release/releases/latest/download/PAVii-Windows-x64-setup.exe" -o "$env:TEMP\PAVii-Windows-x64-setup.exe"
+& "$env:TEMP\PAVii-Windows-x64-setup.exe"`,
+    statusId: 'windows-curl-copy-status',
+  },
+];
 const paviiSecondaryDownloads = [
   {
     label: 'Windows MSI',
@@ -209,6 +226,68 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
                 ))}
               </div>
               <section
+                class="mt-5 border-t border-neutral-200 pt-5 dark:border-neutral-700"
+                aria-labelledby="windows-command-title"
+              >
+                <div class="max-w-2xl">
+                  <h2
+                    id="windows-command-title"
+                    class="text-base font-bold text-neutral-900 dark:text-white"
+                  >
+                    Browser download blocked?
+                  </h2>
+                  <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">
+                    Open PowerShell, copy either command, and press Enter. Both commands always download the latest Windows release from the PAVii release repository.
+                  </p>
+                </div>
+                <div class="mt-4 space-y-4">
+                  {windowsInstallCommands.map(item => (
+                    <div>
+                      <div class="flex flex-wrap items-baseline justify-between gap-1">
+                        <h3 class="font-semibold text-neutral-900 dark:text-white">
+                          {item.label}
+                        </h3>
+                        <p class="text-xs text-neutral-600 dark:text-neutral-400">
+                          {item.description}
+                        </p>
+                      </div>
+                      <div class="mt-2 flex min-w-0 flex-col gap-2 sm:flex-row sm:items-stretch">
+                        <pre class="min-w-0 flex-1 overflow-x-auto rounded-lg bg-neutral-950 px-3 py-3 text-xs leading-5 text-white"><code>{item.command}</code></pre>
+                        <button
+                          type="button"
+                          class="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white transition duration-200 hover:bg-blue-700 focus-visible:ring-3 focus-visible:ring-blue-300 focus-visible:outline-hidden active:bg-blue-800 dark:focus-visible:ring-blue-800"
+                          style="background-color:#2563eb; color:#ffffff;"
+                          data-copy-command
+                          data-copy-text={item.command}
+                          data-copy-success="Command copied. Paste it into PowerShell and press Enter."
+                          aria-describedby={item.statusId}
+                        >
+                          <svg
+                            class="size-4"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                          >
+                            <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+                            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+                          </svg>
+                          <span data-copy-label>Copy command</span>
+                        </button>
+                      </div>
+                      <p
+                        id={item.statusId}
+                        class="mt-2 min-h-5 text-sm text-blue-800 dark:text-blue-200"
+                        aria-live="polite"
+                      ></p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+              <section
                 class="mt-5 rounded-xl border border-blue-200 bg-blue-50/80 p-4 text-sm dark:border-blue-900 dark:bg-blue-950/35"
                 aria-labelledby="macos-install-title"
               >
@@ -256,6 +335,7 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
                         style="background-color:#2563eb; color:#ffffff;"
                         data-copy-command
                         data-copy-text={macosQuarantineCommand}
+                        data-copy-success="Command copied. Paste it into Terminal after moving PAVii to Applications."
                         aria-describedby="macos-copy-status"
                       >
                         <svg
@@ -547,40 +627,48 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
 </script>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const copyButton = document.querySelector<HTMLButtonElement>(
+    const copyButtons = document.querySelectorAll<HTMLButtonElement>(
       '[data-copy-command]'
     );
-    const status = document.querySelector<HTMLElement>('#macos-copy-status');
-    const label = copyButton?.querySelector<HTMLElement>('[data-copy-label]');
 
-    if (!copyButton || !status || !label) return;
+    copyButtons.forEach(copyButton => {
+      const statusId = copyButton.getAttribute('aria-describedby');
+      const status = statusId
+        ? document.querySelector<HTMLElement>(`#${statusId}`)
+        : null;
+      const label = copyButton.querySelector<HTMLElement>('[data-copy-label]');
 
-    copyButton.addEventListener('click', async () => {
-      const text = copyButton.dataset.copyText;
-      if (!text) return;
+      if (!status || !label) return;
 
-      try {
-        await navigator.clipboard.writeText(text);
-        label.textContent = 'Copied';
-        status.textContent = 'Command copied. Paste it into Terminal after moving PAVii to Applications.';
-      } catch {
-        const textarea = document.createElement('textarea');
-        textarea.value = text;
-        textarea.style.position = 'fixed';
-        textarea.style.opacity = '0';
-        document.body.appendChild(textarea);
-        textarea.select();
-        const copied = document.execCommand('copy');
-        textarea.remove();
-        label.textContent = copied ? 'Copied' : 'Copy failed';
-        status.textContent = copied
-          ? 'Command copied. Paste it into Terminal after moving PAVii to Applications.'
-          : 'Select the command manually and copy it.';
-      }
+      copyButton.addEventListener('click', async () => {
+        const text = copyButton.dataset.copyText;
+        const successMessage =
+          copyButton.dataset.copySuccess ?? 'Command copied.';
+        if (!text) return;
 
-      window.setTimeout(() => {
-        label.textContent = 'Copy command';
-      }, 2500);
+        try {
+          await navigator.clipboard.writeText(text);
+          label.textContent = 'Copied';
+          status.textContent = successMessage;
+        } catch {
+          const textarea = document.createElement('textarea');
+          textarea.value = text;
+          textarea.style.position = 'fixed';
+          textarea.style.opacity = '0';
+          document.body.appendChild(textarea);
+          textarea.select();
+          const copied = document.execCommand('copy');
+          textarea.remove();
+          label.textContent = copied ? 'Copied' : 'Copy failed';
+          status.textContent = copied
+            ? successMessage
+            : 'Select the command manually and copy it.';
+        }
+
+        window.setTimeout(() => {
+          label.textContent = 'Copy command';
+        }, 2500);
+      });
     });
   });
 </script>
