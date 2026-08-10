@@ -1,6 +1,7 @@
 ---
 // Import section components
 import MainLayout from '@/layouts/MainLayout.astro';
+import DownloadAlternatives from '@components/products/DownloadAlternatives.astro';
 import ProductTabBtn from '@components/ui/buttons/ProductTabBtn.astro';
 import PrimaryCTA from '@components/ui/buttons/PrimaryCTA.astro';
 import { Image } from 'astro:assets';
@@ -50,25 +51,6 @@ const paviiDownloads = [
     os: 'Linux',
     label: 'Linux x64',
     url: 'https://github.com/buckleson/Pavii/releases/latest/download/PAVii-Linux-x64.AppImage',
-  },
-];
-const macosQuarantineCommand =
-  'xattr -dr com.apple.quarantine "/Applications/PAVii.app"';
-const windowsInstallCommands = [
-  {
-    label: 'PowerShell',
-    description: 'Download with Invoke-WebRequest and open the installer.',
-    command: String.raw`$installer = "$env:TEMP\PAVii-Windows-x64-setup.exe"
-Invoke-WebRequest "https://github.com/vjk7989/pavii-release/releases/latest/download/PAVii-Windows-x64-setup.exe" -OutFile $installer
-Start-Process $installer`,
-    statusId: 'windows-powershell-copy-status',
-  },
-  {
-    label: 'curl.exe',
-    description: 'Use the curl command included with current Windows versions.',
-    command: String.raw`curl.exe -L "https://github.com/vjk7989/pavii-release/releases/latest/download/PAVii-Windows-x64-setup.exe" -o "$env:TEMP\PAVii-Windows-x64-setup.exe"
-& "$env:TEMP\PAVii-Windows-x64-setup.exe"`,
-    statusId: 'windows-curl-copy-status',
   },
 ];
 const paviiSecondaryDownloads = [
@@ -134,9 +116,9 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
       </p>
     </div>
     <div
-      class="flex flex-col items-center justify-between space-y-4 sm:flex-row sm:space-y-0"
+      class="flex flex-col items-center justify-between gap-8 lg:flex-row"
     >
-      <div id="fadeInUp" class="w-full min-w-0">
+      <div id="fadeInUp" class="w-full min-w-0 flex-1">
         <h1
           class="block text-4xl font-bold tracking-tighter text-neutral-800 sm:text-5xl md:text-6xl lg:text-7xl dark:text-neutral-200"
         >
@@ -225,184 +207,15 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
                   </a>
                 ))}
               </div>
-              <details class="group mt-5 border-t border-neutral-200 pt-1 dark:border-neutral-700">
-                <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 rounded-lg px-1 py-3 font-bold text-neutral-900 outline-hidden transition hover:text-blue-700 focus-visible:ring-3 focus-visible:ring-blue-300 dark:text-white dark:hover:text-blue-300 dark:focus-visible:ring-blue-800 [&::-webkit-details-marker]:hidden">
-                  <span>Having trouble downloading or installing PAVii?</span>
-                  <svg
-                    class="size-5 shrink-0 text-neutral-500 transition-transform duration-200 group-open:rotate-180 dark:text-neutral-400"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="m6 9 6 6 6-6" />
-                  </svg>
-                </summary>
-                <div class="pb-1 pt-2">
-              <section
-                class="pb-5"
-                aria-labelledby="windows-command-title"
-              >
-                <div class="max-w-2xl">
-                  <h2
-                    id="windows-command-title"
-                    class="text-base font-bold text-neutral-900 dark:text-white"
-                  >
-                    Browser download blocked?
-                  </h2>
-                  <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">
-                    Open PowerShell, copy either command, and press Enter. Both commands always download the latest Windows release from the PAVii release repository.
-                  </p>
-                </div>
-                <div class="mt-4 space-y-4">
-                  {windowsInstallCommands.map(item => (
-                    <div>
-                      <div class="flex flex-wrap items-baseline justify-between gap-1">
-                        <h3 class="font-semibold text-neutral-900 dark:text-white">
-                          {item.label}
-                        </h3>
-                        <p class="text-xs text-neutral-600 dark:text-neutral-400">
-                          {item.description}
-                        </p>
-                      </div>
-                      <div class="mt-2 flex min-w-0 flex-col gap-2 sm:flex-row sm:items-start">
-                        <pre class="min-w-0 flex-1 overflow-x-auto rounded-lg bg-neutral-950 px-3 py-3 text-xs leading-5 text-white"><code>{item.command}</code></pre>
-                        <button
-                          type="button"
-                          class="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white transition duration-200 hover:bg-blue-700 focus-visible:ring-3 focus-visible:ring-blue-300 focus-visible:outline-hidden active:bg-blue-800 dark:focus-visible:ring-blue-800"
-                          style="background-color:#2563eb; color:#ffffff;"
-                          data-copy-command
-                          data-copy-text={item.command}
-                          data-copy-success="Command copied. Paste it into PowerShell and press Enter."
-                          aria-label={`Copy ${item.label} command`}
-                          aria-describedby={item.statusId}
-                        >
-                          <svg
-                            class="size-4"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            aria-hidden="true"
-                          >
-                            <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-                            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
-                          </svg>
-                          <span data-copy-label>Copy command</span>
-                        </button>
-                      </div>
-                      <p
-                        id={item.statusId}
-                        class="mt-2 min-h-5 text-sm text-blue-800 dark:text-blue-200"
-                        aria-live="polite"
-                      ></p>
-                    </div>
-                  ))}
-                </div>
-              </section>
-              <section
-                class="rounded-xl border border-blue-200 bg-blue-50/80 p-4 text-sm dark:border-blue-900 dark:bg-blue-950/35"
-                aria-labelledby="macos-install-title"
-              >
-                <div class="flex min-w-0 items-start gap-3">
-                  <svg
-                    class="mt-0.5 size-5 shrink-0 text-blue-700 dark:text-blue-300"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="M12 16v-4" />
-                    <path d="M12 8h.01" />
-                  </svg>
-                  <div class="min-w-0 flex-1">
-                    <h2
-                      id="macos-install-title"
-                      class="font-bold text-blue-950 dark:text-blue-100"
-                    >
-                      Installing on an Apple Silicon Mac
-                    </h2>
-                    <p class="mt-1 max-w-2xl text-blue-950/80 dark:text-blue-100/80">
-                      This build is integrity-checked but not Apple-notarized yet. macOS may incorrectly say PAVii is damaged, so one-time approval may be required.
-                    </p>
-                    <ol class="mt-3 list-decimal space-y-1 pl-5 text-blue-950/80 dark:text-blue-100/80">
-                      <li>Open the DMG and drag PAVii into Applications.</li>
-                      <li>Control-click PAVii in Applications and choose Open.</li>
-                      <li>If macOS still reports damage, open Terminal and run the command below once.</li>
-                    </ol>
-                    <p class="mt-3 font-medium text-blue-950 dark:text-blue-100">
-                      The command must target the copy in Applications—not the app inside the mounted DMG.
-                    </p>
-                    <div class="mt-2 flex flex-col gap-2 sm:flex-row sm:items-stretch">
-                      <code
-                        id="macos-quarantine-command"
-                        class="min-w-0 flex-1 overflow-x-auto rounded-lg bg-neutral-950 px-3 py-3 text-xs whitespace-nowrap text-white"
-                      >{macosQuarantineCommand}</code>
-                      <button
-                        type="button"
-                        class="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white transition duration-200 hover:bg-blue-700 focus-visible:ring-3 focus-visible:ring-blue-300 focus-visible:outline-hidden active:bg-blue-800 dark:focus-visible:ring-blue-800"
-                        style="background-color:#2563eb; color:#ffffff;"
-                        data-copy-command
-                        data-copy-text={macosQuarantineCommand}
-                        data-copy-success="Command copied. Paste it into Terminal after moving PAVii to Applications."
-                        aria-label="Copy macOS command"
-                        aria-describedby="macos-copy-status"
-                      >
-                        <svg
-                          class="size-4"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          aria-hidden="true"
-                        >
-                          <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-                          <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
-                        </svg>
-                        <span data-copy-label>Copy command</span>
-                      </button>
-                    </div>
-                    <p
-                      id="macos-copy-status"
-                      class="mt-2 min-h-5 text-blue-900 dark:text-blue-200"
-                      aria-live="polite"
-                    ></p>
-                    <div class="mt-4 text-blue-950/80 dark:text-blue-100/80">
-                      <h3 class="font-semibold text-blue-950 dark:text-blue-100">
-                        Still blocked? Run these support checks
-                      </h3>
-                      <div class="mt-2 space-y-2">
-                        <code class="block overflow-x-auto rounded-lg bg-neutral-950 px-3 py-2 text-xs whitespace-nowrap text-white">uname -m</code>
-                        <p>The result must be <code>arm64</code>. Intel Macs are not supported by this build.</p>
-                        <code class="block overflow-x-auto rounded-lg bg-neutral-950 px-3 py-2 text-xs whitespace-nowrap text-white">hdiutil verify ~/Downloads/PAVii-macOS-arm64.dmg</code>
-                        <code class="block overflow-x-auto rounded-lg bg-neutral-950 px-3 py-2 text-xs whitespace-nowrap text-white">codesign --verify --deep --strict "/Applications/PAVii.app"</code>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </section>
-                </div>
-              </details>
             </div>
           )
         }
       </div>
-      <div>
+      <div class="w-full max-w-[600px] shrink-0">
         <Image
           id="fadeInMoveRight"
           src={product.data.main.imgMain}
-          class="w-[600px]"
+          class="h-auto w-full"
           alt={product.data.main.imgAlt}
           format={'avif'}
           loading={'eager'}
@@ -585,6 +398,14 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
       </div>
     </div>
   </div>
+
+  {
+    isSuperAssistant && (
+      <div id="tabs-with-card-4" class="hidden" role="tabpanel">
+        <DownloadAlternatives />
+      </div>
+    )
+  }
 </MainLayout>
 
 <script>
