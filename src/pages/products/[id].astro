@@ -152,11 +152,15 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
           isSuperAssistant && (
             <div class="mt-8 w-full max-w-3xl rounded-2xl border border-neutral-200 bg-white/80 p-4 shadow-sm backdrop-blur sm:p-6 dark:border-neutral-700 dark:bg-neutral-900/70">
               <p class="text-sm font-semibold tracking-wide text-neutral-800 uppercase dark:text-neutral-200">
-                Download and try PAVii 2.0.4
+                Download and try PAVii 2.0.5
               </p>
               <p class="mt-2 text-base text-neutral-600 dark:text-neutral-400">
-                Click below to download PAVii 2.0.4 and try our latest model-agnostic
+                Click below to download PAVii 2.0.5 and try our latest model-agnostic
                 agentic solution.
+              </p>
+              <p class="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
+                Future updates download automatically in the background. PAVii asks before
+                relaunching into the new version.
               </p>
               <div class="mt-5 flex flex-wrap gap-3">
                 {paviiDownloads.map(download => (
@@ -457,7 +461,7 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
                 platform: element.dataset.platform,
                 architecture: element.dataset.architecture,
                 package_type: element.dataset.package,
-                app_version: '2.0.4',
+                app_version: '2.0.5',
                 source: 'pavii_website',
                 telemetry_schema: 1,
               },
