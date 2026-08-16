@@ -4,7 +4,7 @@ This repository powers [pavii.tech](https://www.pavii.tech/), the public website
 
 PAVii is a local-first, model-agnostic desktop assistant for AI agents that works for you and works with you. The website presents PAVii products, services, documentation, screenshots, and verified desktop downloads.
 
-## PAVii 2.0.3 downloads
+## PAVii 2.0.4 downloads
 
 - [Windows x64 installer](https://github.com/buckleson/Pavii/releases/latest/download/PAVii-Windows-x64-setup.exe)
 - [macOS Apple Silicon DMG](https://github.com/buckleson/Pavii/releases/latest/download/PAVii-macOS-arm64.dmg)
