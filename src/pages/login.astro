@@ -303,13 +303,20 @@ const metaDescription = 'Sign in to your Pavii account.';
       }
     };
 
-    el('login-toggle').addEventListener('click', () => {
-      mode = mode === 'signin' ? 'signup' : 'signin';
+    const applyMode = (next: 'signin' | 'signup') => {
+      mode = next;
       el('login-heading').textContent = mode === 'signin' ? 'Sign in' : 'Create your account';
       submitButton.textContent = mode === 'signin' ? 'Sign in' : 'Create account';
       el('login-toggle').textContent = mode === 'signin' ? 'Create an account' : 'Sign in instead';
       passwordInput.autocomplete = mode === 'signin' ? 'current-password' : 'new-password';
+    };
+
+    el('login-toggle').addEventListener('click', () => {
+      applyMode(mode === 'signin' ? 'signup' : 'signin');
     });
+
+    // The app's welcome gate links here with ?mode=signup for new users.
+    if (params.get('mode') === 'signup') applyMode('signup');
 
     el('login-forgot').addEventListener('click', () => {
       void (async () => {
