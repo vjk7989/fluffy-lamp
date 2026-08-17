@@ -42,12 +42,39 @@ const metaDescription = 'Sign in to your Pavii account.';
         id="fx-pixels"
         class="pointer-events-none absolute inset-0 h-full w-full opacity-40 dark:opacity-60"
         aria-hidden="true"></canvas>
+      <canvas id="fx-confetti" class="pointer-events-none fixed inset-0 z-50 h-full w-full" aria-hidden="true"
+      ></canvas>
       <div
+        id="login-toast"
+        class="fixed left-1/2 top-4 z-50 flex hidden -translate-x-1/2 items-center gap-3 rounded-xl border border-neutral-200 bg-white px-4 py-3 shadow-lg dark:border-white/10 dark:bg-neutral-900"
+        role="alert">
+        <img src="/pavii-mark.png" alt="" width="28" height="28" class="h-7 w-7 rounded-full" />
+        <span class="text-sm font-medium text-neutral-800 dark:text-neutral-100">You are signed in.</span>
+        <button
+          id="login-toast-open"
+          type="button"
+          class="rounded-lg bg-neutral-900 px-3.5 py-1.5 text-sm font-semibold text-white transition hover:bg-neutral-700 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200">
+          Open Pavii
+        </button>
+      </div>
+      <div
+        id="login-card"
         class="login-enter relative z-10 w-full max-w-sm rounded-2xl border border-neutral-200/90 bg-white p-8 shadow-sm dark:border-white/10 dark:bg-neutral-900/70 dark:shadow-[0_16px_48px_rgba(0,0,0,0.5)] dark:backdrop-blur-md">
         <a href="/" class="mb-10 flex items-center gap-3 lg:hidden">
           <img src="/pavii-mark.png" alt="" width="36" height="36" class="h-9 w-9 rounded-full" />
           <span class="text-lg font-semibold tracking-tight text-neutral-900 dark:text-white">Pavii.Ai</span>
         </a>
+
+        <div id="login-done" class="hidden py-6 text-center">
+          <img src="/pavii-mark.png" alt="" width="56" height="56" class="mx-auto h-14 w-14 rounded-full" />
+          <h2 class="mt-5 text-2xl font-bold tracking-tight text-neutral-900 dark:text-white">
+            Welcome to the world of PAVii.AI
+          </h2>
+          <p class="mt-3 text-sm text-neutral-500 dark:text-neutral-400">
+            You have successfully authenticated. You can close this tab.
+          </p>
+          <p id="login-done-email" class="mt-6 text-xs text-neutral-400 dark:text-neutral-500"></p>
+        </div>
 
         <h1 class="text-2xl font-bold tracking-tight text-neutral-900 dark:text-white" id="login-heading">
           Sign in
@@ -285,34 +312,105 @@ const metaDescription = 'Sign in to your Pavii account.';
       submitButton.textContent = value ? 'Signing in...' : mode === 'signin' ? 'Sign in' : 'Create account';
     };
 
+    // ── Success celebration: confetti burst + welcome card + Open Pavii toast ──
+    const confettiBurst = () => {
+      if (!window.matchMedia('(prefers-reduced-motion: no-preference)').matches) return;
+      const canvas = document.getElementById('fx-confetti') as HTMLCanvasElement | null;
+      const ctx = canvas?.getContext('2d');
+      if (!canvas || !ctx) return;
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      ctx.scale(dpr, dpr);
+      const colors = ['#fb923c', '#7c3aed', '#22c55e', '#eab308', '#3b82f6', '#ec4899'];
+      const pieces = Array.from({ length: 160 }, () => ({
+        x: Math.random() * window.innerWidth,
+        y: -20 - Math.random() * window.innerHeight * 0.4,
+        w: 6 + Math.random() * 6,
+        h: 8 + Math.random() * 8,
+        vy: 2.4 + Math.random() * 3.2,
+        vx: -1.4 + Math.random() * 2.8,
+        rot: Math.random() * Math.PI,
+        vr: -0.12 + Math.random() * 0.24,
+        color: colors[Math.floor(Math.random() * colors.length)],
+      }));
+      const started = performance.now();
+      const tick = (now: number) => {
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        for (const p of pieces) {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.rot += p.vr;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+          ctx.restore();
+        }
+        if (now - started < 3800) {
+          requestAnimationFrame(tick);
+        } else {
+          ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        }
+      };
+      requestAnimationFrame(tick);
+    };
+
+    const celebrate = (email: string | null, openApp: () => void) => {
+      const card = document.getElementById('login-card');
+      const done = document.getElementById('login-done');
+      if (card && done) {
+        for (const child of Array.from(card.children)) {
+          if (child.id !== 'login-done') (child as HTMLElement).classList.add('hidden');
+        }
+        done.classList.remove('hidden');
+        const emailEl = document.getElementById('login-done-email');
+        if (emailEl && email) emailEl.textContent = `Signed in as ${email}`;
+      }
+      const toast = document.getElementById('login-toast');
+      const toastBtn = document.getElementById('login-toast-open') as HTMLButtonElement | null;
+      if (toast && toastBtn) {
+        toast.classList.remove('hidden');
+        toastBtn.onclick = openApp;
+      }
+      confettiBurst();
+    };
+
     const finish = async (user: import('firebase/auth').User) => {
       if (redirectTarget) {
         const idToken = await user.getIdToken();
-        // Token travels in the fragment so it never reaches server logs.
+        if (/^https?:/.test(redirectTarget)) {
+          // Loopback hand-off: the app listens on 127.0.0.1 and receives the
+          // token via a same-machine request, so the page stays open for the
+          // success state. Loopback is exempt from mixed-content blocking.
+          const separator = redirectTarget.includes('?') ? '&' : '?';
+          const url = `${redirectTarget}${separator}id_token=${encodeURIComponent(idToken)}`;
+          let delivered = false;
+          try {
+            await fetch(url, { mode: 'no-cors' });
+            delivered = true;
+          } catch {
+            // App listener gone (app closed or timed out)
+          }
+          trace(delivered ? 'delivered-loopback' : 'loopback-unreachable');
+          celebrate(user.email, () => {
+            // Best-effort focus of the already-signed-in app.
+            location.href = 'pavii://open';
+          });
+          if (!delivered) {
+            showError('Could not reach the Pavii app. Make sure it is running, then sign in again.');
+          }
+          return;
+        }
+        // pavii:// deep link: token travels in the fragment so it never
+        // reaches server logs. Automatic launch plus a user-gesture retry via
+        // the toast button (reliable when the browser cached "no handler").
         const separator = redirectTarget.includes('#') ? '&' : '#';
         const deepLink = `${redirectTarget}${separator}id_token=${encodeURIComponent(idToken)}`;
-        showSuccess(`Signed in as ${user.email ?? 'your account'}. Opening the Pavii app...`);
-        // Success hand-off UI: the automatic navigation below is silently
-        // swallowed when the browser has a stale "no handler" cache for the
-        // custom scheme, so also offer a user-gesture retry button, which
-        // reliably triggers the browser's "Open Pavii.Ai?" prompt.
-        let openBtn = document.getElementById('login-open-app') as HTMLButtonElement | null;
-        if (!openBtn) {
-          openBtn = document.createElement('button');
-          openBtn.id = 'login-open-app';
-          openBtn.type = 'button';
-          openBtn.textContent = 'Open Pavii.Ai';
-          openBtn.className = submitButton.className;
-          openBtn.style.marginTop = '12px';
-          const hint = document.createElement('div');
-          hint.style.cssText = 'margin-top:8px;font-size:12px;opacity:0.7;';
-          hint.textContent = 'Nothing happening? Restart your browser, then press the button again.';
-          successEl.parentElement?.insertBefore(openBtn, successEl.nextSibling);
-          openBtn.insertAdjacentElement('afterend', hint);
-        }
-        openBtn.onclick = () => {
+        celebrate(user.email, () => {
           location.href = deepLink;
-        };
+        });
         location.href = deepLink;
         return;
       }
