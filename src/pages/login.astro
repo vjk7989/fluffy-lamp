@@ -297,6 +297,19 @@ const metaDescription = 'Sign in to your Pavii account.';
     };
 
     // ── Google via GIS token flow ─────────────────────────────────────────
+    // Stage trace shown under the error box so sign-in failures are
+    // diagnosable from the page itself, without DevTools.
+    const trace = (stage: string) => {
+      let box = document.getElementById('login-trace');
+      if (!box) {
+        box = document.createElement('div');
+        box.id = 'login-trace';
+        box.style.cssText = 'margin-top:10px;font-size:11px;opacity:0.65;word-break:break-all;';
+        errorEl.parentElement?.insertBefore(box, errorEl.nextSibling);
+      }
+      box.textContent = `${box.textContent ? box.textContent + ' > ' : 'trace: '}${stage}`;
+    };
+
     type GisTokenResponse = { access_token?: string; error?: string };
     type GisTokenClient = { requestAccessToken: (config?: { prompt?: string }) => void };
     type GisOauth2 = {
@@ -331,8 +344,10 @@ const metaDescription = 'Sign in to your Pavii account.';
       const auth = requireAuth();
       if (!auth || busy) return;
       setBusy(true);
+      trace('start');
       try {
         await loadGis();
+        trace('gis-loaded');
         const oauth2 = getGisOauth2();
         if (!oauth2) throw new Error('Google sign-in is unavailable right now.');
         oauth2
@@ -342,11 +357,14 @@ const metaDescription = 'Sign in to your Pavii account.';
             callback: (response) => {
               void (async () => {
                 try {
+                  trace(response.access_token ? 'token-received' : `no-token:${response.error ?? 'unknown'}`);
                   if (!response.access_token) throw new Error('Google did not return a sign-in token.');
                   const credential = GoogleAuthProvider.credential(null, response.access_token);
                   const result = await signInWithCredential(auth, credential);
+                  trace('firebase-ok');
                   await finish(result.user);
                 } catch (error) {
+                  trace(`firebase-error:${(error as { code?: string })?.code ?? 'unknown'}`);
                   showError(friendly(error));
                 } finally {
                   setBusy(false);
@@ -354,15 +372,19 @@ const metaDescription = 'Sign in to your Pavii account.';
               })();
             },
             error_callback: (error) => {
-              // popup_closed / popup_failed_to_open or a config error
-              if (error?.type !== 'popup_closed') {
-                showError(error?.message || 'Google sign-in was interrupted. Please try again.');
-              }
+              trace(`gis-error:${error?.type ?? 'unknown'}`);
+              showError(
+                error?.type === 'popup_closed'
+                  ? 'The Google window closed before sign-in completed. Please try again.'
+                  : error?.message || 'Google sign-in was interrupted. Please try again.'
+              );
               setBusy(false);
             },
           })
           .requestAccessToken();
+        trace('popup-requested');
       } catch (error) {
+        trace('setup-error');
         showError(friendly(error));
         setBusy(false);
       }
