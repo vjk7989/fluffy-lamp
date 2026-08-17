@@ -290,7 +290,30 @@ const metaDescription = 'Sign in to your Pavii account.';
         const idToken = await user.getIdToken();
         // Token travels in the fragment so it never reaches server logs.
         const separator = redirectTarget.includes('#') ? '&' : '#';
-        location.href = `${redirectTarget}${separator}id_token=${encodeURIComponent(idToken)}`;
+        const deepLink = `${redirectTarget}${separator}id_token=${encodeURIComponent(idToken)}`;
+        showSuccess(`Signed in as ${user.email ?? 'your account'}. Opening the Pavii app...`);
+        // Success hand-off UI: the automatic navigation below is silently
+        // swallowed when the browser has a stale "no handler" cache for the
+        // custom scheme, so also offer a user-gesture retry button, which
+        // reliably triggers the browser's "Open Pavii.Ai?" prompt.
+        let openBtn = document.getElementById('login-open-app') as HTMLButtonElement | null;
+        if (!openBtn) {
+          openBtn = document.createElement('button');
+          openBtn.id = 'login-open-app';
+          openBtn.type = 'button';
+          openBtn.textContent = 'Open Pavii.Ai';
+          openBtn.className = submitButton.className;
+          openBtn.style.marginTop = '12px';
+          const hint = document.createElement('div');
+          hint.style.cssText = 'margin-top:8px;font-size:12px;opacity:0.7;';
+          hint.textContent = 'Nothing happening? Restart your browser, then press the button again.';
+          successEl.parentElement?.insertBefore(openBtn, successEl.nextSibling);
+          openBtn.insertAdjacentElement('afterend', hint);
+        }
+        openBtn.onclick = () => {
+          location.href = deepLink;
+        };
+        location.href = deepLink;
         return;
       }
       showSuccess(`Signed in as ${user.email ?? 'your account'}.`);
