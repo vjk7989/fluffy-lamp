@@ -396,8 +396,12 @@ const metaDescription = 'Sign in to your Pavii account.';
           }
           trace(delivered ? 'delivered-loopback' : 'loopback-unreachable');
           celebrate(user.email, () => {
-            // Best-effort focus of the already-signed-in app.
-            location.href = 'pavii://open';
+            // The app keeps its loopback listener alive after sign-in; a
+            // /focus ping raises the window. pavii:// stays as fallback.
+            const focusUrl = `${new URL(redirectTarget).origin}/focus`;
+            fetch(focusUrl, { mode: 'no-cors' }).catch(() => {
+              location.href = 'pavii://open';
+            });
           });
           if (!delivered) {
             showError('Could not reach the Pavii app. Make sure it is running, then sign in again.');
