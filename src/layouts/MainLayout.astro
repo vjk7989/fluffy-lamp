@@ -80,6 +80,36 @@ interface Props {
       </main>
     </div>
     <FooterSection />
+    <!-- Site-wide mouse ribbon trail (Originkit-inspired). Blue everywhere;
+         /login keeps its orange variant. Decorative: click-through, desktop
+         pointers only, skipped under reduced motion. -->
+    <canvas
+      id="fx-mouse-ribbon"
+      class="pointer-events-none fixed inset-0 z-40 hidden h-full w-full lg:block"
+      aria-hidden="true"></canvas>
+    <script>
+      import { mountMouseRibbon } from '@/assets/scripts/fx/mouseRibbon';
+
+      const motionOk = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
+      const pointerFine = window.matchMedia('(pointer: fine)').matches;
+      if (motionOk && pointerFine) {
+        const start = () => {
+          const canvas = document.getElementById('fx-mouse-ribbon') as HTMLCanvasElement | null;
+          if (!canvas) return;
+          const isLogin = location.pathname === '/login' || location.pathname.startsWith('/login/');
+          mountMouseRibbon(canvas, {
+            color: isLogin ? '#fb923c' : '#3b82f6',
+            segmentCount: 22,
+            maxWidth: 14,
+          });
+        };
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(start, { timeout: 1500 });
+        } else {
+          setTimeout(start, 300);
+        }
+      }
+    </script>
     <script>
       // https://preline.co
       import 'preline';

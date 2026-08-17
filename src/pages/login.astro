@@ -1,0 +1,384 @@
+---
+// Pavii account sign-in.
+// Firebase authentication (email/password, Google, GitHub, SAML SSO) with an
+// allow-listed redirect hand-off to the Pavii.Ai app: after sign-in the ID
+// token is appended as a URL fragment to `redirect_uri` (pavii:// deep link or
+// a localhost callback). Without a redirect parameter this is a plain account
+// portal. The page gates nothing on the site itself.
+import MainLayout from '@/layouts/MainLayout.astro';
+import { SITE } from '@data/constants';
+
+const pageTitle: string = `Sign in | ${SITE.title}`;
+const metaDescription = 'Sign in to your Pavii account.';
+---
+
+<MainLayout title={pageTitle} customDescription={metaDescription} customOgTitle="Sign in to Pavii">
+  <section id="login-section" class="relative grid min-h-[100dvh] grid-cols-1 lg:grid-cols-2">
+    <!-- Brand panel: desktop only -->
+    <aside class="relative hidden flex-col justify-between overflow-hidden bg-neutral-950 p-12 lg:flex">
+      <canvas id="fx-ribbons" class="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true"></canvas>
+      <!-- Scrim keeps brand copy AAA readable over the ribbons -->
+      <div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-neutral-950/70 via-neutral-950/35 to-neutral-950/80" aria-hidden="true"></div>
+      <a href="/" class="relative z-10 flex items-center gap-3">
+        <img src="/pavii-mark.png" alt="" width="40" height="40" class="h-10 w-10 rounded-full bg-white" />
+        <span class="text-lg font-semibold tracking-tight text-white">Pavii.Ai</span>
+      </a>
+      <div class="relative z-10">
+        <h2 class="max-w-md text-4xl font-bold leading-tight tracking-tighter text-white">
+          One account for every Pavii surface.
+        </h2>
+        <p class="mt-4 max-w-sm text-base leading-relaxed text-neutral-300">
+          Sign in once and pick up your agents, assistants, and scheduled work on desktop, web, and mobile.
+        </p>
+      </div>
+      <p class="relative z-10 text-sm text-neutral-400">
+        New accounts are free. No credit card.
+      </p>
+    </aside>
+
+    <!-- Form panel -->
+    <div class="relative flex items-center justify-center bg-neutral-50 px-4 py-16 dark:bg-neutral-950 lg:px-12">
+      <canvas
+        id="fx-pixels"
+        class="pointer-events-none absolute inset-0 h-full w-full opacity-40 dark:opacity-60"
+        aria-hidden="true"></canvas>
+      <div
+        class="login-enter relative z-10 w-full max-w-sm rounded-2xl border border-neutral-200/90 bg-white p-8 shadow-sm dark:border-white/10 dark:bg-neutral-900/70 dark:shadow-[0_16px_48px_rgba(0,0,0,0.5)] dark:backdrop-blur-md">
+        <a href="/" class="mb-10 flex items-center gap-3 lg:hidden">
+          <img src="/pavii-mark.png" alt="" width="36" height="36" class="h-9 w-9 rounded-full" />
+          <span class="text-lg font-semibold tracking-tight text-neutral-900 dark:text-white">Pavii.Ai</span>
+        </a>
+
+        <h1 class="text-2xl font-bold tracking-tight text-neutral-900 dark:text-white" id="login-heading">
+          Sign in
+        </h1>
+        <p class="mt-1.5 text-sm text-neutral-500 dark:text-neutral-400" id="login-subtitle">
+          Welcome back. Enter your details below.
+        </p>
+
+        <form id="login-form" class="mt-8 flex flex-col gap-4" novalidate>
+          <div class="flex flex-col gap-2">
+            <label for="login-email" class="text-sm font-medium text-neutral-700 dark:text-neutral-300">Email</label>
+            <input
+              id="login-email"
+              type="email"
+              required
+              autocomplete="email"
+              class="rounded-lg border border-neutral-300 bg-white px-3.5 py-2.5 text-sm text-neutral-900 outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-400/30 dark:border-white/10 dark:bg-neutral-950/70 dark:text-neutral-100 dark:focus:border-orange-400/70"
+            />
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <div class="flex items-baseline justify-between">
+              <label for="login-password" class="text-sm font-medium text-neutral-700 dark:text-neutral-300">Password</label>
+              <button id="login-forgot" type="button" class="text-sm font-medium text-orange-500 hover:text-orange-400">
+                Forgot?
+              </button>
+            </div>
+            <input
+              id="login-password"
+              type="password"
+              required
+              minlength="6"
+              autocomplete="current-password"
+              class="rounded-lg border border-neutral-300 bg-white px-3.5 py-2.5 text-sm text-neutral-900 outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-400/30 dark:border-white/10 dark:bg-neutral-950/70 dark:text-neutral-100 dark:focus:border-orange-400/70"
+            />
+          </div>
+
+          <button
+            id="login-submit"
+            type="submit"
+            class="mt-1 rounded-lg bg-neutral-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-neutral-700 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
+          >
+            Sign in
+          </button>
+
+          <p id="login-error" class="hidden rounded-lg bg-red-50 px-3.5 py-2.5 text-sm font-medium text-red-700 dark:bg-red-950/50 dark:text-red-400" role="alert"></p>
+          <p id="login-success" class="hidden rounded-lg bg-green-50 px-3.5 py-2.5 text-sm font-medium text-green-700 dark:bg-green-950/50 dark:text-green-400" role="status"></p>
+
+          <div class="my-2 flex items-center gap-4" aria-hidden="true">
+            <span class="h-px flex-1 bg-neutral-200 dark:bg-neutral-800"></span>
+            <span class="text-xs text-neutral-400 dark:text-neutral-500">or continue with</span>
+            <span class="h-px flex-1 bg-neutral-200 dark:bg-neutral-800"></span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <button
+              id="login-google"
+              type="button"
+              class="flex items-center justify-center gap-2.5 rounded-lg border border-neutral-300 px-4 py-2.5 text-sm font-semibold text-neutral-800 transition hover:bg-neutral-50 active:scale-[0.98] dark:border-white/10 dark:text-neutral-200 dark:hover:bg-white/5"
+            >
+              <!-- Official Google "G" brand mark -->
+              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="#4285F4" d="M23.52 12.27c0-.85-.08-1.66-.22-2.45H12v4.64h6.46a5.52 5.52 0 0 1-2.4 3.62v3h3.88c2.26-2.09 3.58-5.17 3.58-8.81Z"/>
+                <path fill="#34A853" d="M12 24c3.24 0 5.96-1.07 7.94-2.91l-3.88-3.01c-1.08.72-2.45 1.15-4.06 1.15-3.13 0-5.78-2.11-6.72-4.96H1.27v3.11A12 12 0 0 0 12 24Z"/>
+                <path fill="#FBBC05" d="M5.28 14.27a7.2 7.2 0 0 1 0-4.54V6.62H1.27a12 12 0 0 0 0 10.76l4.01-3.11Z"/>
+                <path fill="#EA4335" d="M12 4.77c1.76 0 3.35.61 4.6 1.8l3.44-3.44A11.98 11.98 0 0 0 1.27 6.62l4.01 3.11C6.22 6.88 8.87 4.77 12 4.77Z"/>
+              </svg>
+              Google
+            </button>
+            <button
+              id="login-github"
+              type="button"
+              class="flex items-center justify-center gap-2.5 rounded-lg border border-neutral-300 px-4 py-2.5 text-sm font-semibold text-neutral-800 transition hover:bg-neutral-50 active:scale-[0.98] dark:border-white/10 dark:text-neutral-200 dark:hover:bg-white/5"
+            >
+              <!-- Official GitHub mark -->
+              <svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true" class="fill-neutral-900 dark:fill-white">
+                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/>
+              </svg>
+              GitHub
+            </button>
+          </div>
+
+          <button
+            id="login-sso"
+            type="button"
+            class="rounded-lg border border-neutral-300 px-4 py-2.5 text-sm font-semibold text-neutral-800 transition hover:bg-neutral-50 active:scale-[0.98] dark:border-white/10 dark:text-neutral-200 dark:hover:bg-white/5"
+          >
+            Continue with SSO
+          </button>
+
+          <p class="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
+            New to Pavii?
+            <button id="login-toggle" type="button" class="font-semibold text-orange-500 hover:text-orange-400">Create an account</button>
+          </p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    @media (prefers-reduced-motion: no-preference) {
+      .login-enter {
+        animation: login-fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+      @keyframes login-fade-up {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    }
+  </style>
+
+  <script>
+    import { initializeApp } from 'firebase/app';
+    import {
+      getAuth,
+      GoogleAuthProvider,
+      GithubAuthProvider,
+      SAMLAuthProvider,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      signInWithPopup,
+      sendPasswordResetEmail,
+    } from 'firebase/auth';
+
+    // ── Firebase web config (public client identifiers, not secrets) ──────
+    const FIREBASE_CONFIG = {
+      apiKey: 'AIzaSyAmEshUrnliZJdtlyCA4TKqAoSVEQuoYGo',
+      authDomain: 'pavii-ai3.firebaseapp.com',
+      projectId: 'pavii-ai3',
+      storageBucket: 'pavii-ai3.firebasestorage.app',
+      messagingSenderId: '171533458599',
+      appId: '1:171533458599:web:a1b9aad9036fb744bf8f82',
+    };
+    // SAML provider id, configured under Identity Platform when SSO goes live.
+    const SSO_PROVIDER_ID = 'saml.pavii-sso';
+    // ───────────────────────────────────────────────────────────────────────
+
+    // Only these redirect targets may receive the ID token. The pavii:// deep
+    // link reaches the desktop app; loopback URLs reach a local WebUI callback.
+    const isAllowedRedirect = (value: string): boolean => {
+      try {
+        const url = new URL(value);
+        if (url.protocol === 'pavii:') return true;
+        if (
+          (url.protocol === 'http:' || url.protocol === 'https:') &&
+          (url.hostname === 'localhost' || url.hostname === '127.0.0.1')
+        ) {
+          return true;
+        }
+      } catch {
+        // fall through
+      }
+      return false;
+    };
+
+    const params = new URLSearchParams(location.search);
+    const redirectParam = params.get('redirect_uri');
+    const redirectTarget = redirectParam && isAllowedRedirect(redirectParam) ? redirectParam : null;
+
+    const el = (id: string) => document.getElementById(id) as HTMLElement;
+    const emailInput = el('login-email') as HTMLInputElement;
+    const passwordInput = el('login-password') as HTMLInputElement;
+    const submitButton = el('login-submit') as HTMLButtonElement;
+    const errorEl = el('login-error');
+    const successEl = el('login-success');
+    let mode: 'signin' | 'signup' = 'signin';
+    let busy = false;
+
+    if (redirectTarget) {
+      el('login-subtitle').textContent = 'Sign in to continue to the Pavii.Ai app.';
+    }
+
+    const configured = FIREBASE_CONFIG.apiKey !== 'REPLACE_ME';
+    const app = configured ? initializeApp(FIREBASE_CONFIG) : null;
+
+    const showError = (message: string) => {
+      errorEl.textContent = message;
+      errorEl.classList.remove('hidden');
+      successEl.classList.add('hidden');
+    };
+
+    const showSuccess = (message: string) => {
+      successEl.textContent = message;
+      successEl.classList.remove('hidden');
+      errorEl.classList.add('hidden');
+    };
+
+    const friendly = (error: unknown): string => {
+      const code = (error as { code?: string })?.code ?? '';
+      switch (code) {
+        case 'auth/invalid-credential':
+        case 'auth/wrong-password':
+        case 'auth/user-not-found':
+          return 'Email or password is incorrect.';
+        case 'auth/email-already-in-use':
+          return 'An account with this email already exists. Try signing in.';
+        case 'auth/weak-password':
+          return 'Password needs at least 6 characters.';
+        case 'auth/too-many-requests':
+          return 'Too many attempts. Wait a moment and try again.';
+        case 'auth/popup-closed-by-user':
+          return 'The sign-in window was closed before finishing.';
+        case 'auth/operation-not-allowed':
+        case 'auth/admin-restricted-operation':
+          return 'This sign-in method is not enabled yet. Contact info@pavii.tech.';
+        default:
+          return error instanceof Error ? error.message.replace('Firebase: ', '') : 'Sign-in failed.';
+      }
+    };
+
+    const requireAuth = () => {
+      if (!app) {
+        showError('Sign-in is not configured on this deployment yet.');
+        return null;
+      }
+      return getAuth(app);
+    };
+
+    const setBusy = (value: boolean) => {
+      busy = value;
+      submitButton.disabled = value;
+      submitButton.textContent = value ? 'Signing in...' : mode === 'signin' ? 'Sign in' : 'Create account';
+    };
+
+    const finish = async (user: import('firebase/auth').User) => {
+      if (redirectTarget) {
+        const idToken = await user.getIdToken();
+        // Token travels in the fragment so it never reaches server logs.
+        const separator = redirectTarget.includes('#') ? '&' : '#';
+        location.href = `${redirectTarget}${separator}id_token=${encodeURIComponent(idToken)}`;
+        return;
+      }
+      showSuccess(`Signed in as ${user.email ?? 'your account'}.`);
+    };
+
+    const runPopup = async (provider: GoogleAuthProvider | GithubAuthProvider | SAMLAuthProvider) => {
+      const auth = requireAuth();
+      if (!auth || busy) return;
+      try {
+        setBusy(true);
+        const credential = await signInWithPopup(auth, provider);
+        await finish(credential.user);
+      } catch (error) {
+        showError(friendly(error));
+      } finally {
+        setBusy(false);
+      }
+    };
+
+    el('login-toggle').addEventListener('click', () => {
+      mode = mode === 'signin' ? 'signup' : 'signin';
+      el('login-heading').textContent = mode === 'signin' ? 'Sign in' : 'Create your account';
+      submitButton.textContent = mode === 'signin' ? 'Sign in' : 'Create account';
+      el('login-toggle').textContent = mode === 'signin' ? 'Create an account' : 'Sign in instead';
+      passwordInput.autocomplete = mode === 'signin' ? 'current-password' : 'new-password';
+    });
+
+    el('login-forgot').addEventListener('click', () => {
+      void (async () => {
+        const auth = requireAuth();
+        if (!auth) return;
+        const email = emailInput.value.trim();
+        if (!email) {
+          showError('Enter your email above first, then press Forgot again.');
+          return;
+        }
+        try {
+          await sendPasswordResetEmail(auth, email);
+          showSuccess(`Password reset email sent to ${email}.`);
+        } catch (error) {
+          showError(friendly(error));
+        }
+      })();
+    });
+
+    el('login-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      void (async () => {
+        const auth = requireAuth();
+        if (!auth || busy) return;
+        try {
+          setBusy(true);
+          const action = mode === 'signin' ? signInWithEmailAndPassword : createUserWithEmailAndPassword;
+          const credential = await action(auth, emailInput.value.trim(), passwordInput.value);
+          await finish(credential.user);
+        } catch (error) {
+          showError(friendly(error));
+        } finally {
+          setBusy(false);
+        }
+      })();
+    });
+
+    el('login-google').addEventListener('click', () => void runPopup(new GoogleAuthProvider()));
+    el('login-github').addEventListener('click', () => void runPopup(new GithubAuthProvider()));
+    el('login-sso').addEventListener('click', () => void runPopup(new SAMLAuthProvider(SSO_PROVIDER_ID)));
+  </script>
+
+  <script>
+    // Decorative background effects (Originkit-inspired ribbon-trails + pixeldrift).
+    // Mounted after idle so they never compete with LCP; skipped entirely under
+    // prefers-reduced-motion.
+    import { mountRibbonTrails } from '@/assets/scripts/fx/ribbonTrails';
+    import { mountPixelDrift } from '@/assets/scripts/fx/pixelDrift';
+
+    const motionOk = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
+    if (motionOk) {
+      const start = () => {
+        const ribbons = document.getElementById('fx-ribbons') as HTMLCanvasElement | null;
+        if (ribbons) {
+          mountRibbonTrails(ribbons, {
+            background: '#0a0a0a',
+            colors: ['#fb923c', '#c2410c', '#a8a29e', '#78350f'],
+          });
+        }
+        const pixels = document.getElementById('fx-pixels') as HTMLCanvasElement | null;
+        if (pixels) {
+          mountPixelDrift(pixels, { color: '#fb923c', particleCount: 70, maxOpacity: 0.5 });
+        }
+      };
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(start, { timeout: 1500 });
+      } else {
+        setTimeout(start, 300);
+      }
+    }
+  </script>
+</MainLayout>
