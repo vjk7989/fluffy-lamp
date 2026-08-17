@@ -174,6 +174,7 @@ const metaDescription = 'Sign in to your Pavii account.';
       SAMLAuthProvider,
       createUserWithEmailAndPassword,
       signInWithEmailAndPassword,
+      signInWithCredential,
       signInWithPopup,
       sendPasswordResetEmail,
     } from 'firebase/auth';
@@ -189,6 +190,12 @@ const metaDescription = 'Sign in to your Pavii account.';
     };
     // SAML provider id, configured under Identity Platform when SSO goes live.
     const SSO_PROVIDER_ID = 'saml.pavii-sso';
+    // Google OAuth Web client (public identifier). Google sign-in uses the GIS
+    // token flow + signInWithCredential instead of signInWithPopup: the page is
+    // served from www.pavii.tech while authDomain is pavii-ai3.firebaseapp.com,
+    // and Chrome's third-party storage partitioning breaks the cross-site
+    // popup-handler handoff (popup hangs blank on /__/auth/handler).
+    const GOOGLE_WEB_CLIENT_ID = '171533458599-f25gkbpc9bghnmeljpbe2u68oh6rarm2.apps.googleusercontent.com';
     // ───────────────────────────────────────────────────────────────────────
 
     // Only these redirect targets may receive the ID token. The pavii:// deep
@@ -289,6 +296,79 @@ const metaDescription = 'Sign in to your Pavii account.';
       showSuccess(`Signed in as ${user.email ?? 'your account'}.`);
     };
 
+    // ── Google via GIS token flow ─────────────────────────────────────────
+    type GisTokenResponse = { access_token?: string; error?: string };
+    type GisTokenClient = { requestAccessToken: (config?: { prompt?: string }) => void };
+    type GisOauth2 = {
+      initTokenClient: (config: {
+        client_id: string;
+        scope: string;
+        callback: (response: GisTokenResponse) => void;
+        error_callback?: (error: { type?: string; message?: string }) => void;
+      }) => GisTokenClient;
+    };
+    const getGisOauth2 = (): GisOauth2 | null =>
+      (window as { google?: { accounts?: { oauth2?: GisOauth2 } } }).google?.accounts?.oauth2 ?? null;
+
+    let gisLoading: Promise<void> | null = null;
+    const loadGis = (): Promise<void> => {
+      if (getGisOauth2()) return Promise.resolve();
+      gisLoading ??= new Promise<void>((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = 'https://accounts.google.com/gsi/client';
+        script.async = true;
+        script.onload = () => resolve();
+        script.onerror = () => {
+          gisLoading = null;
+          reject(new Error('Could not load Google sign-in. Check your connection and try again.'));
+        };
+        document.head.appendChild(script);
+      });
+      return gisLoading;
+    };
+
+    const runGoogle = async () => {
+      const auth = requireAuth();
+      if (!auth || busy) return;
+      setBusy(true);
+      try {
+        await loadGis();
+        const oauth2 = getGisOauth2();
+        if (!oauth2) throw new Error('Google sign-in is unavailable right now.');
+        oauth2
+          .initTokenClient({
+            client_id: GOOGLE_WEB_CLIENT_ID,
+            scope: 'openid email profile',
+            callback: (response) => {
+              void (async () => {
+                try {
+                  if (!response.access_token) throw new Error('Google did not return a sign-in token.');
+                  const credential = GoogleAuthProvider.credential(null, response.access_token);
+                  const result = await signInWithCredential(auth, credential);
+                  await finish(result.user);
+                } catch (error) {
+                  showError(friendly(error));
+                } finally {
+                  setBusy(false);
+                }
+              })();
+            },
+            error_callback: (error) => {
+              // popup_closed / popup_failed_to_open or a config error
+              if (error?.type !== 'popup_closed') {
+                showError(error?.message || 'Google sign-in was interrupted. Please try again.');
+              }
+              setBusy(false);
+            },
+          })
+          .requestAccessToken();
+      } catch (error) {
+        showError(friendly(error));
+        setBusy(false);
+      }
+    };
+    // ───────────────────────────────────────────────────────────────────────
+
     const runPopup = async (provider: GoogleAuthProvider | GithubAuthProvider | SAMLAuthProvider) => {
       const auth = requireAuth();
       if (!auth || busy) return;
@@ -354,7 +434,7 @@ const metaDescription = 'Sign in to your Pavii account.';
       })();
     });
 
-    el('login-google').addEventListener('click', () => void runPopup(new GoogleAuthProvider()));
+    el('login-google').addEventListener('click', () => void runGoogle());
     el('login-github').addEventListener('click', () => void runPopup(new GithubAuthProvider()));
     el('login-sso').addEventListener('click', () => void runPopup(new SAMLAuthProvider(SSO_PROVIDER_ID)));
   </script>
