@@ -57,6 +57,15 @@ const metaDescription = 'Sign in to your Pavii account.';
           class="rounded-xl bg-neutral-900 px-5 py-2.5 text-base font-semibold text-white transition hover:bg-neutral-700 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200">
           Open Pavii
         </button>
+        <button
+          id="login-toast-close"
+          type="button"
+          aria-label="Dismiss"
+          class="-mr-1 ml-1 rounded-lg p-1.5 text-neutral-400 transition hover:bg-neutral-100 hover:text-neutral-700 dark:hover:bg-white/10 dark:hover:text-neutral-200">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+          </svg>
+        </button>
       </div>
       <div
         id="login-card"
@@ -371,9 +380,11 @@ const metaDescription = 'Sign in to your Pavii account.';
       }
       const toast = document.getElementById('login-toast');
       const toastBtn = document.getElementById('login-toast-open') as HTMLButtonElement | null;
+      const toastClose = document.getElementById('login-toast-close') as HTMLButtonElement | null;
       if (toast && toastBtn) {
         toast.classList.remove('hidden');
         toastBtn.onclick = openApp;
+        if (toastClose) toastClose.onclick = () => toast.classList.add('hidden');
       }
       confettiBurst();
     };
