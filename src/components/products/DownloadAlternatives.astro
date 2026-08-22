@@ -1,21 +1,35 @@
 ---
-const macosQuarantineCommand =
-  'xattr -dr com.apple.quarantine "/Applications/PAVii.app"';
+type Props = {
+  macosAppName?: string;
+  macosDmgName?: string;
+  windowsInstallerName?: string;
+  windowsInstallerUrl?: string;
+  windowsRepositoryLabel?: string;
+};
+
+const {
+  macosAppName = 'PAVii.app',
+  macosDmgName = 'PAVii-macOS-arm64.dmg',
+  windowsInstallerName = 'PAVii-Windows-x64-setup.exe',
+  windowsInstallerUrl = 'https://github.com/vjk7989/pavii-release/releases/latest/download/PAVii-Windows-x64-setup.exe',
+  windowsRepositoryLabel = 'PAVii release repository',
+} = Astro.props;
+const macosQuarantineCommand = `xattr -dr com.apple.quarantine "/Applications/${macosAppName}"`;
 
 const windowsInstallCommands = [
   {
     label: 'PowerShell',
     description: 'Download with Invoke-WebRequest and open the installer.',
-    command: String.raw`$installer = "$env:TEMP\Pavii.Ai-Windows-x64-Setup.exe"
-Invoke-WebRequest "https://github.com/buckleson/Pavii-Gui-Releases/releases/latest/download/Pavii.Ai-Windows-x64-Setup.exe" -OutFile $installer
+    command: `$installer = "$env:TEMP\\${windowsInstallerName}"
+Invoke-WebRequest "${windowsInstallerUrl}" -OutFile $installer
 Start-Process $installer`,
     statusId: 'windows-powershell-copy-status',
   },
   {
     label: 'curl.exe',
     description: 'Use the curl command included with current Windows versions.',
-    command: String.raw`curl.exe -L "https://github.com/buckleson/Pavii-Gui-Releases/releases/latest/download/Pavii.Ai-Windows-x64-Setup.exe" -o "$env:TEMP\Pavii.Ai-Windows-x64-Setup.exe"
-& "$env:TEMP\Pavii.Ai-Windows-x64-Setup.exe"`,
+    command: `curl.exe -L "${windowsInstallerUrl}" -o "$env:TEMP\\${windowsInstallerName}"
+& "$env:TEMP\\${windowsInstallerName}"`,
     statusId: 'windows-curl-copy-status',
   },
 ];
@@ -44,8 +58,9 @@ Start-Process $installer`,
       </div>
       <p class="mt-3 max-w-prose text-neutral-600 dark:text-neutral-300">
         Open PowerShell, copy either command, and press Enter. Both commands
-        always download the latest Windows x64 release from the PAVii mirror
-        release repository.
+        always download the latest Windows x64 release from the {
+          windowsRepositoryLabel
+        }.
       </p>
 
       <div class="mt-7 space-y-8">
@@ -194,11 +209,13 @@ Start-Process $installer`,
           </p>
           <code
             class="block overflow-x-auto rounded-lg bg-neutral-950 px-3 py-2 text-xs whitespace-nowrap text-white"
-            >hdiutil verify ~/Downloads/Pavii.Ai-macOS-arm64.dmg</code
+            >hdiutil verify ~/Downloads/{macosDmgName}</code
           >
           <code
             class="block overflow-x-auto rounded-lg bg-neutral-950 px-3 py-2 text-xs whitespace-nowrap text-white"
-            >codesign --verify --deep --strict "/Applications/Pavii.Ai.app"</code
+            >codesign --verify --deep --strict "/Applications/{
+              macosAppName
+            }"</code
           >
         </div>
       </div>
