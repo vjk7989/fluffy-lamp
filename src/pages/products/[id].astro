@@ -35,65 +35,84 @@ const { product } = Astro.props;
 const pageTitle: string = `${product.data.title} | ${SITE.title}`;
 const metaDescription = product.data.description;
 const ogTitle = `${product.data.title} | AI Infrastructure Product | ${SITE.title}`;
-const isSuperAssistant = product.data.title === 'Super Assistant';
+const isDevTools = product.data.title === 'Dev Tools';
+const hasPaviiDownloads =
+  isDevTools || product.data.title === 'Super Assistant';
+const paviiReleaseVersion = '2.1.66';
+const paviiReleaseRepo = 'https://github.com/buckleson/Pavii-Gui-Releases';
+const paviiLatestDownload = `${paviiReleaseRepo}/releases/latest/download`;
 const paviiDownloads = [
   {
     os: 'Windows',
     label: 'Windows x64',
     architecture: 'x64',
     packageType: 'nsis',
-    url: 'https://github.com/vjk7989/pavii-release/releases/latest/download/PAVii-Windows-x64-setup.exe',
+    url: `${paviiLatestDownload}/Pavii.Ai-Windows-x64-Setup.exe`,
+  },
+  {
+    os: 'Windows',
+    label: 'Windows ARM64',
+    architecture: 'arm64',
+    packageType: 'nsis',
+    url: `${paviiLatestDownload}/Pavii.Ai-Windows-arm64-Setup.exe`,
   },
   {
     os: 'macOS',
-    label: 'macOS · Apple Silicon',
+    label: 'macOS Apple Silicon',
     architecture: 'arm64',
     packageType: 'dmg',
-    url: 'https://github.com/vjk7989/pavii-release/releases/latest/download/PAVii-macOS-arm64.dmg',
+    url: `${paviiLatestDownload}/Pavii.Ai-macOS-arm64.dmg`,
+  },
+  {
+    os: 'macOS',
+    label: 'macOS Intel',
+    architecture: 'x64',
+    packageType: 'dmg',
+    url: `${paviiLatestDownload}/Pavii.Ai-macOS-x64.dmg`,
   },
   {
     os: 'Linux',
     label: 'Linux x64',
     architecture: 'x64',
     packageType: 'appimage',
-    url: 'https://github.com/vjk7989/pavii-release/releases/latest/download/PAVii-Linux-x64.AppImage',
+    url: `${paviiLatestDownload}/Pavii.Ai-Linux-x64.AppImage`,
+  },
+  {
+    os: 'Linux',
+    label: 'Linux ARM64',
+    architecture: 'arm64',
+    packageType: 'appimage',
+    url: `${paviiLatestDownload}/Pavii.Ai-Linux-arm64.AppImage`,
   },
 ];
 const paviiSecondaryDownloads = [
   {
-    label: 'Windows MSI',
-    os: 'Windows',
-    architecture: 'x64',
-    packageType: 'msi',
-    url: 'https://github.com/vjk7989/pavii-release/releases/latest/download/PAVii-Windows-x64.msi',
-  },
-  {
-    label: 'Linux DEB',
+    label: 'Linux x64 DEB',
     os: 'Linux',
     architecture: 'x64',
     packageType: 'deb',
-    url: 'https://github.com/vjk7989/pavii-release/releases/latest/download/PAVii-Linux-x64.deb',
+    url: `${paviiLatestDownload}/Pavii.Ai-Linux-x64.deb`,
   },
   {
-    label: 'Linux RPM',
+    label: 'Linux ARM64 DEB',
     os: 'Linux',
-    architecture: 'x64',
-    packageType: 'rpm',
-    url: 'https://github.com/vjk7989/pavii-release/releases/latest/download/PAVii-Linux-x64.rpm',
+    architecture: 'arm64',
+    packageType: 'deb',
+    url: `${paviiLatestDownload}/Pavii.Ai-Linux-arm64.deb`,
   },
   {
     label: 'Checksums',
     os: '',
     architecture: '',
     packageType: '',
-    url: 'https://github.com/vjk7989/pavii-release/releases/latest/download/SHA256SUMS',
+    url: `${paviiLatestDownload}/SHA256SUMS`,
   },
   {
     label: 'All releases',
     os: '',
     architecture: '',
     packageType: '',
-    url: 'https://github.com/vjk7989/pavii-release/releases/latest',
+    url: `${paviiReleaseRepo}/releases/latest`,
   },
 ];
 const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'preview'}`;
@@ -136,9 +155,7 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
         {product.data.main.content}
       </p>
     </div>
-    <div
-      class="flex flex-col items-center justify-between gap-8 lg:flex-row"
-    >
+    <div class="flex flex-col items-center justify-between gap-8 lg:flex-row">
       <div id="fadeInUp" class="w-full min-w-0 flex-1">
         <h1
           class="block text-4xl font-bold tracking-tighter text-neutral-800 sm:text-5xl md:text-6xl lg:text-7xl dark:text-neutral-200"
@@ -149,18 +166,19 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
           {product.data.description}
         </p>
         {
-          isSuperAssistant && (
+          hasPaviiDownloads && (
             <div class="mt-8 w-full max-w-3xl rounded-2xl border border-neutral-200 bg-white/80 p-4 shadow-sm backdrop-blur sm:p-6 dark:border-neutral-700 dark:bg-neutral-900/70">
               <p class="text-sm font-semibold tracking-wide text-neutral-800 uppercase dark:text-neutral-200">
-                Download and try PAVii 2.0.5
+                Download Pavii.Ai {paviiReleaseVersion}
               </p>
               <p class="mt-2 text-base text-neutral-600 dark:text-neutral-400">
-                Click below to download PAVii 2.0.5 and try our latest model-agnostic
-                agentic solution.
+                Install the latest Pavii.Ai desktop build from the official
+                mirror release repo.
               </p>
               <p class="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
-                Future updates download automatically in the background. PAVii asks before
-                relaunching into the new version.
+                Pick the installer that matches your operating system and CPU
+                architecture. In-app updates continue to use the main updater
+                feed.
               </p>
               <div class="mt-5 flex flex-wrap gap-3">
                 {paviiDownloads.map(download => (
@@ -241,8 +259,9 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
                 ))}
               </div>
               <p class="mt-4 max-w-2xl text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">
-                PAVii counts package downloads by operating system, package type, and country.
-                The event contains no account details or browsing activity.
+                PAVii counts package downloads by operating system, package
+                type, and country. The event contains no account details or
+                browsing activity.
               </p>
             </div>
           )
@@ -437,46 +456,44 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
   </div>
 
   {
-    isSuperAssistant && (
+    hasPaviiDownloads && (
       <div id="tabs-with-card-4" class="hidden" role="tabpanel">
         <DownloadAlternatives />
       </div>
     )
   }
 
-  {isSuperAssistant && (
-    <script is:inline>
-      (() => {
-        const endpoint = 'https://eu.i.posthog.com/capture/';
-        const apiKey = 'phc_yimrxw6UXv4iezUNR7MfzG3rXNPww9psTM757SACa7qg';
-        document.querySelectorAll('[data-pavii-download]').forEach(link => {
-          link.addEventListener('click', () => {
-            const element = link;
-            const payload = {
-              api_key: apiKey,
-              event: 'pavii_download',
-              properties: {
-                distinct_id: crypto.randomUUID(),
-                $process_person_profile: false,
-                platform: element.dataset.platform,
-                architecture: element.dataset.architecture,
-                package_type: element.dataset.package,
-                app_version: '2.0.5',
-                source: 'pavii_website',
-                telemetry_schema: 1,
-              },
-            };
-            fetch(endpoint, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(payload),
-              keepalive: true,
-            }).catch(() => {});
-          });
+  <script is:inline>
+    (() => {
+      const endpoint = 'https://eu.i.posthog.com/capture/';
+      const apiKey = 'phc_yimrxw6UXv4iezUNR7MfzG3rXNPww9psTM757SACa7qg';
+      document.querySelectorAll('[data-pavii-download]').forEach(link => {
+        link.addEventListener('click', () => {
+          const element = link;
+          const payload = {
+            api_key: apiKey,
+            event: 'pavii_download',
+            properties: {
+              distinct_id: crypto.randomUUID(),
+              $process_person_profile: false,
+              platform: element.dataset.platform,
+              architecture: element.dataset.architecture,
+              package_type: element.dataset.package,
+              app_version: '2.1.66',
+              source: 'pavii_website',
+              telemetry_schema: 1,
+            },
+          };
+          fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+            keepalive: true,
+          }).catch(() => {});
         });
-      })();
-    </script>
-  )}
+      });
+    })();
+  </script>
 </MainLayout>
 
 <script>
