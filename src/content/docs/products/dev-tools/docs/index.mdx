@@ -1,0 +1,57 @@
+---
+title: Pavii.Ai Docs
+head:
+  - tag: title
+    content: Pavii.Ai Docs
+description: Get started with Pavii.Ai — install the desktop app, launch your first AI agent, and learn what it can do.
+template: splash
+editUrl: false
+lastUpdated: false
+prev: false
+next: false
+hero:
+  title: Pavii.Ai Documentation
+  tagline: Your AI agent workspace on the desktop — install it, open it, and start working in minutes.
+  image:
+    html: '<img src="/pavii-mark.png" alt="Pavii.Ai" width="192" height="192" style="margin-inline:auto" />'
+  actions:
+    - text: Get started
+      icon: right-arrow
+      variant: primary
+      link: /products/dev-tools/docs/getting-started/installation/
+    - text: Download for Windows
+      icon: external
+      variant: minimal
+      link: https://github.com/vjk7989/pavii-release/releases/latest/download/PAVii-Windows-x64-setup.exe
+    - text: All downloads
+      icon: external
+      variant: minimal
+      link: https://github.com/vjk7989/pavii-release/releases/latest
+---
+
+import '@styles/starlight_main.css';
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+<CardGrid>
+  <Card title="Getting Started" icon="rocket">
+    Install Pavii.Ai on Windows, macOS, or Linux, pick an assistant, connect a
+    model, and send your first message. Everything the app needs ships inside
+    the installer.
+    [Install Pavii.Ai →](/products/dev-tools/docs/getting-started/installation/)
+  </Card>
+  <Card title="Features" icon="puzzle">
+    Skills, chat channels, remote access from your phone, agent teams, and
+    scheduled automation — what the app can do once you're in.
+    [Explore the features →](/products/dev-tools/docs/features/skills/)
+  </Card>
+  <Card title="Guides" icon="open-book">
+    Agents and models, the "/" command menu, permission modes, and keeping
+    token spend visible and lean.
+    [Read the guides →](/products/dev-tools/docs/guides/agents-and-models/)
+  </Card>
+  <Card title="Advanced" icon="setting">
+    Where your data lives, what leaves your machine, and fixes for the most
+    common issues.
+    [Go deeper →](/products/dev-tools/docs/advanced/privacy-and-data/)
+  </Card>
+</CardGrid>

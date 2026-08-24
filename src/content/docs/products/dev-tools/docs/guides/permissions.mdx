@@ -1,0 +1,32 @@
+---
+title: Permissions
+description: Control how independently Pavii.Ai agents may read, edit, and run things.
+sidebar:
+  order: 3
+---
+
+Agents can read files, edit code, and run commands. The permission mode
+decides how much of that happens without asking you first.
+
+## The permission selector
+
+It lives in the composer, next to the model selector, and applies per
+conversation. Modes range from cautious — the agent asks before each
+meaningful action — to autonomous build modes where it proceeds and reports.
+
+## Choosing a mode
+
+- **Starting out**: keep the default. You will see each proposed action and
+  approve it, which is the fastest way to learn what an agent actually does.
+- **Trusted, repetitive work**: raise the autonomy so the agent stops asking
+  for actions you always approve.
+- **Teams**: the leader's permission choices propagate to teammates, so a team
+  behaves consistently.
+
+## What stays in your hands regardless
+
+- Attaching the workspace: agents work in the folder you give them.
+- The conversation transcript records the agent's actions and tool calls, so
+  autonomy never means invisibility.
+
+Related: [Agent teams →](/products/dev-tools/docs/features/teams/)

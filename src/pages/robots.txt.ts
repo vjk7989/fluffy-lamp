@@ -13,17 +13,6 @@ User-agent: Yandex
 User-agent: archive.org_bot
 User-agent: *
 Disallow:
-Disallow: /advanced/
-Disallow: /construction/
-Disallow: /tools/
-Disallow: /guides/
-Disallow: /welcome-to-docs/
-Disallow: /de/
-Disallow: /es/
-Disallow: /fa/
-Disallow: /fr/
-Disallow: /ja/
-Disallow: /zh-cn/
 Allow: /
 
 Sitemap: ${new URL('sitemap-index.xml', `${import.meta.env.SITE}/`).href}

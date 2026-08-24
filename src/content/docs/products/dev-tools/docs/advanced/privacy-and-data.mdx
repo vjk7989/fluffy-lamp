@@ -1,0 +1,38 @@
+---
+title: Privacy and data
+description: Where Pavii.Ai keeps your data and what leaves your machine.
+sidebar:
+  order: 1
+---
+
+Pavii.Ai is local-first. This page states plainly what stays on your machine
+and what does not.
+
+## What stays local
+
+- **Conversations and history** — stored in the app's local data directory on
+  your machine.
+- **API keys and credentials** — stored locally; never sent to Pavii servers.
+- **Your files** — agents work in the workspace folders you attach; the app
+  is not a file-sync service.
+
+## What leaves your machine
+
+- **Model traffic** — your conversations go directly from your machine to the
+  model provider you configure and to the CLI agents you connect. Pavii is not
+  an intermediary for that traffic and never receives it. Provider terms apply
+  to it.
+- **Update checks** — the app checks its release repository for updates.
+- **Product analytics** — the app sends usage analytics (which features get
+  used, app version, OS, and event names like app opened or message sent) so
+  we can see what gets used and when something breaks. Your conversations,
+  prompts, file paths, and credentials are never part of it; screen
+  identifiers are normalised before leaving the app. There is currently no
+  in-app switch to disable analytics — building from source with
+  `POSTHOG_DISABLED=1` produces a build that sends nothing.
+
+## Practical notes
+
+- Deleting a conversation removes it from your local history.
+- Remote access (WebUI) is a window into the same local data, protected by a
+  login — it does not copy your data to a server.

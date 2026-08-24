@@ -1,0 +1,41 @@
+---
+title: Agents and models
+description: How assistants, agents, and model providers fit together in Pavii.Ai.
+sidebar:
+  order: 1
+---
+
+Three layers work together in every conversation:
+
+- **Assistants** are who you talk to — a name, a skill set, and defaults.
+- **Agents** are the engines behind them — CLI coding agents that read files,
+  edit code, and run commands.
+- **Models** are the LLMs the agents call, connected through a provider.
+
+## Agents
+
+- **OpenCode** ships inside the installer and is the default — it works in
+  your first session with nothing else installed. If you already have your own
+  OpenCode on the machine, yours takes priority automatically.
+- **Detected CLIs** — if Claude Code, Codex, or Gemini CLI is installed,
+  Pavii.Ai finds it and offers it as an assistant backend too.
+- **Pavii CLI** — the built-in general assistant.
+
+## Models and providers
+
+Open **Settings → Models**:
+
+- **Bring your own key** — add an API key for your preferred provider;
+  requests go directly from your machine to that provider.
+- **Free providers** — the model picker includes free options, useful for
+  trying the app before adding a paid key.
+
+Model choice is per conversation — the selector in the conversation header
+switches it at any time.
+
+## Assistants
+
+Create and edit assistants on the **Assistants** page: pick the backing
+agent, enable [skills](/products/dev-tools/docs/features/skills/), and set
+default permissions. Switch assistants mid-conversation with
+[`/agents`](/products/dev-tools/docs/guides/slash-commands/).

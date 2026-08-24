@@ -1,0 +1,40 @@
+---
+title: Slash commands
+description: The "/" command menu in Pavii.Ai — agent commands, app commands, and skills.
+sidebar:
+  order: 2
+---
+
+Type `/` at the start of the composer to open the command menu. Keep typing to
+filter; arrow keys and Enter select.
+
+## Three sources, one menu
+
+1. **Your agent's own commands** — whatever the connected CLI advertises. For
+   OpenCode this includes commands like `/init` and `/review`. These remain
+   available between turns — the list does not disappear when the agent goes
+   idle.
+2. **App commands** — built into Pavii.Ai and available with every agent.
+3. **Your skills** — every skill enabled on the current assistant appears as a
+   command. Picking one loads the skill for that message, so the agent
+   receives its full instructions.
+
+## App commands
+
+| Command | What it does |
+| ------- | ------------ |
+| `/new` | Start a new conversation |
+| `/agents` | Switch assistant |
+| `/open` | Attach a file from the workspace |
+| `/copy` | Copy the last reply |
+| `/btw` | Ask a side question without derailing the main thread |
+
+## Details worth knowing
+
+- If an agent advertises a command with the same name as an app command, the
+  app command wins — `/copy` always copies, no matter what the agent offers.
+- Skill commands insert `/skill-name ` into your message; deleting that token
+  before sending cancels the skill load.
+- Some commands you may know from a CLI's own terminal interface (like
+  OpenCode's `/exit` or `/variants`) are terminal-only — CLIs do not expose
+  them to any external app, so they cannot appear here.

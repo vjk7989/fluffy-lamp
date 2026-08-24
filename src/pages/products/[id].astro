@@ -620,6 +620,16 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
                   title={product.data.longDescription.btnTitle}
                   url={product.data.longDescription.btnURL}
                 />
+                {
+                  isDevTools && (
+                    <a
+                      class="ms-3 inline-flex items-center gap-x-2 rounded-lg px-4 py-3 text-sm font-bold text-neutral-700 outline-hidden ring-zinc-500 transition duration-300 hover:text-neutral-500 focus-visible:ring-3 dark:text-neutral-300 dark:ring-zinc-200 dark:hover:text-neutral-400"
+                      href="/products/dev-tools/docs/"
+                    >
+                      Documentation
+                    </a>
+                  )
+                }
               </p>
             </div>
 

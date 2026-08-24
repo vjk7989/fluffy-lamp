@@ -1,0 +1,44 @@
+---
+title: Troubleshooting
+description: Fixes for the most common Pavii.Ai issues.
+sidebar:
+  order: 2
+---
+
+## "Startup didn't complete"
+
+The app opened but reports that the Pavii Engine couldn't finish starting.
+
+- Restart the app first — transient startup races resolve themselves.
+- If it repeats, use the **Send diagnostics** button on the error dialog; it
+  attaches the startup logs we need.
+- A rare cause is a data directory written by a newer app version than the one
+  now running (for example after rolling back an update) — the engine refuses
+  to open newer data rather than risk corrupting it. Updating the app resolves
+  it.
+
+## An agent shows as missing
+
+- **OpenCode** ships inside the installer and should always be available. If
+  you installed your own copy and later removed it, restart the app so
+  detection re-runs.
+- **Claude Code / Codex / Gemini CLI** are detected from your system PATH.
+  After installing one, restart Pavii.Ai so the engine's agent detection sees
+  it.
+
+## The "/" menu shows no agent commands
+
+Agent commands come from the connected CLI. They appear once the agent has
+started in a conversation, and they persist between turns afterwards. App
+commands and skills are available immediately regardless.
+
+## Where things live
+
+- **Conversations and settings** — the app's local data directory.
+- **Logs** — collected automatically by **Send diagnostics**; the in-app bug
+  report (Settings → About → Report Issue) attaches recent logs as well.
+
+## Updates
+
+Updates download in the background and apply on restart. The About page shows
+the current version and a manual **Check for updates** button.

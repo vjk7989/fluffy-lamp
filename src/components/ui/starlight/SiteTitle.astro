@@ -1,21 +1,23 @@
 ---
-import mainLogo from '@images/starlight/screwfast_logo_dark.svg?raw';
 import docsLogo from '@images/starlight/docs_logo.svg?raw';
-import type { Props } from '@astrojs/starlight/props';
 import { withBase } from '@utils/urls';
 
+// Docs are English-only and live under the Dev Tools product, so the old
+// per-locale `/welcome-to-docs/` link logic is gone with the locales.
 const main = withBase('/');
-const locale = Astro.props.locale ? Astro.props.locale + '/' : '';
-const docs = withBase('/' + locale + 'welcome-to-docs/');
+const docs = withBase('/products/dev-tools/docs/');
 ---
 
 <span class="site-title flex">
-  <a class="main-logo" href={main} set:html={mainLogo} aria-label="ScrewFast" />
+  <a class="main-logo" href={main} aria-label="PAVii.AI">
+    <img src="/pavii-mark.png" alt="" width="28" height="28" loading="eager" />
+    <span class="brand-text">PAVii.AI</span>
+  </a>
   <a
     class="docs-logo"
     href={docs}
     set:html={docsLogo}
-    aria-label="ScrewFast Docs"
+    aria-label="PAVii.AI Docs"
   />
 </span>
 
@@ -31,6 +33,20 @@ const docs = withBase('/' + locale + 'welcome-to-docs/');
   .flex {
     display: flex;
     align-items: center;
+  }
+  .main-logo {
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+  }
+  .main-logo img {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+  .brand-text {
+    font-weight: 700;
+    color: var(--sl-color-white);
+    white-space: nowrap;
   }
   .site-title a:focus-visible {
     outline: 0;
