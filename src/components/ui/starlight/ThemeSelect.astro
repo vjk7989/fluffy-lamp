@@ -4,7 +4,7 @@
   aria-label="Dark Theme Toggle"
   title="Toggle theme"
   id="dark-theme-toggle"
-  class="group flex h-8 w-8 items-center justify-center rounded-full font-medium text-neutral-600 ring-zinc-500 outline-hidden transition duration-300 hover:bg-neutral-200 hover:text-orange-400"
+  class="group flex h-8 w-8 items-center justify-center rounded-full font-medium text-neutral-600 ring-zinc-500 outline-hidden transition duration-300 hover:bg-neutral-200 hover:text-blue-500"
   data-hs-theme-click-value="dark"
 >
   <svg
@@ -28,7 +28,7 @@
   aria-label="Light Theme Toggle"
   title="Toggle theme"
   id="light-theme-toggle"
-  class="group flex hidden h-8 w-8 items-center justify-center rounded-full font-medium text-neutral-400 ring-zinc-500 outline-hidden transition duration-300 hover:bg-neutral-700 hover:text-orange-400"
+  class="group flex hidden h-8 w-8 items-center justify-center rounded-full font-medium text-neutral-400 ring-zinc-500 outline-hidden transition duration-300 hover:bg-neutral-700 hover:text-blue-500"
   data-hs-theme-click-value="light"
 >
   <svg
@@ -63,6 +63,10 @@
   function setTheme(theme: Theme): void {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('starlight-theme', theme);
+    // Mirror into the marketing pages' storage + class so the choice
+    // survives navigating back out of the docs.
+    localStorage.setItem('hs_theme', theme);
+    document.documentElement.classList.toggle('dark', theme === 'dark');
     updateButtons(theme);
   }
 

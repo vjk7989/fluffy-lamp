@@ -1,0 +1,38 @@
+---
+title: Agent Hub and extensions
+description: Install, repair, and configure the CLI agents Pavii.Ai runs on.
+sidebar:
+  order: 6
+---
+
+The Agent Hub is where the agents behind your assistants are managed.
+
+## Local agents
+
+**Settings → Agents** lists the agent CLIs Pavii.Ai can see on your machine,
+with their detection status. From there you can:
+
+- **Install or repair** an agent that is missing or not working.
+- **Set environment variables** per agent, for keys or settings that specific
+  CLI expects.
+- **See which assistants** are bound to each agent, so you know what a repair
+  will affect.
+
+OpenCode needs none of this — it ships inside the installer. The Hub matters
+when you want to add another vendor's CLI or fix one that stopped resolving.
+
+## Extensions
+
+Agent adapters are distributed as extensions from a signed hub, so support for
+a CLI can be added without shipping a new app version. Browse and enable them
+in **Settings → Extensions**.
+
+Adapters currently distributed this way include Claude Code, Codex, Qwen,
+Goose, CodeBuddy, and Augment Code.
+
+## When an agent is not detected
+
+Agents are found through your system PATH. If you install one while Pavii.Ai is
+running, restart the app so detection runs again. See
+[Troubleshooting](/products/dev-tools/docs/advanced/troubleshooting/) for the
+rest.

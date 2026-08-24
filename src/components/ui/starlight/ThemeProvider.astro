@@ -1,13 +1,23 @@
 {/* This is intentionally inlined to avoid FOUC. */}
 <script is:inline>
   window.StarlightThemeProvider = (() => {
-    const storedTheme =
-      typeof localStorage !== 'undefined' &&
-      localStorage.getItem('starlight-theme');
-    const theme = storedTheme === 'dark' ? 'dark' : 'light';
+    // The marketing pages store their choice under Preline's `hs_theme` key
+    // and express it as a `.dark` class; Starlight uses `starlight-theme` and
+    // a `data-theme` attribute. Without a bridge, switching to dark on the
+    // site and clicking into the docs landed you back in light.
+    const hasStorage = typeof localStorage !== 'undefined';
+    const storedTheme = hasStorage && localStorage.getItem('starlight-theme');
+    const marketingTheme = hasStorage && localStorage.getItem('hs_theme');
+    const theme =
+      storedTheme === 'dark' || (!storedTheme && marketingTheme === 'dark')
+        ? 'dark'
+        : 'light';
     document.documentElement.dataset.theme = theme;
+    // Keep the class in sync too: Tailwind utilities inside docs pages are
+    // compiled against the `.dark` variant, not `data-theme`.
+    document.documentElement.classList.toggle('dark', theme === 'dark');
     return {
-      updatePickers(theme = storedTheme === 'dark' ? 'dark' : 'light') {
+      updatePickers(theme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light') {
         document.querySelectorAll('starlight-theme-select').forEach(picker => {
           const select = picker.querySelector('select');
           if (select) select.value = theme;

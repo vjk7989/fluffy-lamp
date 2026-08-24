@@ -1,0 +1,42 @@
+---
+title: MCP servers and tools
+description: Extend Pavii.Ai agents with Model Context Protocol servers.
+sidebar:
+  order: 5
+---
+
+MCP servers give agents extra tools — reading from a system, calling an API,
+querying a database — without changing the agent itself.
+
+## Adding a server
+
+**Settings → Tools** manages MCP servers. Four transports are supported:
+
+- **stdio** — a local command the app launches
+- **SSE** — server-sent events over HTTP
+- **HTTP** and **streamable HTTP** — remote servers
+
+Add a server manually, or paste an existing MCP JSON configuration to import
+one in a single step. Remote servers requiring OAuth trigger their sign-in flow
+when you test the connection.
+
+## Choosing which tools are exposed
+
+Each server lists the tools it provides, and tools can be enabled or disabled
+individually. This matters for two reasons: a smaller tool list is easier for
+a model to use well, and it keeps capabilities you do not want out of reach.
+
+## Per-assistant selection
+
+Which MCP servers an assistant uses is part of that assistant's configuration,
+alongside its skills — so a "research" assistant and a "coding" assistant can
+carry entirely different toolsets.
+
+Like other assistant defaults, MCP selection can be **auto** (follow your last
+used set) or **fixed** (pinned to this assistant). See
+[Assistants, agents, and models](/products/dev-tools/docs/concepts/assistants-agents-models/).
+
+## In conversation
+
+The conversation shows which MCP servers loaded for the current session, so you
+can confirm an agent actually has the tools you expect before relying on them.

@@ -1,0 +1,60 @@
+---
+title: Working in a conversation
+description: Queueing, forking, side questions, terminal output, and exports in Pavii.Ai.
+sidebar:
+  order: 6
+---
+
+Beyond sending messages, a conversation has several tools worth knowing.
+
+## Queue follow-ups while it works
+
+You do not have to wait for a turn to finish. Messages sent while an agent is
+busy join a queue, and you can reorder, edit, or remove them before they run.
+If a turn fails, the queue pauses rather than charging ahead with instructions
+written for a state that no longer exists.
+
+## Ask a side question
+
+`/btw` asks something without disturbing the main task. The answer appears in
+an overlay and the agent's primary work continues untouched — useful for
+"what does this error mean?" in the middle of a long run.
+
+Side questions are deliberately limited: no attachments, and they will not run
+tools.
+
+## Fork a conversation
+
+Forking branches a conversation from a chosen message into a new one, keeping
+the history up to that point. Use it to try a different direction without
+losing the thread you already have.
+
+Forking is refused in a few honest cases — while a turn is in flight, at
+message types that cannot be a branch point, or on agents that do not support
+it — and the app tells you which applies.
+
+## Watch commands and changes
+
+- **Terminal output** appears inline with its state — running, stopped, exited,
+  or truncated when very long.
+- **Source control** shows the git state of the project the conversation is
+  attached to, so you can see what the agent actually changed.
+- **File preview** opens workspace files in a side panel. Very large files show
+  a notice instead of loading; the size threshold is configurable in settings.
+
+## Find things again
+
+Conversations are grouped in the sidebar with a dedicated search, so a thread
+from last week is findable without scrolling.
+
+## Export
+
+Export one conversation or many as a ZIP containing both JSON and Markdown
+transcripts, along with project files. `/export` sends the current conversation
+to a file or your clipboard.
+
+## Keep an eye on context
+
+The context meter shows how full the conversation's window is, broken down by
+input, output, reasoning, and cache reads and writes, along with session cost.
+See [Tokens and usage](/products/dev-tools/docs/guides/tokens-and-usage/).

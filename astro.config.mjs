@@ -60,6 +60,10 @@ export default defineConfig({
           items: [{ autogenerate: { directory: 'products/dev-tools/docs/getting-started' } }],
         },
         {
+          label: 'Concepts',
+          items: [{ autogenerate: { directory: 'products/dev-tools/docs/concepts' } }],
+        },
+        {
           label: 'Features',
           items: [{ autogenerate: { directory: 'products/dev-tools/docs/features' } }],
         },

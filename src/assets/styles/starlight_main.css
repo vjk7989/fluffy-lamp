@@ -11,52 +11,51 @@
 }
 /* Dark mode colors. */
 :root {
-  --primary-button-hover: #ff801f;
-  --backdrop-color: #272727cc;
-  --sl-color-accent: #ff801f;
-  --sl-color-accent-high: #ffa057;
-  --sl-color-accent-low: #562800;
-  --sl-color-black: #181818;
-  --sl-color-gray-1: #eee;
-  --sl-color-gray-2: #c2c2c2;
-  --sl-color-gray-3: #8b8b8b;
-  --sl-color-gray-4: #585858;
-  --sl-color-gray-5: #383838;
-  --sl-color-gray-6: #272727;
-  --sl-color-white: #fff;
-  --yellow-hsl: 43.3, 96.4%, 56.3%;
-  --overlay-yellow: hsla(var(--yellow-hsl), 0.2);
-  --border: hsla(var(--border-neutral), 0.4);
-  --border-neutral: 0, 0%, 25.1%;
+  --sl-radius: 0.5rem;
+  --primary-button-hover: oklch(0.85 0 0);
+  --border: oklch(0.26 0 0);
+  --backdrop-color: oklch(0.18 0 0 / 0.8);
+  --sl-color-accent: oklch(1 0 0);
+  --sl-color-accent-high: oklch(1 0 0);
+  --sl-color-accent-low: oklch(0.32 0 0);
+  --sl-color-black: oklch(0 0 0);
+  --sl-color-gray-1: oklch(1 0 0);
+  --sl-color-gray-2: oklch(0.72 0 0);
+  --sl-color-gray-3: oklch(0.56 0 0);
+  --sl-color-gray-4: oklch(0.44 0 0);
+  --sl-color-gray-5: oklch(0.32 0 0);
+  --sl-color-gray-6: oklch(0.18 0 0);
+  --sl-color-white: oklch(1 0 0);
+  --overlay-accent: oklch(0.32 0 0 / 0.35);
 }
 
 /* Light mode colors. */
 :root[data-theme='light'] {
-  --primary-button-hover: #ff801f;
-  --backdrop-color: #f6f6f699;
-  --sl-color-accent: #f76b15;
-  --sl-color-accent-high: #562800;
-  --sl-color-accent-low: #ffa057;
-  --sl-color-black: #fff;
-  --sl-color-gray-1: #272727;
-  --sl-color-gray-2: #383838;
-  --sl-color-gray-3: #585858;
-  --sl-color-gray-4: #8b8b8b;
-  --sl-color-gray-5: #c2c2c2;
-  --sl-color-gray-6: #eee;
-  --sl-color-gray-7: #f6f6f6;
-  --sl-color-white: #181818;
-  --yellow-hsl: 47.9, 95.8%, 53.1%;
-  --border-yellow: 54.9, 96.7%, 88%;
-  --border: hsla(var(--border-yellow), 0.4);
+  --sl-radius: 1.3rem;
+  --primary-button-hover: oklch(0.5 0.1606 244.9955);
+  --border: oklch(0.9317 0.0118 231.6594);
+  --backdrop-color: oklch(0.9784 0.0011 197.1387 / 0.75);
+  --sl-color-accent: oklch(0.6723 0.1606 244.9955);
+  --sl-color-accent-high: oklch(0.5 0.1606 244.9955);
+  --sl-color-accent-low: oklch(0.9392 0.0166 250.8453);
+  --sl-color-black: oklch(1 0 0);
+  --sl-color-gray-1: oklch(0.1884 0.0128 248.5103);
+  --sl-color-gray-2: oklch(0.1884 0.0128 248.5103);
+  --sl-color-gray-3: oklch(0.4 0.0128 248.5103);
+  --sl-color-gray-4: oklch(0.6 0.0118 231.6594);
+  --sl-color-gray-5: oklch(0.9222 0.0013 286.3737);
+  --sl-color-gray-6: oklch(0.9784 0.0011 197.1387);
+  --sl-color-gray-7: oklch(0.9809 0.0025 228.7836);
+  --sl-color-white: oklch(0.1884 0.0128 248.5103);
+  --overlay-accent: oklch(0.9392 0.0166 250.8453 / 0.55);
 }
 
 .page {
   background:
-    linear-gradient(215deg, var(--overlay-yellow), transparent 40%),
-    radial-gradient(var(--overlay-yellow), transparent 40%) no-repeat center
+    linear-gradient(215deg, var(--overlay-accent), transparent 40%),
+    radial-gradient(var(--overlay-accent), transparent 40%) no-repeat center
       center / cover,
-    radial-gradient(var(--overlay-yellow), transparent 65%) no-repeat center
+    radial-gradient(var(--overlay-accent), transparent 65%) no-repeat center
       center / cover;
   background-blend-mode: overlay;
 }
@@ -77,7 +76,7 @@ header.header {
 header > div:first-of-type {
   backdrop-filter: blur(12px) !important;
   background-color: var(--backdrop-color) !important;
-  border: 1px var(--border) solid;
+  border: 1px solid var(--border);
   border-radius: 36px;
   height: 100% !important;
   margin-inline: auto !important;

@@ -1,0 +1,50 @@
+---
+title: Working with several agents
+description: When to use one conversation, several conversations, or a team in Pavii.Ai.
+sidebar:
+  order: 3
+---
+
+Pavii.Ai runs one agent process per conversation, and conversations are
+independent. Nothing serialises them, so several agents genuinely work at the
+same time.
+
+## Choosing an approach
+
+| Situation | Use | Why |
+| --- | --- | --- |
+| One task, one train of thought | **One conversation** | Shared context is the whole value; splitting it costs you continuity |
+| Unrelated tasks — a bug fix and a doc update | **Separate conversations** | No shared context needed, and each keeps its own history and folder |
+| Comparing how two agents tackle the same prompt | **Separate conversations, same folder** | You read both answers side by side and keep the better one |
+| One goal, several roles — implement, review, test | **A team** | A lead splits the work, assigns it, and synthesises the results |
+| Many similar items — a list of files to migrate | **A team** | Members take items in parallel under one coordinator |
+
+## What runs at once
+
+- Each conversation holds its own agent process. There is no global cap on how
+  many run together — the practical limits are your machine and your provider's
+  rate limits.
+- Within a team, each member has its own queue and runs at most one batch at a
+  time, but members are independent of each other.
+- Work waiting on a busy member is queued rather than dropped, with user
+  messages taking priority over automated coordination traffic.
+
+## Why some work is deliberately sequenced
+
+When one task depends on another, a team lead is instructed to dispatch the
+first, wait for it to report back, and only then dispatch the second.
+
+This is not a scheduler limitation — it is about how model providers work. An
+agent that sits "waiting" inside an open request eventually hits the provider's
+request timeout and is marked failed. Finishing a turn and being woken again
+later is both cheaper and more reliable than holding a connection open.
+
+The practical upshot: independent work fans out, dependent work goes in order,
+and you should describe dependencies to the lead rather than assuming it will
+infer them.
+
+## Keeping cost sane
+
+Every parallel agent is a separate stream of tokens. Before fanning out, it is
+worth checking the context meter in the composer and the usage figures on your
+profile — see [Tokens and usage](/products/dev-tools/docs/guides/tokens-and-usage/).

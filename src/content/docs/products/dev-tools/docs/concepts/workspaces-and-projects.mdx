@@ -1,0 +1,50 @@
+---
+title: Workspaces and projects
+description: How folders, projects, and conversations relate in Pavii.Ai.
+sidebar:
+  order: 2
+---
+
+Agents work on files, so every serious conversation has a folder behind it.
+
+## Attaching a folder
+
+Pick a workspace folder when you start a conversation, or attach one later
+from the composer. Recently used folders are remembered, so returning to a
+project takes a click.
+
+## Projects
+
+Attaching a folder resolves to a **project**. The same folder always maps back
+to the same project, so opening it again in a new conversation reuses the
+existing project rather than creating a duplicate.
+
+A project holds:
+
+- a primary **workspace** folder, and
+- any additional folders you attach to it.
+
+The file explorer inside a conversation shows these, and path containment is
+enforced — agent file operations are checked against the folders you attached,
+not left open to the whole disk.
+
+## What teams share
+
+A [team](/products/dev-tools/docs/features/teams/) is created against **one
+shared workspace folder**. Every member's conversation is provisioned with that
+same path.
+
+This is worth stating plainly, because it shapes how you should use teams:
+
+- There is **no per-member isolation**. Members are not given separate copies,
+  separate branches, or separate checkouts of the folder.
+- Two members editing the same file at the same time will collide, exactly as
+  two people would.
+- The practical consequence: split work by **area** — different files, different
+  layers, different concerns — rather than assuming the tool will keep members
+  out of each other's way.
+
+If you need genuinely isolated work, use separate conversations against
+separate folders (or separate branches you manage yourself) instead of one team.
+
+Next: [Working with several agents →](/products/dev-tools/docs/concepts/parallel-agents/)

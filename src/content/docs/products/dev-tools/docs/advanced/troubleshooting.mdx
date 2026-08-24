@@ -32,6 +32,34 @@ Agent commands come from the connected CLI. They appear once the agent has
 started in a conversation, and they persist between turns afterwards. App
 commands and skills are available immediately regardless.
 
+## A team member is stuck
+
+Team members show their own state, and most of them are not errors:
+
+- **Starting** - the runtime is warming up; sending is briefly blocked.
+- **Failed to start** - retry that member's runtime from its controls; the
+  rest of the team keeps working.
+- **Session stopped** - the member was reclaimed while idle. Sending a message
+  restarts it automatically.
+- **Idle** - normal between turns. Members finish a turn and wait to be woken
+  rather than holding a connection open.
+
+If a member seems to hang mid-task, interrupt it from the member controls (or
+ask the lead to) rather than waiting - a turn held open too long is eventually
+failed by the model provider.
+
+## Agents keep disappearing from memory
+
+There is an **agent idle timeout** in settings that shuts down idle agent
+processes to free memory. If you would rather agents stay resident between
+bursts of work, raise it.
+
+## The window renders oddly or the app is sluggish
+
+Hardware acceleration can be turned off in settings. The app also disables it
+automatically after repeated GPU crashes, so if you find it already off, that
+is why.
+
 ## Where things live
 
 - **Conversations and settings** — the app's local data directory.

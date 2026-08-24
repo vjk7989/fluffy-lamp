@@ -1,27 +1,34 @@
 ---
 import type { Props } from '@astrojs/starlight/props';
 import StarlightHead from '@astrojs/starlight/components/Head.astro';
-import VtbotStarlight from 'astro-vtbot/components/starlight/Base.astro';
 ---
 
-<VtbotStarlight {...Astro.props} viewTransitionsFallback="animate">
-  <StarlightHead {...Astro.props}><slot /></StarlightHead>
-  <script>
-    import '@scripts/lenisSmoothScroll.js';
-  </script>
-</VtbotStarlight>
+{/*
+  View transitions were removed from the docs deliberately.
 
-<style is:global>
-  /* Slow down Chrome's default animation */
-  ::view-transition-group(root) {
-    animation-duration: 250ms;
-  }
+  astro-vtbot wrapped this head with a ClientRouter, which made docs -> docs
+  navigation a PARTIAL swap: only `div.main-frame` (and the sidebar when its
+  link list changed) was replaced, while the header, the page frame and the
+  <html> attributes carried over from the previous page. Starlight's layout is
+  driven entirely by those root attributes, so moving between the splash page
+  (no sidebar, data-has-hero) and a body page (data-has-sidebar, data-has-toc)
+  applied the frame state only partly — the sidebar sat off the left edge and
+  the header floated detached until a refresh rebuilt the page.
 
-  /* Do not slide over the sidebars */
-  ::view-transition-group(*) {
-    overflow: hidden;
-  }
-</style>
+  The same swap also stripped runtime <html> classes: Astro's swapRootAttributes
+  clears every attribute and only `data-theme` was restored, so the `dark` class
+  the ThemeProvider sets, and Lenis's own classes, were destroyed on every
+  navigation.
+
+  A 21-page docs site gains little from SPA navigation, and a full load rebuilds
+  the frame correctly every time. The trade is losing sidebar scroll position
+  between pages.
+*/}
+
+<StarlightHead {...Astro.props}><slot /></StarlightHead>
+<script>
+  import '@scripts/lenisSmoothScroll.js';
+</script>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {

@@ -1,0 +1,62 @@
+---
+title: Assistants, agents, and models
+description: The three layers behind every Pavii.Ai conversation, and how they fit together.
+sidebar:
+  order: 1
+---
+
+Three separate things decide how a conversation behaves. Keeping them apart
+makes everything else in Pavii.Ai easier to reason about.
+
+## Agent — the runtime
+
+The agent is the engine that actually executes a turn: reading files, editing
+code, running commands. Pavii.Ai talks to agents over ACP, a protocol for
+driving CLI coding agents as subprocesses.
+
+- **OpenCode** ships inside the installer and is the default.
+- **Pavii CLI** is the built-in agent that needs no external tool.
+- **Other CLI vendors** — Claude Code, Codex, Qwen, Goose, CodeBuddy and more
+  are available as agent adapters from the Agent Hub, and detected if you
+  already have them installed.
+
+## Assistant — the persona
+
+An assistant is what you pick in the UI. It binds together:
+
+- an agent to run on,
+- rules and instructions that shape its behaviour,
+- a set of enabled [skills](/products/dev-tools/docs/features/skills/),
+- selected MCP servers,
+- and default choices for model, permission mode, and reasoning depth.
+
+Several assistants can share one agent. That is the point: a "reviewer" and an
+"implementer" can both run on OpenCode while behaving very differently.
+
+## Model — the LLM
+
+The model is chosen per conversation from the header selector, using your own
+API key or one of the free provider options.
+
+## Auto versus fixed defaults
+
+Each assistant default — model, permission mode, reasoning depth, skills, MCP
+servers — is either:
+
+- **auto** — follow whatever you last used globally, so the assistant adapts to
+  how you are working right now, or
+- **fixed** — pinned to this assistant, so it always starts the same way.
+
+Built-in assistants pin their skills and leave the rest on auto. Pinning the
+model is useful when an assistant is tuned for a specific one; leaving it auto
+is better for a general-purpose helper.
+
+## How this plays out
+
+Because the three layers are independent, two conversations can run different
+agents on different models at the same time, and a
+[team](/products/dev-tools/docs/features/teams/) can mix agents — one member on
+Claude Code, another on OpenCode, another on Pavii CLI — inside a single shared
+goal.
+
+Next: [Workspaces and projects →](/products/dev-tools/docs/concepts/workspaces-and-projects/)

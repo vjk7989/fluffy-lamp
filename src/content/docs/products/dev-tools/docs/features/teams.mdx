@@ -1,32 +1,112 @@
 ---
 title: Agent teams
-description: Multi-agent orchestration in Pavii.Ai — a leader coordinating teammate agents.
+description: Run several agents on one project in Pavii.Ai — a lead coordinating teammates, each with its own agent and model.
 sidebar:
   order: 4
 ---
 
-For work too large for one conversation, Pavii.Ai can run a team of agents.
+A team lets several agents work toward one goal in one shared project folder.
 
-## How teams work
+The structure is simpler than it looks: **a team is several independent
+conversations plus a coordinator.** Each member has its own conversation, its
+own agent, its own model, and its own history. The lead ties them together.
 
-- **A leader agent** receives your goal, breaks it into tasks, and dispatches
-  them to teammates.
-- **Teammate agents** work their tasks and report back; the leader collects
-  results and coordinates the next steps.
-- You watch the team's message flow in one place instead of juggling parallel
-  conversations yourself.
+## Roles
 
-## When to reach for a team
+- **Lead** — breaks the goal into tasks, assigns them, and synthesises results.
+  By default the lead does not implement things itself; it coordinates. Ask it
+  to do the work directly and it will.
+- **Teammate** — does an assigned task and reports back.
 
-- Work that naturally splits — several files to review, several questions to
-  research, several components to change.
-- Long jobs where a single conversation's context would fill up carrying
-  everything alone.
+Exactly one member is the lead. The first member you pick becomes the lead, and
+you can change which one before creating the team.
 
-## Setting one up
+## Creating a team
 
-Create a team from the conversation surface, choose which assistants join it,
-and give the leader your goal. Permission settings apply to team members the
-same way they apply to a single agent.
+1. Open the **Team** page and create a team.
+2. Give it a name and pick a shared workspace folder.
+3. Choose members from your assistants. Each pick becomes a member with its own
+   conversation.
+4. Mark one member as the leader.
 
-Related: [Permissions →](/products/dev-tools/docs/guides/permissions/)
+Two things people miss here:
+
+- **Members can be different agents.** One member on Claude Code, another on
+  OpenCode, another on Pavii CLI, in the same team. Each member's agent comes
+  from the assistant you picked for it.
+- **The same assistant can be added several times.** Three copies of your
+  "implementer" assistant are three members doing different jobs in parallel —
+  useful when the work is many similar items rather than distinct specialities.
+
+Keep one team focused on one goal. Separate goals belong in separate teams.
+
+## How work gets assigned
+
+The lead has a set of team tools. Five of them are lead-only — teammates never
+see them:
+
+| Lead-only tool | Effect |
+| --- | --- |
+| Spawn agent | Add a new member mid-flight |
+| Interrupt agent | Stop a teammate mid-turn and redirect it |
+| Rename agent | Give a member a clearer name |
+| Clear agent context | Reset a member's history without removing it |
+| Shut down agent | Retire a member |
+
+The rest — listing members, sending messages, reading the mailbox, creating and
+updating tasks, and inspecting available assistants — are shared.
+
+Coordination runs through two shared surfaces rather than direct calls:
+
+- **A mailbox.** Members are woken when messages arrive; between turns they sit
+  idle, which is normal rather than a failure.
+- **A task board.** Tasks carry status and dependency links, so "B is blocked by
+  A" is recorded rather than remembered. **Assigning a task to a member wakes
+  that member with the task details** — no separate message needed.
+
+When the lead wants to add people, it is expected to check who exists, look at
+what assistants are available, then propose a staffing table — name,
+responsibility, suggested assistant — and wait for your approval before
+spawning anyone.
+
+## Watching it happen
+
+Three view modes:
+
+- **Parallel** — every member side by side. The default, and the one that makes
+  concurrency legible.
+- **Single** — one member full screen when you want to read carefully.
+- **Board** — a combined activity view of messages and tasks.
+
+You can talk to **any member directly**, not only the lead. Sending a message
+to a teammate goes into that member's own conversation.
+
+## Controlling members
+
+Per member: interrupt, restart the runtime, retry a member that failed to
+start, reset its context, change its model, rename it, or remove it. Whole runs
+can be paused or cancelled.
+
+A team-wide session mode (including fully automatic permission handling) can be
+set once and is inherited by members added later — see
+[Permissions](/products/dev-tools/docs/guides/permissions/).
+
+## Statuses you will see
+
+| State | Meaning |
+| --- | --- |
+| Starting | The member's runtime is warming up; sending is briefly blocked |
+| Failed to start | The runtime did not come up — retry it from the member's controls |
+| Session stopped | Reclaimed while idle; the next message restarts it automatically |
+| Processing, N queued | Busy, with queued work waiting behind the current batch |
+| Removing | The member is being taken out of the team |
+
+## What a team does not give you
+
+Members share **one folder**. There is no per-member isolation — no separate
+copies, branches, or checkouts. Two members editing the same file will collide.
+
+Split work by area rather than assuming separation: different files, different
+layers, different concerns. For genuinely independent work, separate
+conversations against separate folders are the better tool. See
+[Workspaces and projects](/products/dev-tools/docs/concepts/workspaces-and-projects/).
