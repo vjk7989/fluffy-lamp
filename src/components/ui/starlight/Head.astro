@@ -32,11 +32,20 @@ import StarlightHead from '@astrojs/starlight/components/Head.astro';
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const siteSearch = document.querySelector(
-      'site-search'
-    ) as HTMLElement | null;
-    if (siteSearch) {
-      siteSearch.setAttribute('data-lenis-prevent', '');
+    // Lenis hijacks wheel events for the whole document, so any element with
+    // its own scrollbar has to opt out explicitly or it simply will not
+    // scroll. The sidebar overflows on any page with more than a screenful of
+    // nav, and the mobile table-of-contents has the same problem.
+    const scrollables = [
+      'site-search',
+      '.sidebar-pane',
+      'mobile-starlight-toc nav',
+      '.right-sidebar',
+    ];
+    for (const selector of scrollables) {
+      document.querySelectorAll(selector).forEach(el => {
+        el.setAttribute('data-lenis-prevent', '');
+      });
     }
   });
 </script>

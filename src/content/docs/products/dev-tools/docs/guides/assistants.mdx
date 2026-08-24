@@ -1,0 +1,56 @@
+---
+title: Creating assistants
+description: Build assistants tuned to a job — rules, skills, tools, and pinned defaults.
+sidebar:
+  order: 7
+---
+
+An assistant is a persona you can shape. Two assistants on the same agent can
+behave completely differently.
+
+## What you can set
+
+- **Agent** — which CLI runs the work (OpenCode, Pavii CLI, or another
+  installed vendor).
+- **Rules** — standing instructions that apply to every conversation with this
+  assistant. Where you put "always write tests first" or "match the existing
+  code style".
+- **Skills** — which [skills](/products/dev-tools/docs/features/skills/) are
+  enabled, plus any custom ones you have imported. Built-in skills can be
+  switched off individually.
+- **MCP servers** — which [tool servers](/products/dev-tools/docs/guides/mcp-and-tools/)
+  this assistant can reach.
+- **Defaults** — model, permission mode, and reasoning depth.
+
+## Auto versus fixed
+
+Every default is one of two things:
+
+- **auto** — follow whatever you last used, so the assistant adapts to how you
+  are working.
+- **fixed** — pinned to this assistant, so it always starts the same way.
+
+Pin the model when an assistant is tuned for a specific one. Leave it on auto
+for a general helper you use with whatever is convenient. Built-in assistants
+pin their skills and leave the rest on auto.
+
+## A useful pattern
+
+Rather than one assistant that does everything, make a few narrow ones:
+
+| Assistant | Shaped by |
+| --- | --- |
+| Implementer | Build-mode permissions, coding skills, your project rules |
+| Reviewer | Read-only permissions, review skills, "explain risks, do not edit" |
+| Researcher | Web and MCP tools, no code editing, writing skills |
+
+They can share one agent. The difference is entirely in rules, skills and
+permissions — and the three of them become a natural
+[team](/products/dev-tools/docs/features/teams/), since a team member is just
+an assistant with a role.
+
+## Duplicating
+
+Copy an existing assistant and adjust it rather than starting blank —
+particularly for built-ins, where the rules are already written and you only
+want to change a skill or a default.

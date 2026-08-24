@@ -1,0 +1,54 @@
+---
+title: How Pavii.Ai works
+description: The pieces behind the app — the desktop shell, the local engine, and the CLI agents.
+sidebar:
+  order: 4
+---
+
+Useful to know when something misbehaves, and short enough to read once.
+
+## Three pieces
+
+**The desktop app** is what you see. It draws the interface and holds nothing
+of consequence itself.
+
+**The Pavii Engine** is a local process the app starts on launch. It owns
+conversations, agents, skills, scheduling and your data. It listens on a
+loopback port that the app talks to — nothing is exposed to your network
+unless you deliberately turn on remote access.
+
+**The agents** are separate CLI processes the engine launches, one per
+conversation. They speak ACP, a protocol for driving coding agents. This is why
+the app can support several vendors without special-casing each one: anything
+that speaks ACP can be an agent.
+
+## What that structure buys you
+
+- **Conversations are independent.** Each has its own agent process, so one
+  can be working while another sits idle, and a crash in one does not take the
+  others with it.
+- **Agents are swappable.** OpenCode ships in the installer; Claude Code,
+  Codex, Qwen and others plug in as adapters.
+- **Your machine is the boundary.** Conversations, keys and history stay in a
+  local data directory. Model traffic goes from your machine straight to the
+  provider you configured.
+
+## Ways to run it
+
+- **Desktop** — the normal case.
+- **WebUI** — the same workspace served over HTTP for a phone or another
+  computer.
+- **`pavii-web`** — a headless build for running the workspace on a server.
+
+All three drive the same engine and the same data.
+
+## Startup, in order
+
+1. The app starts and launches the engine.
+2. The engine opens your local database and applies any migrations.
+3. The engine reports ready; the window appears.
+4. Agents start lazily — when you open or send to a conversation, not before.
+
+If step 2 or 3 fails you get a "Startup didn't complete" message rather than a
+half-working window. [Troubleshooting](/products/dev-tools/docs/advanced/troubleshooting/)
+covers what to do.

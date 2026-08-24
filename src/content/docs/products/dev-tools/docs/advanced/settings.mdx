@@ -1,0 +1,58 @@
+---
+title: Settings worth knowing
+description: The Pavii.Ai settings that change behaviour most, and when to touch them.
+sidebar:
+  order: 2
+---
+
+Most settings can be left alone. These are the ones that actually change how
+the app behaves.
+
+## Agents
+
+**Agent idle timeout** — shuts down agent processes that have been sitting
+unused, to free memory. Raise it if you work in bursts and dislike the pause
+when an agent restarts; lower it on a memory-constrained machine.
+
+**Permission and automatic modes** — the default level of autonomy for new
+conversations. Individual conversations can still override it; see
+[Permissions](/products/dev-tools/docs/guides/permissions/).
+
+## Window and system
+
+**Start on login** — launch Pavii.Ai when you sign in.
+
+**Close to tray** — closing the window keeps the app running in the
+background. Worth turning on if you use
+[channels](/products/dev-tools/docs/features/channels/) or
+[scheduled tasks](/products/dev-tools/docs/features/automation/), since both
+need the app running to do anything.
+
+**Hardware acceleration** — on by default. The app disables it automatically
+after repeated GPU crashes, so if you find it already off, that is why.
+
+**Notifications** — desktop notifications for finished work, including a
+separate switch for scheduled task completions.
+
+## Conversations and files
+
+**Preview size limit** — files above this size show a notice instead of
+loading into the preview pane. Raise it if you routinely open large files.
+
+**Save uploads to the project folder** — keeps attachments alongside the
+project rather than in app storage.
+
+**LLM prompt timeout** — how long to wait on a model before giving up. Raise
+it if you use slow local models.
+
+## Appearance
+
+**Custom CSS** — inject your own styles into the app.
+
+**Theme** — light and dark, matching the toggle in the interface.
+
+## Where your data lives
+
+The app keeps conversations, settings and its database in a local data
+directory. [Privacy and data](/products/dev-tools/docs/advanced/privacy-and-data/)
+explains what is stored and what leaves your machine.
