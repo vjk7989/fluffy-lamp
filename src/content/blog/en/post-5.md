@@ -6,8 +6,8 @@ role: 'AI Safety and Platform Team'
 authorImage: '@/images/blog/jacob.avif'
 authorImageAlt: 'PAVii.AI security writer avatar'
 pubDate: 2026-06-04
-cardImage: '@/images/service-ai-mcp-business.png'
-cardImageAlt: 'Team reviewing secure AI integrations and business workflow access'
+cardImage: '@/images/blog/agentic-security.png'
+cardImageAlt: 'AI agent security dashboard with permission checks, approval gates, and audit trails'
 readTime: 8
 tags: ['agentic security', 'ai security', 'mcp security', 'ai agents']
 contents:

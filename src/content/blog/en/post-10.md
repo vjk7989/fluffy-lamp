@@ -6,8 +6,8 @@ role: 'AI Infrastructure Team'
 authorImage: '@/images/blog/jacob.avif'
 authorImageAlt: 'PAVii.AI security writer avatar'
 pubDate: 2026-08-21
-cardImage: '@/images/service-ai-custom-solution.png'
-cardImageAlt: 'Security architecture planning for custom AI agent deployments'
+cardImage: '@/images/blog/prompt-injection-defense.png'
+cardImageAlt: 'Prompt injection defense workflow showing unsafe document filtering and blocked tool access'
 readTime: 7
 tags: ['prompt injection', 'ai security', 'ai agents', 'agent permissions']
 contents:

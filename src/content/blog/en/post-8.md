@@ -6,8 +6,8 @@ role: 'AI Infrastructure Team'
 authorImage: '@/images/blog/anna.avif'
 authorImageAlt: 'PAVii.AI research writer avatar'
 pubDate: 2026-08-05
-cardImage: '@/images/service-ai-workflow.png'
-cardImageAlt: 'AI agent connected to business tools through structured workflow integrations'
+cardImage: '@/images/blog/mcp-explained.png'
+cardImageAlt: 'MCP connector map linking an AI agent hub to tools, files, databases, and cloud systems'
 readTime: 7
 tags: ['mcp', 'ai agents', 'integrations', 'developer tools']
 contents:

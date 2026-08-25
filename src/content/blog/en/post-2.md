@@ -6,8 +6,8 @@ role: 'Developer Tools Team'
 authorImage: '@/images/blog/brad.avif'
 authorImageAlt: 'PAVii.AI engineering writer avatar'
 pubDate: 2026-06-02
-cardImage: '@/images/service-ai-code-assistant.png'
-cardImageAlt: 'Developer using a code editor with AI checks and evaluation workflow'
+cardImage: '@/images/blog/ai-harness-testing.png'
+cardImageAlt: 'AI testing harness dashboard with evaluations, prompt versions, and quality gates'
 readTime: 7
 tags: ['ai harness', 'ai testing', 'evaluation', 'developer tools']
 contents:
