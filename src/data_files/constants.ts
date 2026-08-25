@@ -41,11 +41,11 @@ export const SEO = {
         },
         sameAs: [
           'https://www.instagram.com/pavii.ai/',
-          'https://www.linkedin.com/company/112466974/admin/dashboard/',
+          'https://www.linkedin.com/company/thepavii/',
           'https://github.com/buckleson',
           'https://medium.com/@pavii.ai',
           'https://substack.com/@paviiai',
-          'https://x.com',
+          'https://x.com/Bucklesongroup',
         ],
         knowsAbout: [
           'AI infrastructure',

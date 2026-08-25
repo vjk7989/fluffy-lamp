@@ -30,11 +30,11 @@ const footerLinks = [
 // An object of links for social icons
 const socialLinks = {
   instagram: 'https://www.instagram.com/pavii.ai/',
-  linkedIn: 'https://www.linkedin.com/company/112466974/admin/dashboard/',
+  linkedIn: 'https://www.linkedin.com/company/thepavii/',
   github: 'https://github.com/buckleson',
   medium: 'https://medium.com/@pavii.ai',
   substack: 'https://substack.com/@paviiai',
-  x: 'https://x.com',
+  x: 'https://x.com/Bucklesongroup',
 };
 
 export default {
