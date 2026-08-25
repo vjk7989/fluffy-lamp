@@ -6,8 +6,8 @@ role: 'AI Safety and Platform Team'
 authorImage: '@/images/blog/jacob.avif'
 authorImageAlt: 'PAVii.AI security writer avatar'
 pubDate: 2026-06-04
-cardImage: '@/images/service-ai-mcp-business.png'
-cardImageAlt: 'Team reviewing secure AI integrations and business workflow access'
+cardImage: '@/images/service-ai-custom-solution.png'
+cardImageAlt: 'Security architecture planning for custom AI agent deployments'
 readTime: 8
 tags: ['agentic security', 'ai security', 'mcp security', 'ai agents']
 contents:

@@ -6,8 +6,8 @@ role: 'Agentic Experience Team'
 authorImage: '@/images/blog/jacob.avif'
 authorImageAlt: 'PAVii.AI product writer avatar'
 pubDate: 2026-06-03
-cardImage: '@/images/service-ai-mcp-business.png'
-cardImageAlt: 'Team planning AI-ready business integrations and protocol connections'
+cardImage: '@/images/service-ai-physical-ai.png'
+cardImageAlt: 'AI interface layer connecting software agents to real-world business workflows'
 readTime: 7
 tags: ['agentic experience', 'mcp', 'ai agents', 'business automation']
 contents:
