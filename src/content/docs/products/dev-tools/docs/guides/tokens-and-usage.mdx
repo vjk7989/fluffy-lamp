@@ -10,9 +10,18 @@ keep it down.
 
 ## Usage tracking
 
-Your **profile page** shows usage statistics and an activity heatmap, powered
-by a local per-day usage ledger — the numbers live on your machine, not on a
-server.
+Your **profile page** shows usage statistics and an activity heatmap, drawn
+from a per-day ledger the engine records on your own machine — nothing is sent
+to a server.
+
+Every turn counts, whatever drove it: a chat you are watching, a conversation
+in another window, a scheduled task, a message from a connected channel, or
+remote access through the WebUI.
+
+The figures cover everything the model provider processed for a turn,
+including the cached context an agent re-sends each time. That is why the
+totals look large next to a chat assistant's — an agent re-reads its context on
+every turn, and providers bill for it.
 
 ## Context visibility
 
@@ -23,8 +32,12 @@ carrying stale history.
 
 ## Trimming cost
 
-- **Token Optimizer** — a bundled skill focused on reducing prompt cost;
-  enable it on an assistant and invoke it from the `/` menu.
+- **Token Optimizer** — a bundled skill that makes the assistant answer in a
+  compressed, terse style, cutting the tokens it spends on *replies* by around
+  65% while keeping the technical detail. It does not shrink your prompts or
+  the conversation context. Enable it on an assistant and invoke it from the
+  `/` menu; it also responds to "be brief" or "terse mode". Six intensity
+  levels, from `lite` through `ultra`.
 - **Skills discipline** — skills load only when you pick them, and a skill
   already loaded in the conversation is never re-sent, so its cost is paid
   once, not per message.
