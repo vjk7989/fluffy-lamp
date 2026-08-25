@@ -19,7 +19,7 @@ import construction from '@images/construction-image.avif';
 import tools from '@images/automated-tools.avif';
 import dashboard from '@images/dashboard-image.avif';
 import testimonialAvatar from '@images/testis.webp';
-import { partnersData } from '@/data_files/constants';
+import { partnersData, SEO, SITE, SOCIAL_PREVIEW_IMAGE_URL } from '@/data_files/constants';
 
 const avatarSrcs: Array<string> = [
   'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80',
@@ -27,9 +27,58 @@ const avatarSrcs: Array<string> = [
   'https://images.unsplash.com/photo-1541101767792-f9b2b1c4f127?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&&auto=format&fit=facearea&facepad=3&w=300&h=300&q=80',
   'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80',
 ];
+
+// Extend the site-wide structured data with SoftwareApplication (PAVii is a
+// downloadable desktop product) and FAQPage schema for the homepage FAQ
+// section. Invisible to users; helps search engines and AI assistants.
+const homeStructuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    ...SEO.structuredData['@graph'],
+    {
+      '@type': 'SoftwareApplication',
+      name: 'PAVii',
+      applicationCategory: 'DeveloperApplication',
+      operatingSystem: 'Windows 10+, macOS 14 (Apple Silicon), Linux x64',
+      description:
+        'PAVii is a local-first, model-agnostic desktop assistant for AI agents that works for you and works with you.',
+      url: `${SITE.url}/products/Super-Assistant/`,
+      image: SOCIAL_PREVIEW_IMAGE_URL,
+      softwareVersion: '2.0.5',
+      author: {
+        '@type': 'Organization',
+        name: SITE.title,
+        url: SITE.url,
+      },
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'USD',
+      },
+      downloadUrl: [
+        'https://github.com/vjk7989/pavii-release/releases/latest/download/PAVii-Windows-x64-setup.exe',
+        'https://github.com/vjk7989/pavii-release/releases/latest/download/PAVii-macOS-arm64.dmg',
+        'https://github.com/vjk7989/pavii-release/releases/latest/download/PAVii-Linux-x64.AppImage',
+        'https://github.com/vjk7989/pavii-release/releases/latest/download/PAVii-Linux-x64.deb',
+        'https://github.com/vjk7989/pavii-release/releases/latest/download/PAVii-Linux-x64.rpm',
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: faqs.faqs.map(faq => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.answer,
+        },
+      })),
+    },
+  ],
+};
 ---
 
-<MainLayout>
+<MainLayout structuredData={homeStructuredData}>
   <!-- <AnnouncementBanner
     btnId="dismiss-button"
     btnTitle="Explore ScrewFast on GitHub"
