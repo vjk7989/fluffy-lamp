@@ -6,8 +6,8 @@ role: 'AI Infrastructure Team'
 authorImage: '@/images/blog/jacob.avif'
 authorImageAlt: 'PAVii.AI security writer avatar'
 pubDate: 2026-08-21
-cardImage: '@/images/pavii-super-assistant-workspace.png'
-cardImageAlt: 'AI assistant workspace with governed tools, prompts, and security checks'
+cardImage: '@/images/service-ai-custom-solution.png'
+cardImageAlt: 'Security architecture planning for custom AI agent deployments'
 readTime: 7
 tags: ['prompt injection', 'ai security', 'ai agents', 'agent permissions']
 contents:
