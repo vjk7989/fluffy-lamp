@@ -17,7 +17,7 @@ tabs:
     title: 'Specifications'
   - id: 'tabs-with-card-item-3'
     dataTab: '#tabs-with-card-3'
-    title: 'Blueprints'
+    title: 'Screenshots'
   - id: 'tabs-with-card-item-4'
     dataTab: '#tabs-with-card-4'
     title: 'Download Alternatives'
