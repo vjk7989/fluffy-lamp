@@ -53,6 +53,6 @@ specificationsRight:
   - title: 'Best For'
     subTitle: 'AI-assisted product teams, solo developers, and engineering groups that want faster coding, better checks, and tighter feedback loops.'
 blueprints:
-  first: '@/images/blueprint-1.avif'
-  second: '@/images/blueprint-2.avif'
+  first: '@/images/dev-tools/Screenshot 2026-08-26 153357.png'
+  second: '@/images/dev-tools/Screenshot 2026-08-26 153406.png'
 ---
