@@ -47,6 +47,13 @@ const superAssistantLatestDownload = `${superAssistantReleaseRepo}/releases/late
 const paviiReleaseVersion = isDevTools
   ? devToolsReleaseVersion
   : superAssistantReleaseVersion;
+// The live-version script asks GitHub for the actual latest release so the
+// page never goes stale between site deploys; the static version above is
+// the no-JS/rate-limited fallback. Download links already use
+// releases/latest/download/... stable names, so only the label needs this.
+const paviiReleaseApi = isDevTools
+  ? 'https://api.github.com/repos/buckleson/Pavii-Gui-Releases/releases/latest'
+  : 'https://api.github.com/repos/vjk7989/pavii-release/releases/latest';
 const paviiCardTitle = isDevTools
   ? `Download Pavii.Ai ${paviiReleaseVersion}`
   : `Download and try PAVii ${paviiReleaseVersion}`;
@@ -401,7 +408,12 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
         {
           hasPaviiDownloads && (
             <div class="mt-8 w-full max-w-3xl rounded-2xl border border-neutral-200 bg-white/80 p-4 shadow-sm backdrop-blur sm:p-6 dark:border-neutral-700 dark:bg-neutral-900/70">
-              <p class="text-sm font-semibold tracking-wide text-neutral-800 uppercase dark:text-neutral-200">
+              <p
+                class="text-sm font-semibold tracking-wide text-neutral-800 uppercase dark:text-neutral-200"
+                data-pavii-card-title
+                data-static-version={paviiReleaseVersion}
+                data-release-api={paviiReleaseApi}
+              >
                 {paviiCardTitle}
               </p>
               <p class="mt-2 text-base text-neutral-600 dark:text-neutral-400">
@@ -787,6 +799,52 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
     )
   }
 </MainLayout>
+
+<script>
+  // Live release version: the displayed number follows the newest GitHub
+  // release automatically, so publishing a release updates the site with no
+  // deploy. The build-time version stays as the no-JS / rate-limit fallback,
+  // and a short sessionStorage cache keeps us far under GitHub's
+  // unauthenticated API limits.
+  const versionEl = document.querySelector<HTMLElement>('[data-pavii-card-title]');
+  const releaseApi = versionEl?.dataset.releaseApi;
+  const staticVersion = versionEl?.dataset.staticVersion;
+  if (versionEl && releaseApi && staticVersion) {
+    const cacheKey = `pavii-latest-version:${releaseApi}`;
+    const applyVersion = (version: string) => {
+      if (!version || version === staticVersion) return;
+      versionEl.textContent = (versionEl.textContent ?? '').replace(staticVersion, version);
+      document.querySelectorAll<HTMLElement>('[data-pavii-download][data-version]').forEach(el => {
+        el.dataset.version = version;
+      });
+    };
+    let cached: string | null = null;
+    try {
+      cached = sessionStorage.getItem(cacheKey);
+    } catch {
+      cached = null;
+    }
+    if (cached) {
+      applyVersion(cached);
+    } else {
+      fetch(releaseApi, { headers: { Accept: 'application/vnd.github+json' } })
+        .then(res => (res.ok ? res.json() : null))
+        .then((release: { tag_name?: string } | null) => {
+          const version = release?.tag_name?.replace(/^v/, '') ?? '';
+          if (!version) return;
+          try {
+            sessionStorage.setItem(cacheKey, version);
+          } catch {
+            /* private mode: fine, we just fetch again next page view */
+          }
+          applyVersion(version);
+        })
+        .catch(() => {
+          /* offline or rate-limited: the static fallback stays */
+        });
+    }
+  }
+</script>
 
 <script>
   import { gsap } from 'gsap';
