@@ -588,7 +588,19 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
           )
         }
       </div>
-      <div class="w-full max-w-[600px] shrink-0">
+      {/*
+        `overflow-x-clip` contains the #fadeInMoveRight entrance animation,
+        which gsap.set()s the image to x: 300 before sliding it to 0. Untamed,
+        that 300px offset extends the scrollable area and the page scrolls
+        sideways on a phone for the ~2.5s the timeline runs -- permanently if
+        the timeline never runs, because the image keeps the offset while
+        sitting at visibility: hidden.
+
+        `clip` rather than `hidden`: it does not create a scroll container, so
+        no sticky or fixed descendant changes behaviour. The image now slides in
+        from its own right edge instead of from off-screen.
+      */}
+      <div class="w-full max-w-[600px] shrink-0 overflow-x-clip">
         <Image
           id="fadeInMoveRight"
           src={product.data.main.imgMain}
