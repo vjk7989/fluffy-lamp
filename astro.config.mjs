@@ -5,6 +5,11 @@ import starlight from '@astrojs/starlight';
 
 import mdx from '@astrojs/mdx';
 
+import {
+  CONTENT_SECURITY_POLICY,
+  REFERRER_POLICY,
+} from './src/config/csp.mjs';
+
 // https://astro.build/config
 export default defineConfig({
   // https://docs.astro.build/en/guides/images/#authorizing-remote-images
@@ -95,6 +100,20 @@ export default defineConfig({
         ThemeSelect: './src/components/ui/starlight/ThemeSelect.astro',
       },
       head: [
+        // Docs pages use Starlight's own layout, not MainLayout, so they need
+        // the policy injected here too -- otherwise half the site ships with no
+        // CSP at all. See src/config/csp.mjs.
+        {
+          tag: 'meta',
+          attrs: {
+            'http-equiv': 'Content-Security-Policy',
+            content: CONTENT_SECURITY_POLICY,
+          },
+        },
+        {
+          tag: 'meta',
+          attrs: { name: 'referrer', content: REFERRER_POLICY },
+        },
         {
           tag: 'meta',
           attrs: {

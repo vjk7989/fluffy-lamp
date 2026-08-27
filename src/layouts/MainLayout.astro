@@ -4,6 +4,10 @@ import Meta from '@components/Meta.astro';
 import Navbar from '@components/sections/navbar&footer/Navbar.astro';
 import FooterSection from '@components/sections/navbar&footer/FooterSection.astro';
 import { SITE } from '@data/constants';
+import {
+  CONTENT_SECURITY_POLICY,
+  REFERRER_POLICY,
+} from '../config/csp.mjs';
 import '@styles/global.css';
 
 // Setting expected props
@@ -29,6 +33,21 @@ interface Props {
 
 <html lang={lang} class="scrollbar-hide lenis lenis-smooth scroll-pt-16">
   <head>
+    {/*
+      Security headers as meta: GitHub Pages cannot send custom HTTP headers, so
+      vercel.json never applies. The policy, and what simply cannot be delivered
+      this way, are documented in src/config/csp.mjs -- shared with the Starlight
+      docs pages via astro.config.mjs, which do not use this layout.
+
+      This must stay the FIRST thing in <head>: a meta CSP only governs resources
+      fetched after it is parsed, and the gtag script below would otherwise load
+      unpoliced.
+    */}
+    <meta
+      http-equiv="Content-Security-Policy"
+      content={CONTENT_SECURITY_POLICY}
+    />
+    <meta name="referrer" content={REFERRER_POLICY} />
     {/* Adding metadata to the HTML document */}
     <Meta
       meta={meta}
