@@ -253,10 +253,17 @@ const paviiDownloadGroups = [
     ],
   },
 ];
+// Downloads the build matching the Mac it runs on, replaces any installed copy,
+// clears the quarantine flag and ad-hoc signs the app so an un-notarized build
+// stops being reported as damaged. Idempotent, so it is also the update path.
+// The URL is the version-agnostic `releases/latest/download` base, same as every
+// other link on this page. Contains no `${`, so nothing here is interpolated by
+// the template literal.
+const devToolsMacosInstallCommand = `ARCH=$([ "$(uname -m)" = "arm64" ] && echo arm64 || echo x64) && curl -fL -o ~/Downloads/Pavii.dmg "${devToolsLatestDownload}/Pavii.Ai-macOS-$ARCH.dmg" && osascript -e 'quit app "Pavii.Ai"' 2>/dev/null; VOL=$(hdiutil attach -nobrowse ~/Downloads/Pavii.dmg | grep -o '/Volumes/.*') && rm -rf /Applications/Pavii.Ai.app && cp -R "$VOL"/*.app /Applications/ && hdiutil detach "$VOL" && xattr -dr com.apple.quarantine /Applications/Pavii.Ai.app && codesign --force --deep --sign - /Applications/Pavii.Ai.app && open /Applications/Pavii.Ai.app`;
+
 const downloadAlternativesProps = isDevTools
   ? {
-      macosAppName: 'Pavii.Ai.app',
-      macosDmgName: 'Pavii.Ai-macOS-arm64.dmg',
+      macosInstallCommand: devToolsMacosInstallCommand,
       windowsInstallerName: 'Pavii.Ai-Windows-x64-Setup.exe',
       windowsInstallerUrl: `${devToolsLatestDownload}/Pavii.Ai-Windows-x64-Setup.exe`,
       windowsRepositoryLabel: 'PAVii mirror release repository',

@@ -1,20 +1,27 @@
 ---
 type Props = {
-  macosAppName?: string;
-  macosDmgName?: string;
+  macosInstallCommand?: string;
   windowsInstallerName?: string;
   windowsInstallerUrl?: string;
   windowsRepositoryLabel?: string;
 };
 
+// One command that downloads the right architecture, replaces any existing
+// copy, clears the quarantine flag and ad-hoc signs the app. The signing step
+// is what stops macOS calling an un-notarized build "damaged"; it is harmless
+// to repeat, so the same command doubles as the update path.
+//
+// Note for editors: this is a JS template literal, but the shell syntax below
+// is safe to paste verbatim because it contains no `${` sequence -- `$ARCH`,
+// `$(uname -m)` and `"$VOL"` are all left untouched by the interpolator.
+const defaultMacosInstallCommand = `ARCH=$([ "$(uname -m)" = "arm64" ] && echo arm64 || echo x64) && curl -fL -o ~/Downloads/PAVii.dmg "https://github.com/vjk7989/pavii-release/releases/latest/download/PAVii-macOS-$ARCH.dmg" && osascript -e 'quit app "PAVii"' 2>/dev/null; VOL=$(hdiutil attach -nobrowse ~/Downloads/PAVii.dmg | grep -o '/Volumes/.*') && rm -rf /Applications/PAVii.app && cp -R "$VOL"/*.app /Applications/ && hdiutil detach "$VOL" && xattr -dr com.apple.quarantine /Applications/PAVii.app && codesign --force --deep --sign - /Applications/PAVii.app && open /Applications/PAVii.app`;
+
 const {
-  macosAppName = 'PAVii.app',
-  macosDmgName = 'PAVii-macOS-arm64.dmg',
+  macosInstallCommand = defaultMacosInstallCommand,
   windowsInstallerName = 'PAVii-Windows-x64-setup.exe',
   windowsInstallerUrl = 'https://github.com/vjk7989/pavii-release/releases/latest/download/PAVii-Windows-x64-setup.exe',
   windowsRepositoryLabel = 'PAVii release repository',
 } = Astro.props;
-const macosQuarantineCommand = `xattr -dr com.apple.quarantine "/Applications/${macosAppName}"`;
 
 const windowsInstallCommands = [
   {
@@ -114,7 +121,7 @@ Start-Process $installer`,
       </div>
     </section>
 
-    <section aria-labelledby="macos-alternatives-title">
+    <section class="min-w-0" aria-labelledby="macos-alternatives-title">
       <div class="flex items-center gap-3">
         <svg
           class="size-6 shrink-0 text-blue-600 dark:text-blue-400"
@@ -130,41 +137,41 @@ Start-Process $installer`,
           id="macos-alternatives-title"
           class="text-2xl font-bold text-neutral-900 dark:text-white"
         >
-          Installing on an Apple Silicon Mac
+          Installing on a Mac
         </h2>
       </div>
       <p class="mt-3 max-w-prose text-neutral-600 dark:text-neutral-300">
-        This build is integrity-checked but not Apple-notarized yet. macOS may
-        incorrectly say PAVii is damaged, so one-time approval may be required.
+        This build is integrity-checked but not Apple-notarized yet, so macOS may
+        wrongly report it as damaged. One command handles everything: it picks the
+        build matching your Mac, installs it, and clears that warning.
       </p>
-      <ol
-        class="mt-5 list-decimal space-y-2 pl-5 text-neutral-700 dark:text-neutral-300"
-      >
-        <li>Open the DMG and drag PAVii into Applications.</li>
-        <li>Control-click PAVii in Applications and choose Open.</li>
-        <li>
-          If macOS still reports damage, open Terminal and run the command below
-          once.
-        </li>
-      </ol>
-      <p class="mt-5 font-medium text-neutral-900 dark:text-white">
-        The command must target the copy in Applications—not the app inside the
-        mounted DMG.
+      <h3 class="mt-5 font-semibold text-neutral-900 dark:text-white">
+        Install or update in one command
+      </h3>
+      <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
+        Paste into Terminal and press Return. Works on both Apple Silicon and
+        Intel Macs.
       </p>
-      <code
-        class="mt-3 block min-w-0 overflow-x-auto rounded-xl bg-neutral-950 px-4 py-4 text-xs whitespace-nowrap text-white"
-        >{macosQuarantineCommand}</code
-      >
+      {/*
+        This command is one ~590-character line. Left as `white-space: pre` it
+        cannot shrink, so its min-content width drove the grid column to 3944px
+        and blew the layout out on mobile. Wrapping keeps it inside the column;
+        the copy button reads `data-copy-text`, not the rendered text, so the
+        copied command is unaffected by where it visually breaks.
+      */}
+      <pre class="mt-3 min-w-0 overflow-x-auto rounded-xl bg-neutral-950 px-4 py-4 text-xs leading-5 break-all whitespace-pre-wrap text-white">
+        <code>{macosInstallCommand}</code>
+      </pre>
       <div class="mt-3 flex flex-wrap items-center gap-3">
         <button
           type="button"
           class="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white transition duration-200 hover:bg-blue-700 focus-visible:ring-3 focus-visible:ring-blue-300 focus-visible:outline-hidden active:bg-blue-800 dark:focus-visible:ring-blue-800"
           style="background-color:#2563eb; color:#ffffff;"
           data-copy-command
-          data-copy-text={macosQuarantineCommand}
-          data-copy-success="Command copied. Paste it into Terminal after moving PAVii to Applications."
-          aria-label="Copy macOS command"
-          aria-describedby="macos-copy-status"
+          data-copy-text={macosInstallCommand}
+          data-copy-success="Command copied. Paste it into Terminal and press Return."
+          aria-label="Copy macOS install command"
+          aria-describedby="macos-install-copy-status"
         >
           <svg
             class="size-4"
@@ -183,42 +190,16 @@ Start-Process $installer`,
           <span data-copy-label>Copy command</span>
         </button>
         <p
-          id="macos-copy-status"
+          id="macos-install-copy-status"
           class="min-h-5 text-sm text-blue-800 dark:text-blue-200"
           aria-live="polite"
         >
         </p>
       </div>
-
-      <div
-        class="mt-8 border-t border-neutral-200 pt-6 dark:border-neutral-700"
-      >
-        <h3 class="font-semibold text-neutral-900 dark:text-white">
-          Still blocked? Run these support checks
-        </h3>
-        <div
-          class="mt-3 space-y-3 text-sm text-neutral-600 dark:text-neutral-300"
-        >
-          <code
-            class="block overflow-x-auto rounded-lg bg-neutral-950 px-3 py-2 text-xs whitespace-nowrap text-white"
-            >uname -m</code
-          >
-          <p>
-            The result must be <code>arm64</code>. Intel Macs are not supported
-            by this build.
-          </p>
-          <code
-            class="block overflow-x-auto rounded-lg bg-neutral-950 px-3 py-2 text-xs whitespace-nowrap text-white"
-            >hdiutil verify ~/Downloads/{macosDmgName}</code
-          >
-          <code
-            class="block overflow-x-auto rounded-lg bg-neutral-950 px-3 py-2 text-xs whitespace-nowrap text-white"
-            >codesign --verify --deep --strict "/Applications/{
-              macosAppName
-            }"</code
-          >
-        </div>
-      </div>
+      <p class="mt-5 text-sm text-neutral-600 dark:text-neutral-400">
+        No <code>sudo</code> required. Safe to run again whenever you want the
+        latest version &mdash; it replaces the installed copy in place.
+      </p>
     </section>
   </div>
 </div>
