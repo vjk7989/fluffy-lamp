@@ -44,7 +44,7 @@ Start-Process $installer`,
 
 <div class="mx-auto max-w-6xl px-4 pb-14 sm:px-6 lg:px-8">
   <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
-    <section aria-labelledby="windows-alternatives-title">
+    <section class="min-w-0" aria-labelledby="windows-alternatives-title">
       <div class="flex items-center gap-3">
         <svg
           class="size-6 shrink-0 text-blue-600 dark:text-blue-400"
@@ -80,7 +80,15 @@ Start-Process $installer`,
               <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
                 {item.description}
               </p>
-              <pre class="mt-3 min-w-0 overflow-x-auto rounded-xl bg-neutral-950 px-4 py-4 text-xs leading-5 text-white">
+              {/*
+                `whitespace-pre-wrap` keeps the line breaks these multi-line
+                PowerShell commands depend on while letting long lines wrap, and
+                `overflow-wrap:anywhere` (not `break-word`, which does not
+                affect intrinsic sizing) lets the ~100-character download URL
+                break. Without it the block's min-content width was 1213px and
+                sized the whole grid column, overflowing the page on mobile.
+              */}
+              <pre class="mt-3 min-w-0 overflow-x-auto rounded-xl bg-neutral-950 px-4 py-4 text-xs leading-5 whitespace-pre-wrap [overflow-wrap:anywhere] text-white">
                 <code>{item.command}</code>
               </pre>
               <div class="mt-3 flex flex-wrap items-center gap-3">
@@ -159,7 +167,7 @@ Start-Process $installer`,
         the copy button reads `data-copy-text`, not the rendered text, so the
         copied command is unaffected by where it visually breaks.
       */}
-      <pre class="mt-3 min-w-0 overflow-x-auto rounded-xl bg-neutral-950 px-4 py-4 text-xs leading-5 break-all whitespace-pre-wrap text-white">
+      <pre class="mt-3 min-w-0 overflow-x-auto rounded-xl bg-neutral-950 px-4 py-4 text-xs leading-5 whitespace-pre-wrap [overflow-wrap:anywhere] text-white">
         <code>{macosInstallCommand}</code>
       </pre>
       <div class="mt-3 flex flex-wrap items-center gap-3">
