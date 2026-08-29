@@ -47,6 +47,15 @@
  */
 const GOOGLE_ACCOUNTS = 'https://accounts.google.com';
 const FIREBASE_AUTH_DOMAIN = 'https://pavii-ai3.firebaseapp.com';
+/**
+ * Firebase's signInWithPopup path (GitHub, SSO) injects
+ * https://apis.google.com/js/api.js as a <script> element before it opens the
+ * popup. Google sign-in does NOT need this — it uses Google Identity Services
+ * and signInWithCredential — so omitting it breaks GitHub and SSO while Google
+ * keeps working, which is exactly how it went unnoticed. script-src, not
+ * connect-src: it is an injected script element.
+ */
+const GAPI = 'https://apis.google.com';
 // The app's loopback listener uses an ephemeral port, hence the wildcards.
 const DESKTOP_LOOPBACK = 'http://localhost:* http://127.0.0.1:*';
 
@@ -55,7 +64,7 @@ export const CONTENT_SECURITY_POLICY = [
   "base-uri 'self'",
   "form-action 'self'",
   `frame-src 'self' ${GOOGLE_ACCOUNTS} ${FIREBASE_AUTH_DOMAIN}`,
-  `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com ${GOOGLE_ACCOUNTS}`,
+  `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com ${GOOGLE_ACCOUNTS} ${GAPI}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: https://images.unsplash.com https://www.google-analytics.com https://www.googletagmanager.com",
   [
