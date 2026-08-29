@@ -270,11 +270,22 @@ const paviiDownloadGroups = [
 //   codesign is not cosmetic -- the build is only ad-hoc signed (afterSign.js
 //     falls back to ad-hoc without Apple credentials) and arm64 refuses to
 //     execute a binary carrying no valid signature.
-const devToolsMacosInstallCommand = `ARCH=$([ "$(uname -m)" = "arm64" ] && echo arm64 || echo x64) && curl -fL -o ~/Downloads/Pavii.dmg "${devToolsLatestDownload}/Pavii.Ai-macOS-$ARCH.dmg" && osascript -e 'quit app "Pavii.Ai"' 2>/dev/null; VOL=$(hdiutil attach -nobrowse ~/Downloads/Pavii.dmg | grep -o '/Volumes/.*') && APP=$(ls -d "$VOL"/*.app | head -1) && rm -rf /Applications/Pavii.Ai.app && ditto "$APP" /Applications/Pavii.Ai.app && hdiutil detach "$VOL" && xattr -dr com.apple.quarantine /Applications/Pavii.Ai.app && codesign --force --deep --sign - /Applications/Pavii.Ai.app && touch /Applications/Pavii.Ai.app && killall Dock 2>/dev/null; open /Applications/Pavii.Ai.app`;
+//   lsregister + mdimport -- dragging an app in Finder registers it with
+//     LaunchServices; a shell copy does NOT. Without this the bytes sit in
+//     /Applications while Launchpad and Spotlight never learn the app exists,
+//     which is why people report installing it and then being unable to find
+//     it. Registering explicitly is what makes it appear.
+const devToolsMacosInstallCommand = `ARCH=$([ "$(uname -m)" = "arm64" ] && echo arm64 || echo x64) && curl -fL -o ~/Downloads/Pavii.dmg "${devToolsLatestDownload}/Pavii.Ai-macOS-$ARCH.dmg" && osascript -e 'quit app "Pavii.Ai"' 2>/dev/null; VOL=$(hdiutil attach -nobrowse ~/Downloads/Pavii.dmg | grep -o '/Volumes/.*') && APP=$(ls -d "$VOL"/*.app | head -1) && rm -rf /Applications/Pavii.Ai.app && ditto "$APP" /Applications/Pavii.Ai.app && hdiutil detach "$VOL" && xattr -dr com.apple.quarantine /Applications/Pavii.Ai.app && codesign --force --deep --sign - /Applications/Pavii.Ai.app && touch /Applications/Pavii.Ai.app && /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f /Applications/Pavii.Ai.app 2>/dev/null; mdimport /Applications/Pavii.Ai.app 2>/dev/null; killall Dock 2>/dev/null; open /Applications/Pavii.Ai.app`;
+
+// Same registration the installer command performs, for someone who already
+// installed and cannot find the app. Also pins it to the Dock and reveals it in
+// Finder, so "where did it go" has a concrete answer.
+const devToolsMacosRecoverCommand = `/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f /Applications/Pavii.Ai.app; mdimport /Applications/Pavii.Ai.app; defaults read com.apple.dock persistent-apps 2>/dev/null | grep -q Pavii.Ai.app || defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Pavii.Ai.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'; killall Dock; open -R /Applications/Pavii.Ai.app`;
 
 const downloadAlternativesProps = isDevTools
   ? {
       macosInstallCommand: devToolsMacosInstallCommand,
+      macosRecoverCommand: devToolsMacosRecoverCommand,
       windowsInstallerName: 'Pavii.Ai-Windows-x64-Setup.exe',
       windowsInstallerUrl: `${devToolsLatestDownload}/Pavii.Ai-Windows-x64-Setup.exe`,
       windowsRepositoryLabel: 'PAVii mirror release repository',

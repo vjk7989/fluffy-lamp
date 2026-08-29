@@ -1,6 +1,7 @@
 ---
 type Props = {
   macosInstallCommand?: string;
+  macosRecoverCommand?: string;
   windowsInstallerName?: string;
   windowsInstallerUrl?: string;
   windowsRepositoryLabel?: string;
@@ -16,8 +17,15 @@ type Props = {
 // `$(uname -m)` and `"$VOL"` are all left untouched by the interpolator.
 const defaultMacosInstallCommand = `ARCH=$([ "$(uname -m)" = "arm64" ] && echo arm64 || echo x64) && curl -fL -o ~/Downloads/PAVii.dmg "https://github.com/vjk7989/pavii-release/releases/latest/download/PAVii-macOS-$ARCH.dmg" && osascript -e 'quit app "PAVii"' 2>/dev/null; VOL=$(hdiutil attach -nobrowse ~/Downloads/PAVii.dmg | grep -o '/Volumes/.*') && rm -rf /Applications/PAVii.app && cp -R "$VOL"/*.app /Applications/ && hdiutil detach "$VOL" && xattr -dr com.apple.quarantine /Applications/PAVii.app && codesign --force --deep --sign - /Applications/PAVii.app && open /Applications/PAVii.app`;
 
+// Recovery for "I installed it but cannot find it". Registers the bundle with
+// LaunchServices (a Finder drag does this automatically, a shell copy does not),
+// re-indexes it for Spotlight, pins it to the Dock if it is not already there,
+// and finally reveals it in Finder so its location is unambiguous.
+const defaultMacosRecoverCommand = `/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f /Applications/PAVii.app; mdimport /Applications/PAVii.app; defaults read com.apple.dock persistent-apps 2>/dev/null | grep -q PAVii.app || defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/PAVii.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'; killall Dock; open -R /Applications/PAVii.app`;
+
 const {
   macosInstallCommand = defaultMacosInstallCommand,
+  macosRecoverCommand = defaultMacosRecoverCommand,
   windowsInstallerName = 'PAVii-Windows-x64-setup.exe',
   windowsInstallerUrl = 'https://github.com/vjk7989/pavii-release/releases/latest/download/PAVii-Windows-x64-setup.exe',
   windowsRepositoryLabel = 'PAVii release repository',
@@ -208,6 +216,73 @@ Start-Process $installer`,
         No <code>sudo</code> required. Safe to run again whenever you want the
         latest version &mdash; it replaces the installed copy in place.
       </p>
+
+      <div
+        class="mt-8 border-t border-neutral-200 pt-6 dark:border-neutral-700"
+      >
+        <h3 class="font-semibold text-neutral-900 dark:text-white">
+          Installed it but cannot find it?
+        </h3>
+        <div
+          class="mt-3 space-y-3 text-sm text-neutral-600 dark:text-neutral-300"
+        >
+          <p>
+            The app installs to <strong>Applications</strong>. Open Launchpad, or
+            press <kbd>&#8984;</kbd> + <kbd>Space</kbd> and type
+            <em>Pavii</em>.
+          </p>
+          <p>
+            If it still does not appear, run the command below. Dragging an app
+            in Finder registers it with macOS automatically; copying it from a
+            script does not, so the app can sit in Applications while Launchpad
+            and Spotlight have never been told it exists. This registers it,
+            adds it to your Dock, and opens Finder at its location.
+          </p>
+          <pre class="mt-3 min-w-0 overflow-x-auto rounded-xl bg-neutral-950 px-4 py-4 text-xs leading-5 whitespace-pre-wrap [overflow-wrap:anywhere] text-white">
+            <code>{macosRecoverCommand}</code>
+          </pre>
+          <div class="mt-3 flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              class="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white transition duration-200 hover:bg-blue-700 focus-visible:ring-3 focus-visible:ring-blue-300 focus-visible:outline-hidden active:bg-blue-800 dark:focus-visible:ring-blue-800"
+              style="background-color:#2563eb; color:#ffffff;"
+              data-copy-command
+              data-copy-text={macosRecoverCommand}
+              data-copy-success="Command copied. Paste it into Terminal and press Return."
+              aria-label="Copy the macOS recovery command"
+              aria-describedby="macos-recover-copy-status"
+            >
+              <svg
+                class="size-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+                ></path>
+              </svg>
+              <span data-copy-label>Copy command</span>
+            </button>
+            <p
+              id="macos-recover-copy-status"
+              class="min-h-5 text-sm text-blue-800 dark:text-blue-200"
+              aria-live="polite"
+            >
+            </p>
+          </div>
+          <p>
+            Opened the DMG and launched it straight from there? Then it was never
+            installed &mdash; the app disappears when the disk image is ejected.
+            Drag it onto the Applications folder shown beside it, or use the
+            command above.
+          </p>
+        </div>
+      </div>
     </section>
   </div>
 </div>
