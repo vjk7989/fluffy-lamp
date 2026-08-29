@@ -259,7 +259,18 @@ const paviiDownloadGroups = [
 // The URL is the version-agnostic `releases/latest/download` base, same as every
 // other link on this page. Contains no `${`, so nothing here is interpolated by
 // the template literal.
-const devToolsMacosInstallCommand = `ARCH=$([ "$(uname -m)" = "arm64" ] && echo arm64 || echo x64) && curl -fL -o ~/Downloads/Pavii.dmg "${devToolsLatestDownload}/Pavii.Ai-macOS-$ARCH.dmg" && osascript -e 'quit app "Pavii.Ai"' 2>/dev/null; VOL=$(hdiutil attach -nobrowse ~/Downloads/Pavii.dmg | grep -o '/Volumes/.*') && rm -rf /Applications/Pavii.Ai.app && cp -R "$VOL"/*.app /Applications/ && hdiutil detach "$VOL" && xattr -dr com.apple.quarantine /Applications/Pavii.Ai.app && codesign --force --deep --sign - /Applications/Pavii.Ai.app && open /Applications/Pavii.Ai.app`;
+//
+// Three details that are load-bearing, all learned from a real failed install:
+//   ditto, not `cp -R` -- `cp -R` does not reliably preserve extended attributes
+//     and mishandles the symlinks inside Electron's frameworks.
+//   touch + killall Dock -- replacing a bundle at a path that already held one
+//     leaves Finder, the Dock and Launchpad showing the previous (or a generic)
+//     icon until the icon cache is invalidated. Skipping this is what left one
+//     install with no visible icon.
+//   codesign is not cosmetic -- the build is only ad-hoc signed (afterSign.js
+//     falls back to ad-hoc without Apple credentials) and arm64 refuses to
+//     execute a binary carrying no valid signature.
+const devToolsMacosInstallCommand = `ARCH=$([ "$(uname -m)" = "arm64" ] && echo arm64 || echo x64) && curl -fL -o ~/Downloads/Pavii.dmg "${devToolsLatestDownload}/Pavii.Ai-macOS-$ARCH.dmg" && osascript -e 'quit app "Pavii.Ai"' 2>/dev/null; VOL=$(hdiutil attach -nobrowse ~/Downloads/Pavii.dmg | grep -o '/Volumes/.*') && APP=$(ls -d "$VOL"/*.app | head -1) && rm -rf /Applications/Pavii.Ai.app && ditto "$APP" /Applications/Pavii.Ai.app && hdiutil detach "$VOL" && xattr -dr com.apple.quarantine /Applications/Pavii.Ai.app && codesign --force --deep --sign - /Applications/Pavii.Ai.app && touch /Applications/Pavii.Ai.app && killall Dock 2>/dev/null; open /Applications/Pavii.Ai.app`;
 
 const downloadAlternativesProps = isDevTools
   ? {
