@@ -114,60 +114,43 @@ const socialPlatforms: SocialPlatform[] = [
   </div>
 </div>
 
-{/* Import the necessary Clipboard plugin */}
-{/* https://clipboardjs.com/ */}
-
 <script>
-  import ClipboardJS from 'clipboard';
+  const showCopiedState = (el: HTMLElement) => {
+    const defaultElement = el.querySelector<HTMLElement>(
+      '.js-clipboard-default'
+    );
+    const successElement = el.querySelector<HTMLElement>(
+      '.js-clipboard-success'
+    );
+    const successTextElement = el.querySelector<HTMLElement>(
+      '.js-clipboard-success-text'
+    );
+    const successText = el.dataset.clipboardSuccessText || '';
+    const oldSuccessText = successTextElement?.textContent || '';
 
-  // Initialization of Clipboard
-  (function () {
-    window.addEventListener('load', () => {
-      const clipboards =
-        document.querySelectorAll<HTMLElement>('.js-clipboard');
+    if (successTextElement) successTextElement.textContent = successText;
+    if (defaultElement && successElement) {
+      defaultElement.style.display = 'none';
+      successElement.style.display = 'block';
+    }
 
-      clipboards.forEach(el => {
-        const clipboard = new ClipboardJS(el, {
-          text: () => {
-            return window.location.href;
-          },
-        });
+    setTimeout(() => {
+      if (successTextElement) successTextElement.textContent = oldSuccessText;
+      if (defaultElement && successElement) {
+        successElement.style.display = '';
+        defaultElement.style.display = '';
+      }
+    }, 800);
+  };
 
-        clipboard.on('success', () => {
-          const defaultElement = el.querySelector<HTMLElement>(
-            '.js-clipboard-default'
-          );
-          const successElement = el.querySelector<HTMLElement>(
-            '.js-clipboard-success'
-          );
-          const successTextElement = el.querySelector<HTMLElement>(
-            '.js-clipboard-success-text'
-          );
-          const successText = el.dataset.clipboardSuccessText || '';
-          let oldSuccessText: string | undefined;
+  document.addEventListener('click', event => {
+    const button = (event.target as Element | null)?.closest<HTMLElement>(
+      '.js-clipboard'
+    );
+    if (!button) return;
 
-          if (successTextElement) {
-            oldSuccessText = successTextElement.textContent || '';
-            successTextElement.textContent = successText;
-          }
-
-          if (defaultElement && successElement) {
-            defaultElement.style.display = 'none';
-            successElement.style.display = 'block';
-          }
-
-          setTimeout(() => {
-            if (successTextElement && oldSuccessText !== undefined) {
-              successTextElement.textContent = oldSuccessText;
-            }
-
-            if (defaultElement && successElement) {
-              successElement.style.display = '';
-              defaultElement.style.display = '';
-            }
-          }, 800);
-        });
-      });
+    void navigator.clipboard.writeText(window.location.href).then(() => {
+      showCopiedState(button);
     });
-  })();
+  });
 </script>

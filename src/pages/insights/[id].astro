@@ -61,9 +61,9 @@ const ogTitle = `${post.data.title} | Insights | ${SITE.title}`;
     <div class="mx-auto max-w-(--breakpoint-xl) px-4 md:px-8">
       <div class="grid gap-8 md:grid-cols-2 lg:gap-12">
         <div>
-          <div class="h-64 overflow-hidden rounded-lg shadow-lg md:h-auto">
+          <div class="relative aspect-video overflow-hidden rounded-lg shadow-lg">
             <Image
-              class="h-full w-full object-cover object-center"
+              class="absolute inset-0 size-full object-cover object-center"
               src={post.data.cardImage}
               alt={post.data.cardImageAlt}
               draggable={'false'}

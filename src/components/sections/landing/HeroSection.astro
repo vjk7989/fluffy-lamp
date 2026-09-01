@@ -96,16 +96,18 @@ interface Props {
   </div>
   {/* Hero Image Section */}
   <div class="flex w-full justify-center">
-    <div class="hero-image-wrapper top-12 overflow-hidden w-full max-w-6xl" id="heroImageWrapper">
+    <div class="hero-image-wrapper relative aspect-video w-full max-w-6xl overflow-hidden" id="heroImageWrapper">
       {
         src && alt && (
           <Image
             src={src}
             alt={alt}
             width={1400}
-            class="h-auto w-full scale-100 object-cover object-center"
+            class="absolute inset-0 size-full scale-100 object-cover object-center"
             draggable={'false'}
             loading={'eager'}
+            decoding={'sync'}
+            fetchpriority={'high'}
             format={'avif'}
             data-image="light"
           />
@@ -117,9 +119,11 @@ interface Props {
             src={darkSrc}
             alt={alt}
             width={1400}
-            class="h-auto w-full scale-100 object-cover object-center"
+            class="absolute inset-0 size-full scale-100 object-cover object-center"
             draggable={'false'}
             loading={'eager'}
+            decoding={'sync'}
+            fetchpriority={'high'}
             format={'avif'}
             data-image="dark"
           />

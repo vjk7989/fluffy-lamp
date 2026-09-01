@@ -622,11 +622,11 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
         no sticky or fixed descendant changes behaviour. The image now slides in
         from its own right edge instead of from off-screen.
       */}
-      <div class="w-full max-w-[600px] shrink-0 overflow-x-clip">
+      <div class="relative aspect-square w-full max-w-[600px] shrink-0 overflow-x-clip">
         <Image
           id="fadeInMoveRight"
           src={product.data.main.imgMain}
-          class="h-auto w-full"
+          class="absolute inset-0 size-full object-contain"
           alt={product.data.main.imgAlt}
           format={'avif'}
           loading={'eager'}
@@ -790,15 +790,15 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
   </div>
 
   <div id="tabs-with-card-3" class="hidden" role="tabpanel">
-    <div class="mx-auto mb-20 flex w-full md:mb-28 2xl:w-4/5">
+    <div class="mx-auto mb-20 flex w-full min-h-[260px] md:mb-28 md:min-h-[420px] 2xl:w-4/5">
       <div
-        class="relative top-12 left-12 z-10 overflow-hidden rounded-xl shadow-lg md:top-16 md:left-12 md:-ml-12 lg:ml-0"
+        class="relative top-12 left-12 z-10 aspect-video w-3/5 overflow-hidden rounded-xl shadow-lg md:top-16 md:left-12 md:-ml-12 lg:ml-0"
       >
         {
           product.data.blueprints.first && (
             <Image
               src={product.data.blueprints.first}
-              class="h-full w-full object-cover object-center"
+              class="absolute inset-0 size-full object-cover object-center"
               alt={`${previewAlt} 1`}
               format={'avif'}
             />
@@ -806,12 +806,12 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
         }
       </div>
 
-      <div class="relative right-12 overflow-hidden rounded-xl shadow-xl">
+      <div class="relative right-12 aspect-video w-3/5 overflow-hidden rounded-xl shadow-xl">
         {
           product.data.blueprints.second && (
             <Image
               src={product.data.blueprints.second}
-              class="h-full w-full object-cover object-center"
+              class="absolute inset-0 size-full object-cover object-center"
               alt={`${previewAlt} 2`}
               format={'avif'}
             />

@@ -40,7 +40,7 @@ interface Props {
       docs pages via astro.config.mjs, which do not use this layout.
 
       This must stay the FIRST thing in <head>: a meta CSP only governs resources
-      fetched after it is parsed, and the gtag script below would otherwise load
+      fetched after it is parsed, and scripts below would otherwise load
       unpoliced.
     */}
     <meta
@@ -68,17 +68,22 @@ interface Props {
         document.documentElement.classList.remove('dark');
       }
     </script>
-    <!-- Google tag (gtag.js) -->
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-5PQSHYRVPG"></script>
     <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-5PQSHYRVPG');
-    </script>
-    <script>
-      import '@scripts/lenisSmoothScroll.js';
+      const loadAnalytics = () => {
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function gtag(){dataLayer.push(arguments);}
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-5PQSHYRVPG';
+        document.head.appendChild(script);
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-5PQSHYRVPG');
+      };
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(loadAnalytics, { timeout: 3000 });
+      } else {
+        setTimeout(loadAnalytics, 1500);
+      }
     </script>
   </head>
   <body
@@ -127,6 +132,16 @@ interface Props {
         } else {
           setTimeout(start, 300);
         }
+      }
+    </script>
+    <script>
+      const initSmoothScroll = async () => {
+        await import('@scripts/lenisSmoothScroll.js');
+      };
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => void initSmoothScroll(), { timeout: 1000 });
+      } else {
+        setTimeout(() => void initSmoothScroll(), 100);
       }
     </script>
     <script>

@@ -27,7 +27,14 @@ import StarlightHead from '@astrojs/starlight/components/Head.astro';
 
 <StarlightHead {...Astro.props}><slot /></StarlightHead>
 <script>
-  import '@scripts/lenisSmoothScroll.js';
+  const initSmoothScroll = async () => {
+    await import('@scripts/lenisSmoothScroll.js');
+  };
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(() => void initSmoothScroll(), { timeout: 1000 });
+  } else {
+    setTimeout(() => void initSmoothScroll(), 100);
+  }
 </script>
 
 <script>

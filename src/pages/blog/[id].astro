@@ -121,13 +121,15 @@ const ogTitle = `${post.data.title} | Blog | ${SITE.title}`;
                 <p class="text-lg text-pretty text-neutral-700 dark:text-neutral-300">
                   {content}
                 </p>
-                <Image
-                  class="w-full rounded-xl object-cover"
-                  src={post.data.cardImage}
-                  alt={post.data.cardImageAlt}
-                  draggable={'false'}
-                  format={'avif'}
-                />
+                <div class="relative aspect-video w-full overflow-hidden rounded-xl">
+                  <Image
+                    class="absolute inset-0 size-full object-cover"
+                    src={post.data.cardImage}
+                    alt={post.data.cardImageAlt}
+                    draggable={'false'}
+                    format={'avif'}
+                  />
+                </div>
               </>
             ) : (
               <p class="text-lg text-pretty text-neutral-700 dark:text-neutral-300">
