@@ -1,7 +1,7 @@
 ---
 title: 'NPU Optimization and Edge Inference: Cutting AI Cost at the Hardware Layer'
 description: 'NPU optimized models and edge inference reduce AI compute cost, latency, and data exposure. Learn when hardware-aware deployment beats bigger models.'
-cardImage: '@/images/service-ai-npu-chip.png'
+cardImage: '@/images/service-ai-npu-chip.avif'
 cardImageAlt: 'NPU hardware and edge AI model optimization setup in a clean engineering lab'
 ---
 

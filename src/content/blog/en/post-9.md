@@ -6,7 +6,7 @@ role: 'AI Infrastructure Team'
 authorImage: '@/images/blog/jacob.avif'
 authorImageAlt: 'PAVii.AI product writer avatar'
 pubDate: 2026-08-14
-cardImage: '@/images/service-ai-npu-chip.png'
+cardImage: '@/images/service-ai-npu-chip.avif'
 cardImageAlt: 'Modern processor chip powering multiple concurrent AI workloads'
 readTime: 6
 tags: ['parallel agents', 'ai agents', 'productivity', 'desktop ai']

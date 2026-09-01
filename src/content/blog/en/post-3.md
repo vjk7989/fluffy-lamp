@@ -6,7 +6,7 @@ role: 'Context and Inference Team'
 authorImage: '@/images/blog/anna.avif'
 authorImageAlt: 'PAVii.AI research writer avatar'
 pubDate: 2026-06-01
-cardImage: '@/images/service-ai-model-efficiency.png'
+cardImage: '@/images/service-ai-model-efficiency.avif'
 cardImageAlt: 'AI compute hardware and model performance dashboard in an engineering lab'
 readTime: 8
 tags: ['llm architecture', 'context engine', 'retrieval augmented generation', 'ai agents']

@@ -6,7 +6,7 @@ role: 'AI Infrastructure Team'
 authorImage: '@/images/blog/brad.avif'
 authorImageAlt: 'PAVii.AI engineering writer avatar'
 pubDate: 2026-07-22
-cardImage: '@/images/blog/model-agnostic-ai.png'
+cardImage: '@/images/blog/model-agnostic-ai.avif'
 cardImageAlt: 'Model-agnostic AI routing dashboard comparing multiple abstract model providers'
 readTime: 7
 tags: ['model-agnostic', 'llm providers', 'ai strategy', 'vendor lock-in']

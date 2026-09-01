@@ -1,7 +1,7 @@
 ---
 title: 'MCP and AI-Ready Interfaces for Business Applications'
 description: 'See why MCP-style interfaces help AI agents understand your product, call tools safely, and reduce errors in business workflows.'
-cardImage: '@/images/service-ai-mcp-business.png'
+cardImage: '@/images/service-ai-mcp-business.avif'
 cardImageAlt: 'Team planning AI-accessible business integrations and protocol connections'
 ---
 

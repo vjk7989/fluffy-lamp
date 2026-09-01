@@ -6,7 +6,7 @@ role: 'AI Infrastructure Team'
 authorImage: '@/images/blog/jacob.avif'
 authorImageAlt: 'PAVii.AI infrastructure writer avatar'
 pubDate: 2026-07-08
-cardImage: '@/images/blog/local-first-ai-assistant.png'
+cardImage: '@/images/blog/local-first-ai-assistant.avif'
 cardImageAlt: 'Local-first AI assistant workspace with private compute hardware and privacy controls'
 readTime: 6
 tags: ['local-first ai', 'ai privacy', 'desktop ai', 'ai infrastructure']

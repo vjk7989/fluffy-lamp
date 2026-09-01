@@ -6,7 +6,7 @@ role: 'AI Infrastructure Team'
 authorImage: '@/images/blog/jacob.avif'
 authorImageAlt: 'PAVii.AI infrastructure writer avatar'
 pubDate: 2026-06-03
-cardImage: '@/images/service-ai-inference-routing.png'
+cardImage: '@/images/service-ai-inference-routing.avif'
 cardImageAlt: 'Engineer monitoring cloud servers and AI inference infrastructure'
 readTime: 6
 tags: ['ai inference', 'model routing', 'ai infrastructure', 'enterprise ai']

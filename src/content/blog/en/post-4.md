@@ -6,7 +6,7 @@ role: 'Agentic Experience Team'
 authorImage: '@/images/blog/jacob.avif'
 authorImageAlt: 'PAVii.AI product writer avatar'
 pubDate: 2026-06-03
-cardImage: '@/images/blog/agentic-experience.png'
+cardImage: '@/images/blog/agentic-experience.avif'
 cardImageAlt: 'Team reviewing AI-ready application workflows and agentic experience design'
 readTime: 7
 tags: ['agentic experience', 'mcp', 'ai agents', 'business automation']

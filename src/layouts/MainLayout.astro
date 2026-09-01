@@ -130,15 +130,25 @@ interface Props {
       }
     </script>
     <script>
-      // https://preline.co
-      import 'preline';
-      const init = () =>
+      const initPreline = async () => {
+        // https://preline.co
+        await import('preline');
         (
           window as Window & { HSStaticMethods?: { autoInit?: () => void } }
         ).HSStaticMethods?.autoInit?.();
+      };
+      const schedulePreline = () => {
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(() => void initPreline(), { timeout: 1000 });
+        } else {
+          setTimeout(() => void initPreline(), 100);
+        }
+      };
       if (document.readyState === 'loading')
-        document.addEventListener('DOMContentLoaded', init);
-      else init();
+        document.addEventListener('DOMContentLoaded', schedulePreline, {
+          once: true,
+        });
+      else schedulePreline();
     </script>
     <style>
       /* CSS rules for the page scrollbar */

@@ -1,7 +1,7 @@
 ---
 title: 'Why Context Engines Matter for Enterprise AI'
 description: 'Learn how context engines help AI systems retrieve the right knowledge, reduce hallucinations, and give employees and customers more accurate answers.'
-cardImage: '@/images/service-ai-custom-solution.png'
+cardImage: '@/images/service-ai-custom-solution.avif'
 cardImageAlt: 'Team reviewing custom AI solution workflows in a modern office'
 ---
 
