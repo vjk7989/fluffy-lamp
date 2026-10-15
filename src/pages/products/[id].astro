@@ -4,6 +4,7 @@ import MainLayout from '@/layouts/MainLayout.astro';
 import DownloadAlternatives from '@components/products/DownloadAlternatives.astro';
 import ProductTabBtn from '@components/ui/buttons/ProductTabBtn.astro';
 import PrimaryCTA from '@components/ui/buttons/PrimaryCTA.astro';
+import IsoFigure from '@components/ui/IsoFigure.astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import { SITE, SOCIAL_PREVIEW_IMAGE_URL } from '@data/constants';
@@ -790,6 +791,11 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
   </div>
 
   <div id="tabs-with-card-3" class="hidden" role="tabpanel">
+    {product.data.figures?.length ? (
+      <div class="mx-auto mb-20 grid w-full max-w-5xl gap-10 md:mb-28">
+        {product.data.figures.map(name => <IsoFigure name={name} />)}
+      </div>
+    ) : (
     <div class="mx-auto mb-20 flex w-full min-h-[260px] md:mb-28 md:min-h-[420px] 2xl:w-4/5">
       <div
         class="relative top-12 left-12 z-10 aspect-video w-3/5 overflow-hidden rounded-xl shadow-lg md:top-16 md:left-12 md:-ml-12 lg:ml-0"
@@ -819,6 +825,7 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
         }
       </div>
     </div>
+    )}
   </div>
 
   {
@@ -1015,7 +1022,7 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
         changeHeadingStyle(
           btn,
           ['text-neutral-800', 'dark:text-neutral-200'],
-          ['text-orange-400', 'dark:text-orange-300']
+          ['text-blue-400', 'dark:text-blue-300']
         );
       }
     }
@@ -1038,7 +1045,7 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
 
       changeHeadingStyle(
         button,
-        ['text-orange-400', 'dark:text-orange-300'],
+        ['text-blue-400', 'dark:text-blue-300'],
         ['text-neutral-800', 'dark:text-neutral-200']
       );
     }
@@ -1060,7 +1067,7 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
     if (tabButtons.length > 0) {
       changeHeadingStyle(
         tabButtons[0],
-        ['text-orange-400', 'dark:text-orange-300'],
+        ['text-blue-400', 'dark:text-blue-300'],
         []
       );
     }

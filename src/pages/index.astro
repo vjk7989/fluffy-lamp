@@ -17,12 +17,6 @@ import dashboard from '@images/dashboard-image.avif';
 import testimonialAvatar from '@images/testis.webp';
 import { SEO, SITE, SOCIAL_PREVIEW_IMAGE_URL } from '@/data_files/constants';
 
-const avatarSrcs: Array<string> = [
-  'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80',
-  'https://images.unsplash.com/photo-1531927557220-a9e23c1e4794?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80',
-  'https://images.unsplash.com/photo-1541101767792-f9b2b1c4f127?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&&auto=format&fit=facearea&facepad=3&w=300&h=300&q=80',
-  'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80',
-];
 
 // Extend the site-wide structured data with SoftwareApplication (PAVii is a
 // downloadable desktop product) and FAQPage schema for the homepage FAQ
@@ -37,7 +31,7 @@ const homeStructuredData = {
       applicationCategory: 'DeveloperApplication',
       operatingSystem: 'Windows 10+, macOS 14 (Apple Silicon), Linux x64',
       description:
-        'PAVii is a local-first, model-agnostic desktop assistant for AI agents that works for you and works with you.',
+        'PAVii is a blockchain-based agentic security, LLM security and agentic observability platform. It checks every AI agent call at six security gates, keeps personal data private and records each action on Hyper 0X.',
       url: `${SITE.url}/products/Super-Assistant/`,
       image: SOCIAL_PREVIEW_IMAGE_URL,
       softwareVersion: '2.0.5',
@@ -82,21 +76,17 @@ const homeStructuredData = {
   /> -->
 
   <HeroSection
-    title=`Power Your AI with <span
+    title=`Protect Your AI Agents with <span
         class="text-blue-500 dark:text-blue-400" style="color:#3b82f6;">PAVii.AI</span>`
-    subTitle="A one-stop platform for AI infrastructure that provides technology needed to build, run, and scale AI solutions with confidence."
-    primaryBtn="Start Exploring"
-    primaryBtnURL="/products/"
-    secondaryBtn="Contact Us"
+    subTitle="Blockchain-based security and observability for every AI agent and LLM. Pavii blocks harmful calls, keeps personal data private and records every action on Hyper 0X."
+    primaryBtn="Explore Products"
+    primaryBtnURL="/products/security/"
+    secondaryBtn="Book a Call"
     secondaryBtnURL="https://cal.com/buckleson-group/30min"
-    withReview={true}
-    avatars={avatarSrcs}
-    rating=`<span class="font-bold">4.8</span> / 5`
-    starCount={4}
-    reviews=`From Over <span class="font-bold">12.8k</span> Reviews`
+    withReview={false}
     src={heroImage}
     darkSrc={heroDarkImage}
-    alt="Stack of PAVii.AI product boxes containing assorted A.I tools"
+    alt="Stack of PAVii.AI product boxes with AI tools"
   />
 
   <!-- <ClientsSection
@@ -106,46 +96,46 @@ const homeStructuredData = {
   /> -->
 
   <FeaturesGeneral
-    title="Meeting Industry Demands"
-    subTitle="At PAVii.AI, we tackle the unique challenges encountered in the AI infrastructure sector. From cutting-edge tools to expert services, we're dedicated to helping you overcome obstacles and achieve your goals."
+    title="Security for the Age of AI Agents"
+    subTitle="AI agents read data, call tools and send messages for you. Pavii checks each of these actions, stops the harmful ones and shows your team what every agent does."
     features={features}
   />
 
   <FeaturesNavs
-    title=`Customize <span class="text-blue-500 dark:text-blue-400" style="color: #3b82f6;">PAVii.AI</span>'s offerings to perfectly suit your hardware and construction needs.`
+    title=`Use any AI in your applications. <span class="text-blue-500 dark:text-blue-400" style="color: #3b82f6;">PAVii.AI</span> protects it.`
     tabs={[
       {
-        heading: 'Specialized AI Solutions',
+        heading: 'One Gateway for Every Agent',
         content:
-          "Different tools and services tailored for different AI requirements, helping businesses build, deploy, and scale intelligent solutions with better performance and outcomes.",
+          "Connect Claude, Claude Code, Codex, ChatGPT, Grok, OpenCode or your own agents to one gateway. Pavii applies the same rules to every agent and model.",
         svg: 'tools',
         src: tools,
-        alt: 'Illustration of AI infrastructure tools and systems in a modern technology setting',
+        alt: 'Illustration of AI tools and systems that connect to one gateway',
         first: true,
       },
       {
-        heading: 'Seamless Integration',
+        heading: 'No Change to Your Business Logic',
         content:
-          "Integrate AI capabilities into your existing systems without disrupting current workflows. Our flexible infrastructure works seamlessly with your technology stack, reducing complexity and deployment time.",
+          "Pavii connects to the systems that you use now. Use the Pavii chain, run your rules on-chain or deploy your own chain inside your organization.",
         svg: 'dashboard',
         src: dashboard,
-        alt: 'A screenshot or graphic representation of the intuitive dashboard',
+        alt: 'Graphic of a software dashboard',
         second: true,
       },
       {
-        heading: 'Secure & Sovereign Infrastructure',
+        heading: 'Private Data and Permanent Records',
         content:
-          "Protect your data with blockchain-backed security and self-hosted deployment options, ensuring privacy, ownership, and full control over your AI operations.",
+          "The privacy gate removes personal data before a model sees it. Each receipt links to the one before it on Hyper 0X, so nobody can secretly change a record.",
         svg: 'house',
         src: construction,
-        alt: 'Gray metal building frame near tower crane during daytime',
+        alt: 'Steel frame of a building, a symbol of a strong structure',
       },
     ]}
   />
 
  <TestimonialsSection
-title="Trusted by Businesses Building with AI"
-subTitle="From healthcare platforms to enterprise applications, organizations rely on PAVII.AI to simplify AI infrastructure, accelerate deployment, and scale securely."
+title="What Teams Say About PAVii.AI"
+subTitle="Teams use Pavii to run AI agents with clear rules, private data and a full record of every action."
 
 testimonials={[
 {
@@ -160,24 +150,24 @@ avatarSrc: testimonialAvatar,
 
    statistics={[
   {
-    count: '10+',
+    count: '100M+',
     description:
-      'AI infrastructure services covering compute, agents, data, security, and deployment',
+      'AI tokens saved across 82K+ queries',
   },
   {
-    count: '100%',
+    count: '6',
     description:
-      'self-hostable solutions for organizations requiring complete data ownership and control',
+      'security gates on every agent call: injection, privacy, supply chain, budget, egress and output',
   },
   {
-    count: '24/7',
+    count: '30-60%',
     description:
-      'automated infrastructure monitoring and orchestration for uninterrupted operations',
+      'fewer tokens used by agents on one measured Claude Code task',
   },
   {
     count: '1',
     description:
-      'unified platform to build, deploy, manage, and scale AI applications',
+      'gateway for every AI agent and model',
   },
 ]}
   />
@@ -187,8 +177,8 @@ avatarSrc: testimonialAvatar,
   <FAQ title="Frequently<br />asked questions" faqs={faqs} />
 
 <HeroSectionAlt
-  title="Build, Deploy, and Scale AI with Confidence"
-  subTitle="A complete AI infrastructure platform designed to help businesses launch AI solutions faster, integrate seamlessly, and maintain full control over their data."
+  title="Put Every AI Agent Behind One Gateway"
+  subTitle="Book a call with the PAVii.AI team. We show you how Pavii protects your agents, your data and your users."
   url="https://cal.com/buckleson-group/30min"
 />
 </MainLayout>

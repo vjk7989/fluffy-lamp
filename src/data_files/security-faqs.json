@@ -1,0 +1,65 @@
+{
+  "subTitle": "Clear answers to the hard questions about blockchain, AI agents and data security.",
+  "faqs": [
+    {
+      "question": "Do AI agents need a blockchain, or is a log enough?",
+      "answer": "A signed, hash-chained log is enough when one team runs the agents and is the only party that checks the log. You need an external anchor, such as a blockchain, when partners, auditors, customers or regulators must verify the log without trusting you. The anchor also protects against insiders with admin rights and agents that can edit their own logs. Read more: Do AI agents need a blockchain?"
+    },
+    {
+      "question": "How do you stop an AI agent from reading data above the access of the user?",
+      "answer": "Make the agent act with the rights of the user, not with its own broad service account. Check access for every read at the moment of the request, and give each summary the strictest label of its sources. Pavii checks access on the blockchain, so neither the agent nor a single admin can change the rules in secret. Read more: How do you stop an AI agent from reading data above the user access?"
+    },
+    {
+      "question": "How do you make an AI agent follow rules after its context fills up?",
+      "answer": "Move the hard rules out of the prompt and into a check that runs outside the model on every action. A rule in the prompt can disappear when the context window fills. A check outside the model does not depend on what the model remembers. Pavii stores these rules as smart contracts on Hyper 0X. Read more: How do you make an AI agent follow rules after its context fills up?"
+    },
+    {
+      "question": "Can an AI company learn from my data without seeing it?",
+      "answer": "Yes, partly. A privacy gate removes personal data and secrets before a model sees the request, and aggregation shares patterns, not individual records. Zero-knowledge proofs let a provider check that a fact is true without seeing the data behind it. A provider still cannot train on the exact words of a private message without access to those words. Read more: Can an AI company learn from my data without seeing it?"
+    },
+    {
+      "question": "How do you prove to an auditor what your AI agent did?",
+      "answer": "Give the auditor signed, hash-chained receipts that a gateway writes outside the reach of the agent. Anchor the latest receipt fingerprint on a blockchain at fixed intervals. The auditor checks the signatures, the chain and the anchor with their own tools, so they do not need to trust you. Read more: How do you prove to an auditor what your AI agent did?"
+    },
+    {
+      "question": "Can an AI agent tamper with its own audit log?",
+      "answer": "Yes, if the agent can write to the log files or reach the signing key. Coding agents often have shell access on the same machine as their logs. Prevent this with a gateway that writes the receipts, a signing key the agent cannot reach and a blockchain anchor that shows any later change. Read more: How do you prove to an auditor what your AI agent did?"
+    },
+    {
+      "question": "What should a receipt for an AI agent action contain?",
+      "answer": "A receipt must record the agent and its version, the user it acted for, the model, the tool call and the rule versions that applied. It must also hold the gate decisions, the cost and the time. Add fingerprints of the input and output, the hash of the previous receipt and a signature. It must not hold raw personal data. Read more: How do you prove to an auditor what your AI agent did?"
+    },
+    {
+      "question": "Can blockchain stop prompt injection?",
+      "answer": "No. Prompt injection happens inside the model, and a blockchain cannot change what a model reads or believes. A blockchain limits what an injected agent can do, because the rules for access, spending and data egress live outside the model. The agent cannot rewrite those rules, and every blocked attempt leaves a receipt."
+    },
+    {
+      "question": "How do you revoke the access of an AI agent everywhere at once?",
+      "answer": "Keep the access rules in one place that every agent and every tool checks before each action. When those rules live in a smart contract, one change reaches all agents and all data sources on their next check. Pavii also has a kill switch, so a person can stop any agent at any time."
+    },
+    {
+      "question": "How do you check an MCP tool call before it runs?",
+      "answer": "Send every MCP tool call through a gateway that inspects the tool name, the arguments and the destination before the call runs. MCP is a standard protocol that connects AI agents to tools and data. The gateway compares the call with the rules for that agent and user, then allows it, blocks it or asks a person to approve it."
+    },
+    {
+      "question": "How do you share a company knowledge graph with AI agents without leaking data between teams?",
+      "answer": "Label every node in the graph with the access rules of its source. Check those rules for each user at the moment of each read. Hide restricted nodes, their links and their names together, because a link alone can reveal a secret. Give every summary the strictest label of the facts it uses. Read more: How do you stop an AI agent from reading data above the user access?"
+    },
+    {
+      "question": "How do you prove which model produced an answer?",
+      "answer": "Record the model name, the version and the provider in a signed receipt at the gateway, next to fingerprints of the input and the output. The gateway sees the actual call, so the receipt shows which model it sent the request to. Anchor the receipts on a blockchain so nobody can change the model field later. Read more: How do you prove to an auditor what your AI agent did?"
+    },
+    {
+      "question": "How do AI agents pay for things safely?",
+      "answer": "Give each agent a spend limit that a check outside the model enforces on every payment. The check looks at the amount, the recipient and the purpose before the payment runs. Protocols such as x402 let agents pay for services over the web, and the budget gate in Pavii keeps those payments inside the limits."
+    },
+    {
+      "question": "How do you verify what an agent can spend for someone?",
+      "answer": "Store the spend limit as a rule that the person approved, linked to that person and that agent. Before each payment, the gateway checks the amount against the rule and the total already spent. When the rule lives in a smart contract, the person and an auditor can both see the limit and every payment against it."
+    },
+    {
+      "question": "How do AI agents from different companies trust each other?",
+      "answer": "They trust a shared record, not each other. Each agent proves its identity with a signature, and both companies check the same rules and receipts on a shared ledger. Protocols such as A2A let agents talk to each other, and a blockchain anchor gives both sides one history that neither side controls. Read more: Do AI agents need a blockchain?"
+    }
+  ]
+}

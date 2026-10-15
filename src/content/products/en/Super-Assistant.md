@@ -1,10 +1,10 @@
 ---
 title: 'Super Assistant'
-description: 'Super Assistant'
+description: 'One AI agent for daily work'
 main:
   id: 3
   content: |
-    Super Assistant is a day-to-day super-agent that brings tasks, tools, and intent handling into one place. It understands what the user wants, connects the right tools, and uses token optimization to deliver better results without wasting context.
+    Super Assistant is one AI agent for your daily work. It puts your tasks, tools and requests in one place. It understands what you want and connects the right tools. It uses fewer tokens, so you get better results with less wasted context. Pavii keeps your personal data out of the prompts that models see.
   imgCard: '@/images/product-image-3.avif'
   imgMain: '@/images/product-image-main-3.avif'
   imgAlt: 'Super Assistant product interface preview'
@@ -22,36 +22,36 @@ tabs:
     dataTab: '#tabs-with-card-4'
     title: 'Download Alternatives'
 longDescription:
-  title: 'One Super-Agent for Everyday Work'
+  title: 'One AI Agent for Everyday Work'
   subTitle: |
-    Super Assistant helps people complete daily tasks from a single place by understanding intent, selecting the best tools, and coordinating multiple actions across connected services. It also powers an aggregator marketplace where builders can create useful aggregators, earn from them, and let other users benefit from ready-made tool combinations.
+    Super Assistant helps you finish daily tasks from one place. It reads your goal, picks the best tools and does many steps across your connected services. It also has a marketplace for aggregators. An aggregator is a ready-made set of tools for one job. Builders can make aggregators, earn from them and share them with other users.
   btnTitle: 'Contact sales to learn more'
   btnURL: '#'
 descriptionList:
-  - title: 'Intent-first assistance'
-    subTitle: 'Understands what the user is trying to achieve, then chooses the right tools and workflow instead of forcing users to manage each step manually.'
-  - title: 'Token-optimized execution'
-    subTitle: 'Uses context carefully so complex tasks can be completed with fewer wasted tokens, better focus, and stronger results.'
+  - title: 'Starts from your goal'
+    subTitle: 'Super Assistant understands what you want to do. It picks the tools and the steps, so you do not manage each step yourself.'
+  - title: 'Fewer tokens'
+    subTitle: 'Super Assistant uses context with care. It finishes hard tasks with fewer wasted tokens and better focus.'
   - title: 'Aggregator marketplace'
-    subTitle: 'Lets creators build aggregators that combine tools for specific workflows, earn from them, and help other users get more done faster.'
+    subTitle: 'Creators build aggregators that combine tools for one workflow. They earn from them, and other users get more done.'
 specificationsLeft:
   - title: 'Task Hub'
-    subTitle: 'Unifies daily work, tool access, and agent actions in one assistant experience.'
-  - title: 'Intent Engine'
-    subTitle: 'Reads user goals and routes requests to the most useful tools, services, and aggregators.'
+    subTitle: 'Your daily work, your tools and agent actions in one assistant.'
+  - title: 'Goal Reader'
+    subTitle: 'Reads your goal and sends each request to the most useful tool, service or aggregator.'
   - title: 'Tool Coordination'
-    subTitle: 'Connects multiple tools together to complete work that would normally require switching between separate apps.'
+    subTitle: 'Connects many tools to finish work that usually needs many separate apps.'
   - title: 'Token Strategy'
-    subTitle: 'Optimizes context usage so the assistant can stay efficient while still producing high-quality outputs.'
+    subTitle: 'Uses context with care, so the assistant stays efficient and still gives good answers.'
 specificationsRight:
-  - title: 'Marketplace Model'
-    subTitle: 'Supports aggregators built by creators, teams, or businesses for repeatable workflows.'
-  - title: 'Creator Revenue'
-    subTitle: 'Allows people to publish useful aggregators and create value for other users while earning from adoption.'
-  - title: 'User Advantage'
-    subTitle: 'Gives users access to ready-made tool combinations that reduce manual setup and improve everyday productivity.'
+  - title: 'Marketplace'
+    subTitle: 'Holds aggregators from creators, teams and businesses for repeated workflows.'
+  - title: 'Creator Income'
+    subTitle: 'Publish a useful aggregator, help other users and earn when people use it.'
+  - title: 'Privacy by Pavii'
+    subTitle: 'The Pavii privacy gate removes personal data and secrets before a model sees your request.'
   - title: 'Best For'
-    subTitle: 'People, creators, and businesses that want one AI workspace for tasks, tools, automation, and monetizable workflows.'
+    subTitle: 'People, creators and businesses that want one AI workspace for tasks, tools, automation and paid workflows.'
 blueprints:
   first: '@/images/pavii-super-assistant-workspace.png'
   second: '@/images/pavii-super-assistant-connectors.png'

@@ -1,15 +1,15 @@
 export const SITE = {
   title: 'PAVii.AI',
-  tagline: 'Power Your AI with Infrastructure Built for Scale ',
+  tagline: 'Blockchain security and observability for AI agents',
   description:
-    'PAVii.AI is an AI infrastructure company for agentic experiences, inference, AI harnesses, context engines, secure MCP integrations, developer tools, and scalable model deployment.',
+    'PAVii.AI is a blockchain-based agentic security, LLM security and agentic observability platform. Pavii checks every AI agent call and records it on Hyper 0X, where nobody can secretly change it.',
   description_short:
-    'AI infrastructure for agents, inference, harnesses, context engines, MCP, security, and model deployment.',
+    'Blockchain-based security and observability for AI agents and LLMs, with private data kept out of model prompts.',
   url: 'https://www.pavii.tech',
   author: 'Buckleson Group',
   email: 'info@pavii.tech',
   keywords:
-    'PAVii.AI, AI infrastructure, agentic experience, AI inference, AI harness, agentic security, MCP integration, context engine, AI developer tools, model hosting, NPU optimized models',
+    'PAVii.AI, Pavii, agentic security, AI agent security, LLM security, AI security, agentic observability, AI agent observability, blockchain AI security, zero-knowledge proofs, privacy-preserving AI, prompt injection protection, company brain, smart contract policy enforcement, Hyper 0X, AI gateway, AI inference, MCP integration',
 };
 
 export const SOCIAL_PREVIEW_IMAGE_PATH = '/pavii-social-preview-v2.png';
@@ -48,15 +48,23 @@ export const SEO = {
           'https://x.com/Bucklesongroup',
         ],
         knowsAbout: [
-          'AI infrastructure',
-          'agentic experience',
-          'AI inference',
-          'AI harness',
           'agentic security',
+          'LLM security',
+          'AI security',
+          'AI agent observability',
+          'blockchain AI security',
+          'zero-knowledge proofs',
+          'privacy-preserving AI',
+          'company brain',
+          'smart contract policy enforcement',
+          'prompt injection protection',
+          'AI gateways',
+          'AI inference',
+          'agentic experience',
+          'AI harness',
           'MCP integrations',
           'context engines',
           'developer tools for AI',
-          'model hosting',
           'NPU optimized AI models',
           'physical AI',
         ],
@@ -101,9 +109,9 @@ export const OG = {
   locale: 'en_US',
   type: 'website',
   url: SITE.url,
-  title: `${SITE.title}: AI Infrastructure for Agents, Inference, and Security`,
+  title: `${SITE.title}: Blockchain Security for AI Agents and LLMs`,
   description:
-    'Build AI agents, inference systems, harnesses, MCP integrations, secure workflows, and scalable AI infrastructure with PAVii.AI.',
+    'Pavii protects AI agents and user data with six security gates, rules on the blockchain and receipts that nobody can secretly change.',
   image: SOCIAL_PREVIEW_IMAGE_URL,
 };
 

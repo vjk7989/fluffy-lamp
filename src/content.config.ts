@@ -67,6 +67,8 @@ const productsCollection = defineCollection({
         first: image().optional(),
         second: image().optional(),
       }),
+      // Animated Anatomy figures shown in the third tab instead of the images.
+      figures: z.array(z.enum(['pavii-gates', 'data-vault', 'chain-rack'])).optional(),
     }),
 });
 
@@ -86,6 +88,8 @@ const blogCollection = defineCollection({
       cardImageAlt: z.string(),
       readTime: z.number(),
       tags: z.array(z.string()).optional(),
+      // Optional short answers, shown under the post and published as FAQPage data.
+      faqs: z.array(z.object({ question: z.string(), answer: z.string() })).optional(),
     }),
 });
 

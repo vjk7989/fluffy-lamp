@@ -8,7 +8,7 @@ import SocialShare from '@components/ui/buttons/SocialShare.astro';
 import PostFeedback from '@components/ui/feedback/PostFeedback.astro';
 import { Image } from 'astro:assets';
 import { capitalize, formatDate } from '@utils/utils';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import { SITE, SOCIAL_PREVIEW_IMAGE_URL } from '@data/constants';
 
@@ -38,9 +38,21 @@ const blogPosts: CollectionEntry<'blog'>[] = await getCollection(
 // Note: This is a very basic way of choosing related posts, just for the purpose of the example.
 // In a production site, you might want to implement a more robust algorithm, choosing related posts based on tags, categories, dates, authors, or keywords.
 // See example: https://blog.codybrunner.com/2024/adding-related-articles-with-astro-content-collections/
-const relatedPosts: CollectionEntry<'blog'>[] = blogPosts.filter(
-  blogEntry => blogEntry.id !== post.id
-);
+// Related posts: the four that share the most tags, newest first on ties.
+const tagsOf = (entry: CollectionEntry<'blog'>) => new Set(entry.data.tags ?? []);
+const ownTags = tagsOf(post);
+const relatedPosts: CollectionEntry<'blog'>[] = blogPosts
+  .filter(blogEntry => blogEntry.id !== post.id)
+  .map(entry => ({ entry, shared: [...tagsOf(entry)].filter(tag => ownTags.has(tag)).length }))
+  .sort((a, b) => b.shared - a.shared || b.entry.data.pubDate.getTime() - a.entry.data.pubDate.getTime())
+  .slice(0, 4)
+  .map(({ entry }) => entry);
+
+// Longer posts carry a Markdown body (headings, lists, tables) after the
+// opening paragraphs; older posts have only the paragraphs.
+const hasBody = Boolean(post.body?.trim());
+const { Content } = await render(post);
+const faqs = post.data.faqs ?? [];
 
 const pageTitle: string = `${post.data.title} | ${SITE.title}`;
 // For the meta description, use the first paragraph of content if available
@@ -75,6 +87,16 @@ const ogTitle = `${post.data.title} | Blog | ${SITE.title}`;
       '@type': 'WebPage',
       '@id': `${SITE.url}/blog/${post.id.replace(/^en\//, '')}`,
     },
+    ...(faqs.length > 0 && {
+      hasPart: {
+        '@type': 'FAQPage',
+        mainEntity: faqs.map(faq => ({
+          '@type': 'Question',
+          name: faq.question,
+          acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+        })),
+      },
+    }),
   }}
 >
   <section class="mx-auto max-w-3xl px-4 pt-6 pb-12 sm:px-6 lg:px-8 lg:pt-10">
@@ -107,11 +129,11 @@ const ogTitle = `${post.data.title} | Blog | ${SITE.title}`;
         </div>
       </div>
       {/* Blog post title */}
-      <h2
+      <h1
         class="mb-3 text-2xl font-bold text-neutral-800 md:text-3xl dark:text-neutral-200"
       >
         {post.data.title}
-      </h2>
+      </h1>
       {/* Blog post contents */}
       <div class="mb-5 space-y-5 md:mb-8 md:space-y-8">
         {
@@ -139,6 +161,31 @@ const ogTitle = `${post.data.title} | Blog | ${SITE.title}`;
           )
         }
       </div>
+      {
+        hasBody && (
+          <div class="prose prose-lg prose-neutral dark:prose-invert prose-headings:font-bold prose-headings:text-neutral-800 dark:prose-headings:text-neutral-200 prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-table:text-base mb-8 max-w-none text-pretty">
+            <Content />
+          </div>
+        )
+      }
+      {
+        faqs.length > 0 && (
+          <section class="mb-10" aria-labelledby="post-faq-title">
+            <h2 id="post-faq-title" class="mb-4 text-2xl font-bold text-neutral-800 dark:text-neutral-200">Short answers</h2>
+            <div class="divide-y divide-neutral-200 border-y border-neutral-200 dark:divide-neutral-700 dark:border-neutral-700">
+              {faqs.map(faq => (
+                <details class="group py-4">
+                  <summary class="flex cursor-pointer list-none items-start justify-between gap-4 text-lg font-semibold text-neutral-800 dark:text-neutral-200 [&::-webkit-details-marker]:hidden">
+                    <span>{faq.question}</span>
+                    <span class="mt-1 text-neutral-500 transition group-open:rotate-45" aria-hidden="true">+</span>
+                  </summary>
+                  <p class="mt-2 text-pretty text-neutral-700 dark:text-neutral-300">{faq.answer}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+        )
+      }
       <div
         class="mx-auto grid max-w-(--breakpoint-lg) gap-y-5 sm:flex sm:items-center sm:justify-between sm:gap-y-0"
       >

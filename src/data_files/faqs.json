@@ -1,32 +1,36 @@
 {
 "faqs": [
 {
-"question": "Why do I need AI infrastructure?",
-"answer": "Using AI is more than just accessing ChatGPT or another AI tool. Businesses need a reliable way to connect AI with their data, systems, and workflows. AI infrastructure provides the foundation that makes AI secure, scalable, and ready for real-world business use."
+"question": "What is PAVii.AI?",
+"answer": "PAVii.AI is a blockchain-based security and observability platform for AI agents and LLMs. Pavii checks every agent call, blocks harmful actions and records what each agent does. Buckleson builds Pavii on Hyper 0X, its own post-quantum-resistant blockchain."
 },
 {
-"question": "How is PAVii.AI different from Harness, Claude, Perplexity, or similar platforms?",
-"answer": "Most AI platforms are built for general use and provide the same experience to every user. PAVii.AI helps businesses build custom AI solutions designed around their specific needs, processes, and industry requirements. Instead of a one-size-fits-all AI assistant, we create AI systems tailored to your organization."
+"question": "How does a blockchain protect my AI agents and data?",
+"answer": "Pavii keeps important rules as smart contracts on Hyper 0X. A smart contract is a program on the blockchain that nobody can quietly change. An egress contract decides what an agent can send and do. Pavii links each receipt to the one before it, so nobody can secretly change or delete a record."
 },
 {
-"question": "Why not just use A.I agents  ChatGPT, Claude, or Perplexity?",
-"answer": "These tools are excellent for everyday tasks such as writing, research, and answering questions. However, businesses often need AI that understands their internal data, follows company processes, and works with existing software. PAVII.AI helps organizations build AI solutions that are unique to their business."
+"question": "How does Pavii keep personal data private?",
+"answer": "The privacy gate removes personal data and secrets before a model sees the prompt. Pavii also uses zero-knowledge proof (ZKP) designs. A ZKP lets one party prove a fact without showing the data behind it. Model providers can learn from usage, but they do not get data that can harm you."
 },
 {
-"question": "Who is PAVii.AI for?",
-"answer": "PAVii.AI is designed for startups, enterprises, healthcare providers, financial institutions, government organizations, and any business looking to use AI more effectively without needing a large technical team."
+"question": "Which AI agents and models does Pavii support?",
+"answer": "Pavii is one gateway for any AI agent or LLM. It works with Claude, Claude Code, Codex, ChatGPT, Grok, OpenCode and your own custom agents. You can build new agents in Pavii or connect the agents that you use now."
 },
 {
-"question": "What problems does PAVII.AI solve?",
-"answer": "Many organizations struggle with integrating AI into their daily operations. PAVii.AI simplifies this process by providing everything needed to deploy, manage, and scale AI solutions, helping businesses save time, improve productivity, and automate repetitive work."
+"question": "What happens when an agent breaks a rule?",
+"answer": "The kill switch moves the agent from observed to restricted to stopped. Pavii blocks the harmful call, or at least makes it visible to your team. A person can stop any agent at any time."
 },
 {
-"question": "Can PAVii.AI work with my existing software?",
-"answer": "Yes. PAVii.AI is designed to integrate with your current systems and workflows, reducing the need for major changes while helping you add AI capabilities quickly."
+"question": "How does Pavii control access to the company brain?",
+"answer": "The company brain is a shared memory that Pavii builds from usage, as a graph of your products, people and knowledge. Pavii checks each request for access on the blockchain. So the agent of a junior employee cannot read restricted knowledge, even inside the shared brain."
 },
 {
-"question": "Is my business data secure?",
-"answer": "Yes. Security and privacy are built into the platform. We offer self-hosted deployment options and advanced security controls so organizations can maintain ownership and control of their data."
+"question": "Can I deploy Pavii on my own blockchain?",
+"answer": "Yes. You can use the Pavii chain, run your rules on-chain or deploy your own chain inside your organization. Pavii can also connect to the platforms that you use now. You do not need to change your business logic."
+},
+{
+"question": "What does agentic observability show my team?",
+"answer": "Agentic observability shows how your agents behave: each call, each tool, each blocked action and the cost. Your team can use this record to find problems and make agents better. Pavii saved more than 100M AI tokens across more than 82K queries."
 }
 ]
 }

@@ -4,7 +4,7 @@ description: 'Agentic Experience'
 main:
   id: 2
   content: |
-    AX helps teams make their applications understandable and usable by AI. It turns existing products, tools, websites, and internal systems into AI-accessible experiences through simple MCP and A2A-style connections, so agents can understand your business and interact with it more reliably.
+    AX (agentic experience) makes your applications easy for AI agents to understand and use. AX connects your products, tools, websites and internal systems to agents through MCP and A2A. MCP and A2A are open protocols that let agents use tools and talk to other agents. Pavii checks every agent call that reaches your application.
   imgCard: '@/images/product-image-2.avif'
   imgMain: '@/images/product-image-main-2.avif'
   imgAlt: 'Application connected to AI agents through integration protocols'
@@ -17,47 +17,48 @@ tabs:
     title: 'Specifications'
   - id: 'tabs-with-card-item-3'
     dataTab: '#tabs-with-card-3'
-    title: 'Blueprints'
+    title: 'Diagrams'
 longDescription:
-  title: 'Make Your Application AI Accessible'
+  title: 'Make Your Application Easy for AI to Use'
   subTitle: |
-    Most current systems are built for humans, not AI. AX gives your business an AI-ready interface so agents can discover what your application does, call the right tools, understand your workflows, and return better results to users who want to interact with your product through AI.
+    Most systems today are made for people, not for AI. AX gives your business an interface for AI agents. Agents can find what your application does, call the right tools and follow your workflows. Pavii sets clear limits on what each agent can do, and it records every action.
   btnTitle: 'Book an AX demo'
   btnURL: 'https://cal.com/buckleson-group/30min'
 descriptionList:
-  - title: 'Simple AI connectivity'
-    subTitle: 'Expose your product, website, or internal tool to AI through practical MCP and A2A-style protocol layers without rebuilding your core application.'
+  - title: 'Simple AI connections'
+    subTitle: 'Connect your product, website or internal tool to AI through MCP and A2A. You do not rebuild your core application.'
   - title: 'Business context for agents'
-    subTitle: 'Help AI understand your services, data, actions, policies, and workflows so it can interact with your business with better context.'
-  - title: 'Better end-user results'
-    subTitle: 'Reduce errors and improve responses when customers, operators, or assistants use AI to access your product or tool.'
+    subTitle: 'Agents learn your services, data, actions, policies and workflows, so they give better answers.'
+  - title: 'Safe agent access'
+    subTitle: 'Pavii checks each agent call at six gates. Your rules decide which actions an agent can do in your application.'
 specificationsLeft:
   - title: 'Protocol Layer'
-    subTitle: 'Create AI-facing interfaces inspired by MCP and A2A patterns so agents can discover and use application capabilities.'
+    subTitle: 'AI-facing interfaces based on MCP and A2A, so agents can find and use the functions of your application.'
   - title: 'Tool Access'
-    subTitle: 'Make key product actions available to AI systems with clear inputs, outputs, and guardrails.'
+    subTitle: 'Give AI agents the main actions of your product, with clear inputs, outputs and limits.'
   - title: 'Context Mapping'
-    subTitle: 'Translate business logic, user intent, documentation, and application state into context that AI can reason over.'
-  - title: 'Integration Path'
-    subTitle: 'Connect existing applications incrementally instead of replacing systems already used by your team or customers.'
+    subTitle: 'Change your business logic, documents and application state into context that AI can use.'
+  - title: 'Step-by-Step Connection'
+    subTitle: 'Connect one application at a time. You do not replace the systems that your team and customers use now.'
 specificationsRight:
   - title: 'AI-Ready Business'
-    subTitle: 'Expand your business by making products and workflows easier for AI agents to find, understand, and operate.'
-  - title: 'Lower Error Rate'
-    subTitle: 'Give agents structured access instead of forcing them to guess from human-only screens, reducing wrong actions and poor answers.'
+    subTitle: 'Agents can find, understand and use your products, so more AI users can reach your business.'
+  - title: 'Fewer Errors'
+    subTitle: 'Agents get structured access and do not guess from screens made for people. This means fewer wrong actions and poor answers.'
   - title: 'Customer Experience'
-    subTitle: 'Enable users to interact with your product through AI assistants while still receiving accurate, useful results.'
+    subTitle: 'Your users can work with your product through AI assistants and still get correct, useful results.'
   - title: 'Best For'
-    subTitle: 'SaaS products, service businesses, internal platforms, and websites that want to become easier for AI agents to use.'
+    subTitle: 'SaaS products, service businesses, internal platforms and websites that want AI agents to use them.'
 tableData:
   - feature: ['Capability', 'Value']
     description:
-      - ['AI protocol support', 'MCP and A2A-style connectivity']
-      - ['Primary use case', 'Make applications, tools, and websites AI-accessible']
-      - ['Business benefit', 'More discoverable and usable products for AI-driven users']
-      - ['User benefit', 'Fewer errors and better answers when interacting through AI']
-      - ['Implementation style', 'Connect existing systems with an AI-facing layer']
+      - ['AI protocols', 'MCP and A2A']
+      - ['Main use', 'Make applications, tools and websites easy for AI to use']
+      - ['Business benefit', 'AI users can find and use your products']
+      - ['User benefit', 'Fewer errors and better answers through AI']
+      - ['Security', 'Pavii checks every agent call at six gates']
+      - ['How it connects', 'An AI-facing layer on top of your current systems']
 blueprints:
-  first: '@/images/blueprint-1.avif'
-  second: '@/images/blueprint-2.avif'
+  first: '@/images/product-image-main-2.avif'
+  second: '@/images/automated-tools.avif'
 ---

@@ -1,0 +1,38 @@
+---
+import '@styles/iso.css';
+import { figureParts, figureScript, type FigureName } from '@utils/figures';
+
+/**
+ * An Anatomy isometric figure (built by scripts/figures/*.mjs). The kit is
+ * bundled once per page (iso-kit.ts puts it on window.IsoKit).
+ * `tone`: `sheet` blends the card into a dark section, `hero` lays it on the
+ * hero's paper, `card` drops the frame and step list (inside a stacking card)
+ * and fits the drawing to its box, `auto` follows the theme.
+ * `lazy` (default): the frame, labels and steps are in the page, but the
+ * drawing and its script load from /figures/<name>.json and .js once the
+ * figure is near, into a box already the right size, so nothing shifts.
+ * `lazy={false}` puts everything inline.
+ */
+interface Props {
+  name: FigureName;
+  tone?: 'sheet' | 'hero' | 'card' | 'auto';
+  lazy?: boolean;
+  class?: string;
+}
+
+const { name, tone = 'auto', lazy = true, class: className } = Astro.props;
+const parts = figureParts(name);
+const base = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/figures/${name}`;
+const classes = ['iso', tone === 'sheet' ? 'iso-sheet' : 'iso-auto', tone === 'hero' && 'iso-hero', tone === 'card' && 'iso-card', className];
+const style = `--fig-ar:${parts.ratio.toFixed(4)}`;
+---
+
+{lazy ? (
+  <div class:list={classes} style={style} data-iso-lazy={name} data-iso-src={`${base}.json`} data-iso-js={`${base}.js`} set:html={parts.shell} />
+) : (
+  <div class:list={classes} style={style} set:html={parts.markup} />
+)}
+<script>
+  import '@scripts/iso-kit';
+</script>
+{!lazy && <script type="module" is:inline set:html={figureScript(name).replace(/<\/(script)/gi, '<\\/$1')} />}

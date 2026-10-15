@@ -1,0 +1,57 @@
+---
+// Agentic security FAQ: the questions people ask about protecting AI agents
+// with blockchain that few sites answer well. Published as FAQPage data.
+import MainLayout from '@/layouts/MainLayout.astro';
+import FAQ from '@components/sections/misc/FAQ.astro';
+import HeroSectionAlt from '@components/sections/landing/HeroSectionAlt.astro';
+import securityFaqs from '@data/security-faqs.json';
+import { SITE, SOCIAL_PREVIEW_IMAGE_URL } from '@data/constants';
+
+const pageTitle = `Agentic Security FAQ: Blockchain and AI Agents | ${SITE.title}`;
+const metaDescription =
+  'Plain answers on AI agent security with blockchain: audit logs, privilege escalation, rules after the context fills, private data, MCP tool calls and agent payments.';
+---
+
+<MainLayout
+  title={pageTitle}
+  customDescription={metaDescription}
+  customOgTitle={pageTitle}
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebPage',
+        '@id': `${SITE.url}/agentic-security-faq/`,
+        url: `${SITE.url}/agentic-security-faq/`,
+        name: pageTitle,
+        description: metaDescription,
+        image: SOCIAL_PREVIEW_IMAGE_URL,
+        isPartOf: { '@type': 'WebSite', url: SITE.url, name: SITE.title },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: securityFaqs.faqs.map(faq => ({
+          '@type': 'Question',
+          name: faq.question,
+          acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+        })),
+      },
+    ],
+  }}
+>
+  <section class="mx-auto max-w-(--breakpoint-xl) px-4 pt-10 sm:px-6 lg:px-8 lg:pt-14">
+    <p class="text-sm font-semibold tracking-wide text-blue-600 uppercase dark:text-blue-400">Agentic security FAQ</p>
+    <h1 class="mt-3 max-w-3xl text-4xl font-bold text-balance text-neutral-800 md:text-5xl dark:text-neutral-200">
+      Blockchain and AI agent security, answered
+    </h1>
+    <p class="mt-4 max-w-2xl text-lg text-pretty text-neutral-600 dark:text-neutral-400">{securityFaqs.subTitle}</p>
+  </section>
+
+  <FAQ title="Questions<br />we get asked" faqs={securityFaqs} />
+
+  <HeroSectionAlt
+    title="Protect your AI agents and your users' data"
+    subTitle="Talk to the PAVii.AI team about gates, on-chain rules and receipts for the agents you run today."
+    url="https://cal.com/buckleson-group/30min"
+  />
+</MainLayout>

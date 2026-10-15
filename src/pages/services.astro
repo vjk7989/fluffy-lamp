@@ -37,34 +37,34 @@ interface Article {
 const articles: Article[] = [
   {
     isRightSection: true,
-    title: 'Full AI Dev Workflow for Your Developers',
+    title: 'Agentic Security and Observability',
     subTitle:
-      'Give your engineering team a complete AI development workflow from planning and prototyping to testing, evaluation, deployment, and monitoring. PAVii.AI helps developers build faster with AI agents, code-side model assistance, automated checks, and practical tooling that fits into their daily workflow.',
+      'We put your AI agents behind one Pavii gateway. Pavii checks every call at six gates: injection, privacy, supply chain, budget, egress and output. Your team sees each call, tool, blocked action and cost. Each receipt links to the one before it on Hyper 0X, so nobody can secretly change the record.',
     single: false,
     imgOne: aiWorkflow,
-    imgOneAlt: 'Minimal AI development dashboard for workflow planning and monitoring.',
+    imgOneAlt: 'Minimal dashboard for planning and monitoring AI work',
     imgTwo: aiTools,
-    imgTwoAlt: 'Clean AI tooling interface for developer automation',
+    imgTwoAlt: 'Clean interface for AI tools and automation',
   },
   {
     isRightSection: false,
-    title: 'Custom AI Solutions Fine-Tuned for Your Needs',
+    title: 'Custom Agents and Developer Workflows',
     subTitle:
-      'We build custom AI solutions around your business needs, including fine-tuned models and AI agents designed for optimal token usage and maximum accuracy. Instead of forcing a generic assistant into every workflow, we shape the model behavior, context, tools, and agent logic around your real use case.',
+      'We build custom AI agents and fine-tuned models for your work. We shape the context, tools and agent logic around your real use case. Your developers get a full AI workflow with tests, evaluations and checks. Every agent that we build runs behind Pavii security.',
     img: customSolution,
-    imgAlt: 'Custom AI solution interface for fine-tuned agents and model workflows',
+    imgAlt: 'Interface for custom AI agents and fine-tuned models',
     btnExists: true,
     btnTitle: 'Learn More',
     btnURL: '#',
   },
   {
     isRightSection: true,
-    title: 'Inference Solutions for Hosting and Managing Models',
+    title: 'Inference for Hosting and Managing Models',
     subTitle:
-      'Host, manage, and route your AI models with an inference layer built for production. PAVii.AI helps you choose the right model for each task, manage performance, reduce compute waste, and keep inference reliable as your product scales.',
+      'We host, manage and route your AI models. Model routing sends each task to the model that fits it best. This cuts compute waste and keeps answers good as your product grows. The same Pavii gates protect every model call.',
     single: false,
     imgOne: inferenceDiagram,
-    imgOneAlt: 'Diagram of AI inference routing and model management infrastructure',
+    imgOneAlt: 'Diagram of AI model routing and model management',
     imgTwo: inferenceDashboard,
     imgTwoAlt: 'Model hosting dashboard for inference operations',
   },
@@ -72,16 +72,16 @@ const articles: Article[] = [
     isRightSection: false,
     title: 'MCP for AI-Accessible Business Systems',
     subTitle:
-      'We build MCP and AI-facing interfaces for your business so AI can understand and access your product, tools, website, or internal systems. This makes your business easier for AI agents to discover, reason about, and use with fewer errors.',
+      'We build MCP servers and other AI-facing interfaces for your business. MCP (Model Context Protocol) is a standard way for AI agents to use tools and data. Agents can then find and use your product, website or internal systems with fewer errors. Pavii controls what each agent can do.',
     img: mcpSystems,
     imgAlt:
       'AI-accessible business systems connected through protocol tooling',
   },
   {
     isRightSection: true,
-    title: 'NPU Optimized Models for Your Needs',
+    title: 'NPU Optimized Models for Your Devices',
     subTitle:
-      'Deploy models optimized for Neural Processing Units and edge AI environments. We help tune, compress, route, and adapt models so they can run efficiently on the hardware that fits your product, device, or private infrastructure.',
+      'We prepare models for NPUs (Neural Processing Units, chips made for AI) and edge devices. We tune, compress and adapt each model to run well on your hardware. Private data can stay on your device or inside your own systems.',
     single: false,
     imgOne: npuModel,
     imgOneAlt: 'Optimized AI model package for NPU deployment',
@@ -93,9 +93,9 @@ const articles: Article[] = [
   },
   {
     isRightSection: false,
-    title: 'Physical AI Solutions for Daily Activity',
+    title: 'Physical AI for Daily Activity',
     subTitle:
-      'Build Physical AI systems that combine digital intelligence with real-world interaction. PAVii.AI helps create solutions that connect models, agents, sensors, devices, and workflows so AI can become part of everyday activity in practical, useful ways.',
+      'Physical AI connects models and agents to sensors, devices and real-world tasks. We help you build these systems for everyday work. Pavii keeps clear rules and a full record for each action that an agent takes.',
     img: physicalAi,
     imgAlt: 'Physical AI systems connecting software agents with real-world activity',
   },
@@ -103,8 +103,8 @@ const articles: Article[] = [
 
 const pageTitle: string = `Services | ${SITE.title}`;
 const metaDescription =
-  'PAVii.AI provides AI development workflows, custom AI agents, inference hosting, MCP integration, NPU optimized models, and Physical AI solutions for modern businesses.';
-const ogTitle = 'AI Infrastructure and Development Services | PAVii.AI';
+  'PAVii.AI services: agentic security and observability on Hyper 0X, custom AI agents, inference hosting, MCP integration, NPU optimized models and Physical AI.';
+const ogTitle = 'Agentic Security and AI Services | PAVii.AI';
 ---
 
 <MainLayout
@@ -116,7 +116,7 @@ const ogTitle = 'AI Infrastructure and Development Services | PAVii.AI';
     '@type': 'WebPage',
     '@id': `${SITE.url}/services`,
     url: `${SITE.url}/services`,
-    name: 'AI Infrastructure and Development Services | PAVii.AI',
+    name: 'Agentic Security and AI Services | PAVii.AI',
     description: metaDescription,
     image: SOCIAL_PREVIEW_IMAGE_URL,
     isPartOf: {
@@ -124,7 +124,7 @@ const ogTitle = 'AI Infrastructure and Development Services | PAVii.AI';
       url: SITE.url,
       name: 'PAVii.AI',
       description:
-        'PAVii.AI provides infrastructure, tools, and services for building, deploying, and scaling AI systems.',
+        'PAVii.AI is a blockchain-based security and observability platform for AI agents and LLMs.',
     },
     inLanguage: 'en-US',
   }}
@@ -133,10 +133,10 @@ const ogTitle = 'AI Infrastructure and Development Services | PAVii.AI';
     /* MainSection is the introductory section of the page, it also contains a CTA button */
   }
   <MainSection
-    title="AI Services Built Around Your Business"
-    subTitle="PAVii.AI helps teams design, build, host, and optimize AI systems across the full lifecycle. From developer workflows and custom agents to inference, MCP integrations, NPU optimization, and Physical AI, our services are shaped around practical business outcomes."
+    title="Security First, Then Every AI Service You Need"
+    subTitle="PAVii.AI protects and monitors your AI agents first. We also build custom agents, host models, connect your systems through MCP, prepare models for NPUs and build Physical AI. Every service runs behind Pavii security."
     btnExists={true}
-    btnTitle="Schedule a Consultation"
+    btnTitle="Book a Call"
     btnURL="https://cal.com/buckleson-group/30min"
   />
   {
@@ -180,21 +180,21 @@ const ogTitle = 'AI Infrastructure and Development Services | PAVii.AI';
   {/* FeaturesStats section showcases essential stats valuable to users */}
   <FeaturesStats
     title="By the Numbers"
-    subTitle="PAVii.AI services are designed to reduce AI build time, improve model accuracy, optimize token and compute usage, and make business systems easier for AI to access."
+    subTitle="Real results from Pavii in use. These numbers come from our own measurements."
     mainStatTitle="6"
-    mainStatSubTitle="core AI service areas covering development, agents, inference, MCP, NPU optimization, and Physical AI"
+    mainStatSubTitle="security gates on every agent call: injection, privacy, supply chain, budget, egress and output"
     stats={[
       {
-        stat: '24/7',
-        description: 'model hosting and inference support paths',
+        stat: '100M+',
+        description: 'AI tokens saved across 82K+ queries',
       },
       {
-        stat: '100%',
-        description: 'solutions shaped around your business context',
+        stat: '30-60%',
+        description: 'fewer tokens on one measured Claude Code task',
       },
       {
         stat: '1',
-        description: 'partner for the full AI development lifecycle',
+        description: 'gateway for every AI agent and model',
       },
     ]}
   />

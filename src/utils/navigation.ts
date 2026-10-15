@@ -11,9 +11,11 @@ const footerLinks = [
   {
     section: 'Ecosystem',
     links: [
+      { name: 'Agentic security', url: '/products/security/' },
+      { name: 'Security FAQ', url: '/agentic-security-faq/' },
       { name: 'Inference', url: '/blog/post-1/' },
       { name: 'Harness', url: '/blog/post-2/' },
-      { name: 'Security', url: '/blog/post-5/' },
+      { name: 'Buckleson', url: 'https://buckleson.com/' },
     ],
   },
   {

@@ -1,10 +1,10 @@
 ---
 title: 'Compute'
-description: 'RAM/ROM for A.I'
+description: 'Context engine and inference for AI'
 main:
   id: 4
   content: |
-    Compute provides a context engine and inference solution for giving AI longer, more useful context while helping teams choose the best model for each job. Not every task needs a 1 trillion parameter model; Compute helps match work to efficient, fine-tuned models that use less compute and deliver better results.
+    Compute is a context engine and an inference service. It gives your AI longer, more useful context. It also helps you pick the best model for each job. Not every task needs a model with one trillion parameters. Compute sends work to smaller, fine-tuned models that use less compute and give better results.
   imgCard: '@/images/product-image-4.avif'
   imgMain: '@/images/product-image-main-4.avif'
   imgAlt: 'Compute product interface preview'
@@ -17,39 +17,39 @@ tabs:
     title: 'Specifications'
   - id: 'tabs-with-card-item-3'
     dataTab: '#tabs-with-card-3'
-    title: 'Blueprints'
+    title: 'Diagrams'
 longDescription:
-  title: 'Longer Context, Smarter Inference'
+  title: 'Longer Context, Better Inference'
   subTitle: |
-    Compute gives your AI systems the memory, routing, and inference layer they need to work with longer context and better model selection. It helps teams pick fine-tuned models built for their actual workload, using improved transformer architectures and stronger algorithms instead of spending unnecessary compute on oversized general models.
+    Compute gives your AI systems memory, model routing and inference. Model routing sends each task to the model that fits it best. Compute uses fine-tuned models, better transformer designs and better algorithms. It does not spend compute on large general models when a smaller model is enough. Pavii checks every call that Compute sends to a model.
   btnTitle: 'Contact sales to learn more'
   btnURL: '#'
 descriptionList:
   - title: 'Context engine'
-    subTitle: 'Provides longer, cleaner context so AI systems can reason across more information without losing the user goal.'
-  - title: 'Model-fit inference'
-    subTitle: 'Routes work to the best model for the task, helping teams avoid oversized models when smaller fine-tuned options can perform better.'
+    subTitle: 'Gives AI longer, cleaner context. The model can reason across more information and keep the goal of the user.'
+  - title: 'Model routing'
+    subTitle: 'Sends each task to the best model for it. A smaller fine-tuned model often does the job better than a large one.'
   - title: 'Efficient compute'
-    subTitle: 'Uses better architecture choices and algorithms to reduce compute cost while improving output quality for specific workflows.'
+    subTitle: 'Better designs and algorithms cut compute cost and improve answers for your workflows.'
 specificationsLeft:
   - title: 'Long Context Layer'
-    subTitle: 'Extends useful context for AI workflows so models can understand more history, data, and task state.'
+    subTitle: 'Gives models more useful context, so they understand more history, data and task state.'
   - title: 'Inference Router'
-    subTitle: 'Selects the most suitable model based on the task, expected quality, speed, and compute needs.'
-  - title: 'Fine-Tuned Fit'
-    subTitle: 'Supports models optimized for specific work instead of forcing every task through one oversized model.'
-  - title: 'Compute Optimization'
-    subTitle: 'Reduces unnecessary token and model spend by matching the workload to efficient inference paths.'
+    subTitle: 'Picks the best model for the task, based on the quality, speed and compute that the task needs.'
+  - title: 'Fine-Tuned Models'
+    subTitle: 'Uses models trained for your work. Not every task goes through one large model.'
+  - title: 'Compute Savings'
+    subTitle: 'Cuts token and model spend, because each task goes to an efficient model.'
 specificationsRight:
-  - title: 'Architecture Advantage'
-    subTitle: 'Uses better transformer architecture choices and algorithms to make AI workflows more effective.'
+  - title: 'Better Design'
+    subTitle: 'Uses better transformer designs and algorithms to make AI workflows more effective.'
   - title: 'Better Results'
-    subTitle: 'Improves answer quality by giving models the right context and choosing the right inference strategy.'
-  - title: 'Lower Cost'
-    subTitle: 'Helps teams spend less compute while still getting strong performance for production AI tasks.'
+    subTitle: 'Gives models the right context and picks the right inference method, so answers improve.'
+  - title: 'Protected by Pavii'
+    subTitle: 'The six Pavii security gates check every call. The company brain keeps context safe with access checks on the blockchain.'
   - title: 'Best For'
-    subTitle: 'AI products, agent systems, internal assistants, and businesses that need longer context with practical model selection.'
+    subTitle: 'AI products, agent systems, internal assistants and businesses that need longer context and practical model choice.'
 blueprints:
-  first: '@/images/blueprint-1.avif'
-  second: '@/images/blueprint-2.avif'
+  first: '@/images/service-ai-inference-routing.avif'
+  second: '@/images/service-ai-model-efficiency.avif'
 ---

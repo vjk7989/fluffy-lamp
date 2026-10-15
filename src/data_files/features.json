@@ -1,22 +1,22 @@
 [
   {
-    "heading": "AI Workflow Teams",
-    "content": "Work with PAVii.AI specialists who help developers design, test, evaluate, and ship AI workflows with clearer architecture and production-ready execution.",
+    "heading": "Six Security Gates",
+    "content": "Pavii checks every agent call at six gates: injection, privacy, supply chain, budget, egress and output. Pavii blocks a bad call before it can do harm.",
     "svg": "groups"
   },
   {
-    "heading": "Efficient Inference",
-    "content": "Route workloads to the right model for the task, reduce unnecessary compute, and improve response quality with inference systems built for real business use.",
+    "heading": "Private Data Stays Private",
+    "content": "The privacy gate removes personal data and secrets before a model sees the prompt. Zero-knowledge proof designs let a provider check a fact without seeing the data.",
     "svg": "verified"
   },
   {
-    "heading": "Agent-Ready Integrations",
-    "content": "Make products, tools, and websites easier for AI agents to understand through MCP, A2A, structured context, safer permissions, and reliable tool access.",
+    "heading": "Rules on the Blockchain",
+    "content": "Pavii keeps your important rules as smart contracts on Hyper 0X. The rules still apply when a model forgets an instruction in a long chat.",
     "svg": "books"
   },
   {
-    "heading": "Secure Agentic Systems",
-    "content": "Build AI experiences with stronger context controls, tool validation, audit paths, and security patterns designed for agentic workflows.",
+    "heading": "Agentic Observability",
+    "content": "See each call, tool, blocked action and cost for every agent. Each receipt links to the one before it on Hyper 0X, so nobody can secretly change the record.",
     "svg": "frame"
   }
 ]

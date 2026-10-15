@@ -1,10 +1,10 @@
 ---
 title: 'Dev Tools'
-description: 'All your dev needs'
+description: 'A light code editor with AI agents'
 main:
   id: 1
   content: |
-    Dev Tools is a lightweight code editor built for developers who want AI close to the work, not hidden in another tab. Run models side by side with your code, inspect results in context, and let an AI agent handle the repetitive checks that slow teams down.
+    Dev Tools is a light code editor with AI next to your code. Run models beside your files and check the results in one place. Let an AI agent do the repeated checks that slow your team down. Every agent call goes through Pavii, so the six security gates protect your code and secrets.
   imgCard: '@/images/product-image-1.avif'
   imgMain: '@/images/product-image-main-1.avif'
   imgAlt: 'Developer workspace with code editor and AI model panel'
@@ -22,36 +22,36 @@ tabs:
     dataTab: '#tabs-with-card-4'
     title: 'Download Alternatives'
 longDescription:
-  title: 'Lightweight AI Coding Workspace'
+  title: 'A Light AI Coding Workspace'
   subTitle: |
-    Dev Tools gives developers a fast editor and an AI companion in one focused workspace. Compare model responses beside your code, ask agents to review changes, run evaluations, generate tests, and catch issues before they become production work.
+    Dev Tools puts a fast editor and an AI agent in one workspace. Compare model answers beside your code. Ask agents to review changes, run evaluations and write tests. Find problems before they reach production. Pavii records each agent action, so your team can see what the agent changed and why.
   btnTitle: 'Book a Dev Tools demo'
   btnURL: 'https://cal.com/buckleson-group/30min'
 descriptionList:
-  - title: 'Side-by-side model runs'
-    subTitle: 'Run AI models next to your code so prompts, outputs, files, and implementation context stay visible in one place.'
-  - title: 'Agent-assisted coding'
-    subTitle: 'Delegate the tedious parts of development, including code checks, evaluations, test creation, and issue triage.'
-  - title: 'Fast developer workflow'
-    subTitle: 'Use a lightweight editor experience designed for quick iteration, focused review, and practical AI support without extra setup friction.'
+  - title: 'Models beside your code'
+    subTitle: 'Run AI models next to your code. Prompts, answers, files and context stay visible in one place.'
+  - title: 'Help from AI agents'
+    subTitle: 'Give the repeated work to an agent: code checks, evaluations, new tests and issue sorting.'
+  - title: 'Protected by Pavii'
+    subTitle: 'The privacy gate removes secrets and personal data before a model sees your code. The egress gate controls what the agent can send out.'
 specificationsLeft:
-  - title: 'Editor Experience'
-    subTitle: 'Lightweight code editing with a clean workspace for files, prompts, model output, and implementation notes.'
+  - title: 'Editor'
+    subTitle: 'A light code editor with one clean workspace for files, prompts, model answers and notes.'
   - title: 'Model Workspace'
-    subTitle: 'Run and compare model responses beside active code so developers can validate ideas without leaving their flow.'
+    subTitle: 'Run and compare model answers beside your code. Test ideas without leaving the editor.'
   - title: 'AI Agent'
-    subTitle: 'Use an agent to inspect changes, surface risks, suggest fixes, and automate repetitive development tasks.'
-  - title: 'Testing Support'
-    subTitle: 'Generate, refine, and run test ideas from current code context to improve confidence before shipping.'
+    subTitle: 'The agent checks changes, finds risks, suggests fixes and does repeated tasks for you.'
+  - title: 'Tests'
+    subTitle: 'Write and run tests from the code that you have open. Ship with more confidence.'
 specificationsRight:
   - title: 'Evaluations'
-    subTitle: 'Create repeatable checks for prompts, model behavior, and implementation quality across coding tasks.'
+    subTitle: 'Make repeatable checks for prompts, model behavior and code quality.'
   - title: 'Review Checks'
-    subTitle: 'Ask the agent to look for regressions, missing coverage, broken assumptions, and risky code paths.'
-  - title: 'Developer Control'
-    subTitle: 'Keep humans in charge with visible context, reviewable suggestions, and clear actions before changes are accepted.'
+    subTitle: 'Ask the agent to find regressions, missing tests, wrong assumptions and risky code.'
+  - title: 'People in Control'
+    subTitle: 'You see the context and each suggestion. Nothing changes until a person accepts it.'
   - title: 'Best For'
-    subTitle: 'AI-assisted product teams, solo developers, and engineering groups that want faster coding, better checks, and tighter feedback loops.'
+    subTitle: 'Product teams that use AI, solo developers and engineering groups that want faster coding and better checks.'
 blueprints:
   first: '@/images/dev-tools/Screenshot 2026-08-26 153357.png'
   second: '@/images/dev-tools/Screenshot 2026-08-26 153406.png'
