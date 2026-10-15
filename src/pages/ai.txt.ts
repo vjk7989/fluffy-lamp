@@ -6,28 +6,30 @@ const baseUrl = import.meta.env.SITE.replace(/\/$/, '');
 const aiTxt = `PAVii.AI AI-readable site summary
 
 Purpose:
-PAVii.AI helps developers, startups, and businesses build, deploy, secure, and scale AI systems.
+PAVii.AI protects AI agents, LLM applications and the people who use them. Pavii is a blockchain-based agentic security, LLM security and agentic observability platform by Buckleson, built on the Hyper 0X blockchain.
 
-Core services:
-1. Full AI development workflow for developer teams.
-2. Custom AI solutions, fine-tuned models, AI agents, token optimization, and accuracy improvements.
-3. Inference hosting, model routing, and managed model deployment.
-4. MCP and A2A integrations that make products, tools, and websites accessible to AI agents.
-5. NPU optimized models and efficient AI compute.
-6. Physical AI solutions that connect intelligent software with real-world activity.
+What Pavii does:
+1. One gateway for every AI agent and model (Claude, Claude Code, Codex, ChatGPT, Grok, OpenCode and custom agents).
+2. Six security gates on every call: injection, privacy, supply chain, budget, egress and output.
+3. Rules as smart contracts on Hyper 0X, so they still apply when a model context fills up.
+4. A privacy gate and zero-knowledge proof designs, so AI companies learn from usage without seeing personal data.
+5. Hash-chained receipts that nobody can secretly change, and a kill switch (observed, restricted, stopped).
+6. Agentic observability, custom agents and a shared company brain with access checked on the blockchain.
+7. Deployment on Pavii, on your own chain, or on existing platforms, with no change to business logic.
 
-Core products:
-- Dev Tools: lightweight code editor and AI agent tooling for checks, evals, tests, and developer workflows.
-- Agentic Experience: AI-accessible application interfaces using MCP and agent protocols.
-- Super Assistant: day-to-day super-agent with token optimization and aggregator marketplace.
-- Compute: context engine, inference solution, and model selection for efficient AI workloads.
+Other products and services:
+- Dev Tools: AI coding workspace with agents, evaluations and checks.
+- Agentic Experience (AX): make applications accessible to AI agents through MCP and A2A.
+- Super Assistant: desktop super-agent for daily work.
+- Compute: context engine and inference with model routing, efficient and NPU-optimized models.
 
 Best URLs:
 - ${baseUrl}/
-- ${baseUrl}/products/
-- ${baseUrl}/services/
+- ${baseUrl}/products/security/
+- ${baseUrl}/agentic-security-faq/
 - ${baseUrl}/blog/
-- ${baseUrl}/blog/post-5/
+- ${baseUrl}/services/
+- https://buckleson.com/
 
 Contact:
 ${SITE.email}

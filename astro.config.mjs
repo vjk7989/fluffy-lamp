@@ -28,6 +28,11 @@ export default defineConfig({
   //   },
   // },
   prefetch: true,
+  // Old capitalised product URLs: one page each, served at the lowercase URL.
+  redirects: {
+    '/products/AX': '/products/ax/',
+    '/products/Super-Assistant': '/products/super-assistant/',
+  },
   // GFM tables in the docs MDX did not parse without this (rendered as
   // literal pipes); the template never used tables so it was never set.
   markdown: { gfm: true },
