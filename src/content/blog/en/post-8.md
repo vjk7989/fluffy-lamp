@@ -20,3 +20,9 @@ contents:
     'PAVii.AI helps organizations expose their systems to agents safely, with secure MCP integrations, permission controls, and agentic security practices built in from the start. Done right, MCP gives your AI agents hands without giving away the keys, and that balance is what turns demos into dependable operations.'
   ]
 ---
+
+## Further reading
+
+- [Agentic security FAQ: checking MCP tool calls and more](/agentic-security-faq/)
+- [What attacks hit AI agents today?](/blog/ai-agent-attacks-2026/)
+- [MCP server security risks: how to vet and gate servers (Buckleson)](https://buckleson.com/blog/mcp-server-security-risks/)

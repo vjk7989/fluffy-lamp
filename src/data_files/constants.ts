@@ -26,6 +26,7 @@ export const SEO = {
         '@id': `${SITE.url}/#organization`,
         name: SITE.title,
         legalName: 'PAVii.AI',
+        parentOrganization: { '@type': 'Organization', name: 'Buckleson', url: 'https://buckleson.com/' },
         url: SITE.url,
         email: SITE.email,
         description: SITE.description,

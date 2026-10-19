@@ -21,3 +21,9 @@ contents:
     'PAVii.AI treats agentic security as core infrastructure rather than an add-on, with permission controls, audit trails, and safe MCP integration patterns across its platform and desktop assistant. Agents that act on your behalf should be as governed as the employees they work alongside, because that trust is exactly what attackers will target.'
   ]
 ---
+
+## Further reading
+
+- [How to stop attacks on AI agents: a playbook](/blog/how-to-prevent-ai-agent-attacks/)
+- [What is prompt injection? Examples and how to stop it (Buckleson)](https://buckleson.com/blog/what-is-prompt-injection/)
+- [Is your AI system prompt a secret? (Buckleson)](https://buckleson.com/blog/system-prompt-leakage/)

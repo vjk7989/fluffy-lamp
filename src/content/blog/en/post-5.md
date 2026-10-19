@@ -22,3 +22,10 @@ contents:
     'For businesses, agentic security is not a blocker to AI adoption. It is the foundation that makes useful automation possible. PAVii.AI designs AI-ready systems with clear permissions, safer tool access, context-aware controls, and measurable evaluation paths so companies can adopt agents without losing control of their data or workflows.'
   ]
 ---
+
+## Further reading
+
+- [How to stop attacks on AI agents: a playbook](/blog/how-to-prevent-ai-agent-attacks/)
+- [Do AI agents need a blockchain, or is a log enough?](/blog/do-ai-agents-need-blockchain/)
+- [How to secure AI agents: 8 attacks and how to stop them (Buckleson)](https://buckleson.com/blog/how-to-secure-ai-agents/)
+- [Proof of execution: turning AI from a black box into a record (Buckleson)](https://buckleson.com/blog/proof-of-execution-ai/)
