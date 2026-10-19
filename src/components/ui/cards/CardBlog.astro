@@ -1,6 +1,6 @@
 ---
 // Import necessary components and utilities
-import AuthorStack from '@components/ui/AuthorStack.astro';
+import AvatarBlog from '@components/ui/avatars/AvatarBlog.astro';
 import { Image } from 'astro:assets';
 import { formatDate } from '@utils/utils';
 import type { CollectionEntry } from 'astro:content';
@@ -49,11 +49,16 @@ const href = blogLocale && blogLocale !== 'en'
   <div class="absolute inset-x-0 top-0 z-10">
     <div class="flex h-full flex-col p-4 sm:p-6">
       <div class="flex items-center">
-        <AuthorStack ids={blogEntry.data.authors} size={34} onDark class="text-sm">
+        <AvatarBlog blogEntry={blogEntry} />
+
+        <div class="ms-2.5 sm:ms-4">
+          <h4 class="font-bold text-neutral-50">
+            {blogEntry.data.author}
+          </h4>
           <p class="text-xs text-neutral-50/[.8]">
             {formatDate(blogEntry.data.pubDate)}
           </p>
-        </AuthorStack>
+        </div>
       </div>
     </div>
   </div>
