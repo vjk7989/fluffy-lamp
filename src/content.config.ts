@@ -5,7 +5,6 @@ import { z } from 'astro/zod';
 import { docsLoader } from '@astrojs/starlight/loaders';
 import { docsSchema } from '@astrojs/starlight/schema';
 import { glob } from 'astro/loaders';
-import { AUTHOR_IDS } from './data_files/authors';
 
 const productsCollection = defineCollection({
   loader: glob({
@@ -85,8 +84,6 @@ const blogCollection = defineCollection({
       description: z.string(),
       contents: z.array(z.string()),
       author: z.string(),
-      /** Byline. Defaults to the three article authors (see data_files/authors.ts). */
-      authors: z.array(z.enum(AUTHOR_IDS)).optional(),
       role: z.string().optional(),
       authorImage: image(),
       authorImageAlt: z.string(),
