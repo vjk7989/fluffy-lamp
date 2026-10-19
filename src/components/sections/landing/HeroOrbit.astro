@@ -11,7 +11,7 @@ import icons from '@data/hero-icons.json';
  * and stays still under reduced motion.
  */
 const W = 1000, H = 560, C = { x: 500, y: 236 };
-const OUT = { rx: 390, ry: 150 }, INN = { rx: 205, ry: 66 };
+const OUT = { rx: 345, ry: 168 }, INN = { rx: 215, ry: 126 };
 const nodes = [
   { key: 'compute', label: 'Compute', color: '#2563eb' },
   { key: 'agents', label: 'AI agents', color: '#059669' },
@@ -34,7 +34,7 @@ const at = (o: { rx: number; ry: number }, a: number) => {
 const chipW = (label: string) => 74 + label.length * 14.5;
 const chips = nodes.map((n, i) => ({ ...n, i, w: chipW(n.label), ...at(OUT, (i / nodes.length) * Math.PI * 2 + 0.35) }));
 const logos = models.map((k, i) => ({ key: k, i, ...logoData[k], ...at(INN, (i / models.length) * Math.PI * 2 + Math.PI / 4) }));
-const BLOCKS = 7, GAP = 74, BX = C.x - ((BLOCKS - 1) * GAP) / 2, BY = 500;
+const BLOCKS = 7, GAP = 74, BX = C.x - ((BLOCKS - 1) * GAP) / 2, BY = 506;
 const tf = (p: { x: number; y: number; s: number }) => `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) scale(${p.s.toFixed(3)})`;
 ---
 
