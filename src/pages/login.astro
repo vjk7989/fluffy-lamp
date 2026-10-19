@@ -211,6 +211,7 @@ const metaDescription = 'Sign in to your Pavii account.';
       SAMLAuthProvider,
       createUserWithEmailAndPassword,
       signInWithEmailAndPassword,
+      linkWithCredential,
       signInWithCredential,
       signInWithPopup,
       sendPasswordResetEmail,
@@ -265,6 +266,10 @@ const metaDescription = 'Sign in to your Pavii account.';
     const successEl = el('login-success');
     let mode: 'signin' | 'signup' = 'signin';
     let busy = false;
+    // Firebase allows one account per email. When GitHub sign-in hits an email
+    // already registered through another provider, the GitHub credential is
+    // kept here and linked once the user signs in with their original method.
+    let pendingLink: import('firebase/auth').OAuthCredential | null = null;
 
     if (redirectTarget) {
       el('login-subtitle').textContent = 'Sign in to continue to the Pavii.Ai app.';
@@ -390,6 +395,17 @@ const metaDescription = 'Sign in to your Pavii account.';
     };
 
     const finish = async (user: import('firebase/auth').User) => {
+      if (pendingLink) {
+        const credential = pendingLink;
+        pendingLink = null;
+        try {
+          await linkWithCredential(user, credential);
+          trace('github-linked');
+        } catch (error) {
+          // Sign-in itself succeeded; a failed link only means GitHub stays unlinked.
+          trace(`link-error:${(error as { code?: string })?.code ?? 'unknown'}`);
+        }
+      }
       if (redirectTarget) {
         const idToken = await user.getIdToken();
         if (/^https?:/.test(redirectTarget)) {
@@ -536,6 +552,20 @@ const metaDescription = 'Sign in to your Pavii account.';
         const credential = await signInWithPopup(auth, provider);
         await finish(credential.user);
       } catch (error) {
+        const code = (error as { code?: string })?.code;
+        const pending =
+          code === 'auth/account-exists-with-different-credential' && provider instanceof GithubAuthProvider
+            ? GithubAuthProvider.credentialFromError(error as import('firebase/app').FirebaseError)
+            : null;
+        if (pending) {
+          pendingLink = pending;
+          const email = (error as { customData?: { email?: string } })?.customData?.email;
+          showError(
+            `${email ?? 'This email'} already has a Pavii account. Sign in with Google or your email and password, ` +
+              'and GitHub will be linked to it for next time.'
+          );
+          return;
+        }
         showError(friendly(error));
       } finally {
         setBusy(false);
