@@ -1,0 +1,14 @@
+---
+import icons from '@data/flow-icons.json';
+
+/** A small one-colour icon (MingCute, 24×24) for the flow explainers. */
+interface Props {
+  name: string;
+  class?: string;
+}
+
+const { name, class: className } = Astro.props;
+const body = (icons as Record<string, string>)[name] ?? (icons as Record<string, string>).check;
+---
+
+<svg class={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" set:html={body} />

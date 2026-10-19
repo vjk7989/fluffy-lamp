@@ -61,4 +61,5 @@ tableData:
 blueprints:
   first: '@/images/product-image-main-2.avif'
   second: '@/images/automated-tools.avif'
+flows: ['security']
 ---

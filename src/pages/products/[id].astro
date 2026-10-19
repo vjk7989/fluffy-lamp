@@ -5,6 +5,7 @@ import DownloadAlternatives from '@components/products/DownloadAlternatives.astr
 import ProductTabBtn from '@components/ui/buttons/ProductTabBtn.astro';
 import PrimaryCTA from '@components/ui/buttons/PrimaryCTA.astro';
 import IsoFigure from '@components/ui/IsoFigure.astro';
+import FlowStack from '@components/ui/FlowStack.astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import { SITE, SOCIAL_PREVIEW_IMAGE_URL } from '@data/constants';
@@ -623,6 +624,11 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
         no sticky or fixed descendant changes behaviour. The image now slides in
         from its own right edge instead of from off-screen.
       */}
+      {product.data.mainFigure ? (
+        <div class="w-full max-w-[680px] shrink-0 overflow-x-clip">
+          <div id="fadeInMoveRight"><IsoFigure name={product.data.mainFigure} /></div>
+        </div>
+      ) : (
       <div class="relative aspect-square w-full max-w-[600px] shrink-0 overflow-x-clip">
         <Image
           id="fadeInMoveRight"
@@ -633,8 +639,20 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
           loading={'eager'}
         />
       </div>
+      )}
     </div>
   </section>
+
+  {product.data.flows?.length ? (
+    <section class="mx-auto max-w-[85rem] px-4 pt-6 pb-4 sm:px-6 lg:px-8" aria-labelledby="flows-title">
+      <p class="text-sm font-semibold tracking-wide text-blue-600 uppercase dark:text-blue-400">See it work</p>
+      <h2 id="flows-title" class="mt-2 max-w-2xl text-3xl font-bold text-balance text-neutral-800 md:text-4xl dark:text-neutral-200">Follow one request through {product.data.title}</h2>
+      <p class="mt-3 max-w-2xl text-lg text-pretty text-neutral-600 dark:text-neutral-400">Each request moves down the layers. A safe request reaches the end. A harmful one stops at the layer that catches it, and you see why.</p>
+      <div class="mt-8 grid gap-6">
+        {product.data.flows.map(name => <FlowStack name={name} />)}
+      </div>
+    </section>
+  ) : null}
 
   <div class="mx-auto max-w-[85rem] px-4 pt-10 sm:px-6 lg:px-8 lg:pt-14">
     <nav

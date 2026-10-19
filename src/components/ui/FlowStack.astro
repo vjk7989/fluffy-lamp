@@ -1,0 +1,297 @@
+---
+import FlowIcon from '@components/ui/FlowIcon.astro';
+import { flows, type FlowName } from '@data/flows';
+
+/**
+ * The layered "how it works" explainer. The layers are a real, readable
+ * list; a request travels down a lane beside them. Each layer it clears gets
+ * a check; the layer that catches a bad request turns red and says why; a
+ * request that clears every layer reaches the end row and adds a block to
+ * the little chain there. The loop pauses offscreen and holds still under
+ * reduced motion.
+ */
+interface Props {
+  name: FlowName;
+  class?: string;
+}
+
+const { name, class: className } = Astro.props;
+const flow = flows[name];
+const runs = flow.runs.map(run => ({ label: run.label, stopAt: 'stopAt' in run ? (run.stopAt as number) : -1, reason: 'reason' in run ? (run.reason as string) : '', done: 'done' in run ? (run.done as string) : '' }));
+---
+
+<figure class:list={['flow relative overflow-hidden rounded-[2rem] bg-neutral-950 p-4 text-white sm:p-7', className]} data-flow data-unit={flow.unit} data-runs={JSON.stringify(runs)}>
+  <figcaption class="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
+    <span class="inline-flex items-center gap-2 font-mono text-xs tracking-wide text-white/70 uppercase"><span class="flow-live size-2 rounded-full bg-emerald-400"></span>{flow.label}</span>
+    <span class="min-h-[1.25rem] font-mono text-xs text-white/55" data-flow-readout aria-hidden="true"></span>
+  </figcaption>
+
+  <div class="relative mt-5" data-flow-body>
+    <div class="flow-packet" data-packet aria-hidden="true">
+      {flow.runs.map((run, i) => <span class="flow-packet-icon" data-run-icon={i} hidden={i !== 0}><FlowIcon name={run.icon} class="size-4" /></span>)}
+      <span class="flow-packet-label" data-packet-label></span>
+    </div>
+    <ol class="grid gap-2">
+      {flow.layers.map((layer, i) => (
+        <li class="flow-row" data-row={i}>
+          <span class="flow-lane" aria-hidden="true"><span class="flow-node"><FlowIcon name="check" class="flow-ok size-3" /><FlowIcon name="close" class="flow-x size-3" /></span></span>
+          <span class="flow-icon"><FlowIcon name={layer.icon} class="size-5" /></span>
+          <span class="min-w-0">
+            <span class="flex flex-wrap items-baseline gap-x-2">
+              <span class="font-mono text-[0.7rem] text-white/60">{String(i + 1).padStart(2, '0')}</span>
+              <span class="font-semibold">{layer.title}</span>
+            </span>
+            <span class="mt-0.5 block text-sm leading-snug text-pretty text-white/65">{layer.text}</span>
+            <span class="flow-reason" data-reason></span>
+          </span>
+          {layer.chips && (
+            <span class="flow-chips">
+              {layer.chips.map(chip => <span>{chip}</span>)}
+            </span>
+          )}
+        </li>
+      ))}
+      <li class="flow-row flow-end" data-row="end">
+        <span class="flow-lane" aria-hidden="true"><span class="flow-node"><FlowIcon name="check" class="flow-ok size-3" /></span></span>
+        <span class="flow-icon"><FlowIcon name={flow.end.icon} class="size-5" /></span>
+        <span class="min-w-0">
+          <span class="font-semibold">{flow.end.title}</span>
+          <span class="mt-0.5 block text-sm leading-snug text-pretty text-white/65">{flow.end.text}</span>
+          <span class="flow-done" data-done></span>
+        </span>
+        <span class="flow-chain" aria-hidden="true">{Array.from({ length: 6 }, () => <span></span>)}</span>
+      </li>
+    </ol>
+  </div>
+</figure>
+
+<style>
+  .flow { --lane: 2.25rem; --ok: #34d399; --bad: #f87171; --accent-400: #60a5fa; --accent-500: #3b82f6; --accent-600: #2563eb; }
+  @media (min-width: 768px) { .flow { --lane: 15rem; } }
+  .flow-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--lane) auto minmax(0, 1fr);
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 0.9rem 0.7rem 0;
+    border-radius: 1.1rem;
+    background: rgb(255 255 255 / 0.035);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.08);
+    transition: background-color 300ms ease, box-shadow 300ms ease;
+  }
+  @media (min-width: 1024px) { .flow-row { grid-template-columns: var(--lane) auto minmax(0, 1fr) auto; } }
+  .flow-lane { position: relative; align-self: stretch; display: grid; place-items: center; }
+  .flow-lane::before { content: ''; position: absolute; left: 50%; top: -0.7rem; bottom: -0.7rem; width: 2px; transform: translateX(-50%); background: rgb(255 255 255 / 0.12); }
+  .flow-row:first-child .flow-lane::before { top: 50%; }
+  .flow-end .flow-lane::before { bottom: 50%; }
+  .flow-node { position: relative; display: grid; place-items: center; width: 1.25rem; height: 1.25rem; border-radius: 999px; background: #1b1b1b; box-shadow: 0 0 0 2px rgb(255 255 255 / 0.18); color: #0a0a0a; transition: background-color 250ms ease, box-shadow 250ms ease; }
+  .flow-node :global(svg) { display: none; }
+  .flow-icon { display: grid; place-items: center; width: 2.4rem; height: 2.4rem; border-radius: 0.8rem; background: rgb(255 255 255 / 0.07); color: #fff; transition: background-color 300ms ease, color 300ms ease; }
+  .flow-chips { display: none; flex-wrap: wrap; justify-content: flex-end; gap: 0.35rem; max-width: 15rem; }
+  @media (min-width: 1024px) { .flow-chips { display: flex; } }
+  .flow-chips span { border-radius: 999px; padding: 0.15rem 0.55rem; font: 500 0.7rem/1.4 var(--font-mono, ui-monospace, monospace); color: rgb(255 255 255 / 0.7); background: rgb(255 255 255 / 0.07); }
+  .flow-reason, .flow-done { display: none; margin-top: 0.35rem; width: fit-content; border-radius: 999px; padding: 0.15rem 0.6rem; font: 600 0.75rem/1.4 var(--font-mono, ui-monospace, monospace); }
+  .flow-reason { color: #fecaca; background: rgb(248 113 113 / 0.16); }
+  .flow-done { color: #a7f3d0; background: rgb(52 211 153 / 0.14); }
+
+  /* States, set by the script. */
+  .flow-row[data-state='active'] { background: color-mix(in oklab, var(--accent-500) 12%, transparent); box-shadow: inset 0 0 0 1.5px var(--accent-400); }
+  .flow-row[data-state='active'] .flow-icon { background: var(--accent-600); color: #fff; }
+  .flow-row[data-state='pass'] .flow-node { background: var(--ok); box-shadow: 0 0 0 2px color-mix(in oklab, var(--ok) 40%, transparent); }
+  .flow-row[data-state='pass'] .flow-node .flow-ok { display: block; }
+  .flow-row[data-state='block'] { background: rgb(248 113 113 / 0.1); box-shadow: inset 0 0 0 1.5px var(--bad); }
+  .flow-row[data-state='block'] .flow-icon { background: var(--bad); color: #fff; }
+  .flow-row[data-state='block'] .flow-node { background: var(--bad); box-shadow: 0 0 0 2px rgb(248 113 113 / 0.4); }
+  .flow-row[data-state='block'] .flow-node .flow-x { display: block; }
+  .flow-row[data-state='block'] .flow-reason { display: block; }
+  .flow-end[data-state='done'] { background: rgb(52 211 153 / 0.08); box-shadow: inset 0 0 0 1.5px var(--ok); }
+  .flow-end[data-state='done'] .flow-icon { background: var(--ok); color: #06120d; }
+  .flow-end[data-state='done'] .flow-node { background: var(--ok); }
+  .flow-end[data-state='done'] .flow-node .flow-ok { display: block; }
+  .flow-end[data-state='done'] .flow-done { display: block; }
+
+  .flow-chain { display: none; gap: 4px; }
+  @media (min-width: 1024px) { .flow-chain { display: flex; } }
+  .flow-chain span { width: 1.1rem; height: 1.1rem; border-radius: 0.3rem; background: rgb(255 255 255 / 0.08); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.1); transition: background-color 300ms ease; }
+  .flow-chain span[data-on] { background: color-mix(in oklab, var(--ok) 70%, transparent); }
+  .flow-chain span[data-new] { animation: flow-block 600ms cubic-bezier(0.22, 1, 0.36, 1); }
+  @keyframes flow-block { from { transform: translateY(-10px) scale(0.6); opacity: 0; } }
+
+  /* The travelling request. */
+  .flow-packet {
+    position: absolute; left: 0; top: 0; z-index: 2;
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    max-width: calc(var(--lane) - 0.5rem);
+    padding: 0.3rem 0.65rem 0.3rem 0.35rem;
+    border-radius: 999px;
+    background: #fff; color: #0a0a0a;
+    box-shadow: 0 10px 24px -10px rgb(0 0 0 / 0.6);
+    opacity: 0;
+    transition: background-color 200ms ease, color 200ms ease;
+    will-change: transform, opacity;
+  }
+  .flow-packet-icon { display: grid; place-items: center; flex: none; width: 1.5rem; height: 1.5rem; border-radius: 999px; background: var(--accent-500); color: #fff; }
+  .flow-packet-label { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 600 0.72rem/1.2 var(--font-mono, ui-monospace, monospace); }
+  .flow-packet[data-bad] { background: var(--bad); color: #fff; }
+  .flow-packet[data-bad] .flow-packet-icon { background: #7f1d1d; }
+  @media (max-width: 767px) {
+    .flow-packet { padding: 0.15rem; max-width: none; }
+    .flow-packet-label { display: none; }
+  }
+  .flow-live { animation: flow-pulse 1.6s ease-in-out infinite; }
+  @keyframes flow-pulse { 50% { opacity: 0.35; } }
+  @media (prefers-reduced-motion: reduce) {
+    .flow-live, .flow-chain span[data-new] { animation: none; }
+    .flow-row, .flow-icon, .flow-node, .flow-packet { transition: none; }
+  }
+</style>
+
+<script>
+  type Run = { label: string; stopAt: number; reason: string; done: string };
+  const ENTER = 0.5, MOVE = 0.5, DWELL = 0.38, BLOCK = 1.9, END = 1.7, GAP = 0.35;
+  const ease = (x: number) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+  const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
+
+  function setup(root: HTMLElement) {
+    const runs: Run[] = JSON.parse(root.dataset.runs || '[]');
+    const unit = root.dataset.unit || 'request';
+    const body = root.querySelector<HTMLElement>('[data-flow-body]')!;
+    const rows = [...root.querySelectorAll<HTMLElement>('[data-row]')];
+    const layers = rows.length - 1;
+    const end = rows[layers];
+    const packet = root.querySelector<HTMLElement>('[data-packet]')!;
+    const label = root.querySelector<HTMLElement>('[data-packet-label]')!;
+    const icons = [...root.querySelectorAll<HTMLElement>('[data-run-icon]')];
+    const readout = root.querySelector<HTMLElement>('[data-flow-readout]');
+    const blocks = [...root.querySelectorAll<HTMLElement>('.flow-chain span')];
+    const reasons = rows.slice(0, layers).map(row => row.querySelector<HTMLElement>('[data-reason]'));
+    const done = end.querySelector<HTMLElement>('[data-done]');
+
+    // Each run's schedule: enter, then move + dwell per layer it reaches,
+    // then either the block or the end.
+    const plan = runs.map(run => {
+      const steps = run.stopAt >= 0 ? run.stopAt + 1 : layers;
+      const length = ENTER + steps * (MOVE + DWELL) + (run.stopAt >= 0 ? BLOCK : MOVE + END) + GAP;
+      return { run, steps, length };
+    });
+    const total = plan.reduce((sum, p) => sum + p.length, 0);
+    const passedBefore = plan.map((_, i) => plan.slice(0, i).filter(p => p.run.stopAt < 0).length);
+
+    // Row centres, measured from the layout (again on resize).
+    let centres: number[] = [];
+    const measure = () => {
+      const top = body.getBoundingClientRect().top;
+      centres = rows.map(row => {
+        const r = row.getBoundingClientRect();
+        return r.top - top + r.height / 2;
+      });
+    };
+    measure();
+    new ResizeObserver(measure).observe(body);
+
+    let shown = { run: -1, rows: '', count: -1, read: '' };
+    function draw(t: number) {
+      let index = 0, u = t;
+      while (index < plan.length - 1 && u >= plan[index].length) { u -= plan[index].length; index++; }
+      const { run, steps } = plan[index];
+      const blocked = run.stopAt >= 0;
+      if (shown.run !== index) {
+        shown.run = index;
+        icons.forEach((el, i) => (el.hidden = i !== index));
+        label.textContent = run.label;
+        reasons.forEach((el, i) => { if (el) el.textContent = i === run.stopAt ? run.reason : ''; });
+        if (done) done.textContent = run.done;
+      }
+      // Where the request is: k = layer reached so far, s = progress of the
+      // current move (0..1), dwelling = sitting on layer k.
+      let pos: number, k = -1, dwelling = false, phase = 'enter', after = 0;
+      if (u < ENTER) {
+        pos = centres[0] - 46;
+        packet.style.opacity = String(ease(u / ENTER));
+      } else {
+        packet.style.opacity = '1';
+        let v = u - ENTER;
+        const per = MOVE + DWELL;
+        if (v < steps * per) {
+          k = Math.floor(v / per);
+          const w = v - k * per;
+          const from = k === 0 ? centres[0] - 46 : centres[k - 1];
+          pos = w < MOVE ? from + (centres[k] - from) * ease(w / MOVE) : centres[k];
+          dwelling = w >= MOVE;
+          phase = 'layers';
+        } else {
+          after = v - steps * per;
+          k = steps - 1;
+          if (blocked) {
+            phase = 'block';
+            pos = centres[k];
+            packet.style.opacity = String(clamp(1 - (after - 1.1) / 0.6, 0, 1));
+          } else {
+            phase = after < MOVE ? 'to-end' : 'end';
+            pos = centres[k] + (centres[layers] - centres[k]) * ease(clamp(after / MOVE, 0, 1));
+            if (phase === 'end') packet.style.opacity = String(clamp(1 - (after - MOVE - 1) / 0.5, 0, 1));
+          }
+        }
+      }
+      // A small shake when a request is caught.
+      const shake = phase === 'block' && after < 0.45 ? Math.sin(after * 60) * 3 * (1 - after / 0.45) : 0;
+      packet.style.transform = `translate(${shake}px, ${pos - packet.offsetHeight / 2}px)`;
+      packet.toggleAttribute('data-bad', phase === 'block');
+
+      // Row states.
+      const states = rows.map((_, i) => {
+        if (i === layers) return phase === 'end' ? 'done' : '';
+        if (k < 0 || i > k) return '';
+        if (i < k) return 'pass';
+        if (phase === 'block') return 'block';
+        if (phase === 'layers') return dwelling ? (blocked && i === run.stopAt ? 'active' : 'pass') : 'active';
+        return 'pass';
+      });
+      const key = states.join();
+      if (key !== shown.rows) {
+        shown.rows = key;
+        rows.forEach((row, i) => (states[i] ? row.setAttribute('data-state', states[i]) : row.removeAttribute('data-state')));
+      }
+      // The chain at the end row: one block per request that got through.
+      const count = (passedBefore[index] + (phase === 'end' ? 1 : 0)) % (blocks.length + 1);
+      if (count !== shown.count) {
+        const grew = count > shown.count && shown.count >= 0;
+        shown.count = count;
+        blocks.forEach((b, i) => {
+          b.toggleAttribute('data-on', i < count);
+          b.toggleAttribute('data-new', grew && i === count - 1);
+        });
+      }
+      const status = phase === 'block' ? `stopped at layer ${run.stopAt + 1}` : phase === 'end' ? run.done : k >= 0 ? `checking ${k + 1} of ${layers}` : 'arriving';
+      const read = `${unit} #${1204 + index} · ${status}`;
+      if (readout && read !== shown.read) { shown.read = read; readout.textContent = read; }
+    }
+
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      // One still moment: the first blocked request, caught at its layer.
+      const i = Math.max(0, plan.findIndex(p => p.run.stopAt >= 0));
+      const start = plan.slice(0, i).reduce((s, p) => s + p.length, 0);
+      draw(start + ENTER + plan[i].steps * (MOVE + DWELL) + 0.6);
+      return;
+    }
+    let frame = 0, prev = 0, clock = 0, visible = false;
+    const tick = (now: number) => {
+      frame = visible ? requestAnimationFrame(tick) : 0;
+      const dt = prev ? Math.min(0.05, (now - prev) / 1000) : 0;
+      prev = now;
+      clock = (clock + dt) % total;
+      try { draw(clock); } catch { /* keep looping */ }
+    };
+    new IntersectionObserver(entries => {
+      visible = entries[entries.length - 1].isIntersecting;
+      prev = 0;
+      if (visible && !frame) frame = requestAnimationFrame(tick);
+    }, { rootMargin: '100px 0px' }).observe(root);
+    draw(0);
+  }
+
+  const start = () => document.querySelectorAll<HTMLElement>('[data-flow]').forEach(setup);
+  if (document.readyState === 'complete') start();
+  else window.addEventListener('load', start, { once: true });
+</script>

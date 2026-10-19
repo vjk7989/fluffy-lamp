@@ -52,4 +52,6 @@ specificationsRight:
 blueprints:
   first: '@/images/service-ai-inference-routing.avif'
   second: '@/images/service-ai-model-efficiency.avif'
+flows: ['brain']
+figures: ['data-vault']
 ---

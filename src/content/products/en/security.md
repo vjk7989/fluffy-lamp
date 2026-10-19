@@ -66,5 +66,7 @@ tableData:
 blueprints:
   first: '@/images/blueprint-1.avif'
   second: '@/images/blueprint-2.avif'
-figures: ['pavii-gates', 'data-vault', 'chain-rack']
+mainFigure: 'pavii-gates'
+flows: ['security', 'brain', 'privacy']
+figures: ['data-vault', 'cipher-tower', 'chain-rack']
 ---

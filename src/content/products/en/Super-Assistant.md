@@ -55,4 +55,5 @@ specificationsRight:
 blueprints:
   first: '@/images/pavii-super-assistant-workspace.png'
   second: '@/images/pavii-super-assistant-connectors.png'
+flows: ['privacy']
 ---
