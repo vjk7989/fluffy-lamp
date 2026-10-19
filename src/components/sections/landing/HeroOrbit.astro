@@ -2,146 +2,280 @@
 import icons from '@data/hero-icons.json';
 
 /**
- * The animated hero scene: Pavii in the centre, wired to the seven parts of
- * the platform. Nodes pop in one by one and their wires draw in; then data
- * pulses run along the wires, the rings around the mark turn, and the logos
- * of the models Pavii protects orbit the mark. Pure SVG and CSS (no script),
- * and still under reduced motion.
+ * The animated hero scene. Pavii sits in the centre as a shield. The seven
+ * parts of the platform ride a tilted outer orbit, so they pass behind and in
+ * front of the shield. The AI models ride an inner orbit and send calls in:
+ * Pavii passes the good calls (blue ripple) and stops the bad ones (red
+ * ripple). Each passed call becomes a new block on the chain below.
+ * The first frame is drawn on the server, so the scene reads without script
+ * and stays still under reduced motion.
  */
-const W = 1600, H = 900, C = { x: 800, y: 440 };
+const W = 1000, H = 560, C = { x: 500, y: 236 };
+const OUT = { rx: 390, ry: 150 }, INN = { rx: 205, ry: 66 };
 const nodes = [
-  { key: 'compute', label: 'Compute', x: 545, y: 150, color: '#2563eb' },
-  { key: 'agents', label: 'AI agents', x: 1055, y: 150, color: '#059669' },
-  { key: 'harness', label: 'Harness', x: 395, y: 440, color: '#4f46e5' },
-  { key: 'coding', label: 'Coding', x: 1205, y: 440, color: '#0891b2' },
-  { key: 'storage', label: 'Data storage', x: 545, y: 730, color: '#7c3aed' },
-  { key: 'chain', label: 'Blockchain secured', x: 800, y: 790, color: '#6d28d9' },
-  { key: 'deploy', label: 'Deploy anywhere', x: 1055, y: 730, color: '#ea580c' },
-] as const;
-const R = 58; // hexagon radius
-const hex = (x: number, y: number, r: number) =>
-  Array.from({ length: 6 }, (_, i) => {
-    const a = (Math.PI / 3) * i - Math.PI / 6;
-    return `${(x + r * Math.cos(a)).toFixed(1)},${(y + r * Math.sin(a)).toFixed(1)}`;
-  }).join(' ');
-// A wire leaves the centre ring, runs out and turns into the node.
-const wire = (n: (typeof nodes)[number]) => {
-  const dx = n.x - C.x, dy = n.y - C.y;
-  const len = Math.hypot(dx, dy);
-  const sx = C.x + (dx / len) * 168, sy = C.y + (dy / len) * 168;
-  const ex = n.x - (dx / len) * (R + 14), ey = n.y - (dy / len) * (R + 14);
-  if (Math.abs(dx) < 40) return `M${sx.toFixed(1)} ${sy.toFixed(1)} L${ex.toFixed(1)} ${ey.toFixed(1)}`;
-  const mx = sx + (ex - sx) * 0.55;
-  return `M${sx.toFixed(1)} ${sy.toFixed(1)} L${mx.toFixed(1)} ${sy.toFixed(1)} Q${ex.toFixed(1)} ${sy.toFixed(1)} ${ex.toFixed(1)} ${(sy + (ey - sy) * 0.4).toFixed(1)} L${ex.toFixed(1)} ${ey.toFixed(1)}`;
-};
-const logos = [
-  { key: 'claude', angle: 0 },
-  { key: 'openai', angle: 90 },
-  { key: 'gemini', angle: 180 },
-  { key: 'grok', angle: 270 },
-] as const;
+  { key: 'compute', label: 'Compute', color: '#2563eb' },
+  { key: 'agents', label: 'AI agents', color: '#059669' },
+  { key: 'harness', label: 'Harness', color: '#4f46e5' },
+  { key: 'coding', label: 'Coding', color: '#0891b2' },
+  { key: 'storage', label: 'Data storage', color: '#7c3aed' },
+  { key: 'chain', label: 'Blockchain', color: '#6d28d9' },
+  { key: 'deploy', label: 'Deploy anywhere', color: '#ea580c' },
+];
+const models = ['claude', 'openai', 'gemini', 'grok'] as const;
 type Logo = { title: string; hex: string; path: string };
 const logoData = icons.logos as Record<string, Logo>;
+const nodeIcons = icons.nodes as Record<string, string>;
+
+// Position on an orbit: angle a (radians), depth from 0 (back) to 1 (front).
+const at = (o: { rx: number; ry: number }, a: number) => {
+  const depth = (Math.sin(a) + 1) / 2;
+  return { x: C.x + o.rx * Math.cos(a), y: C.y + o.ry * Math.sin(a), s: 0.72 + 0.28 * depth, o: 0.5 + 0.5 * depth, front: Math.sin(a) > 0 };
+};
+const chipW = (label: string) => 74 + label.length * 14.5;
+const chips = nodes.map((n, i) => ({ ...n, i, w: chipW(n.label), ...at(OUT, (i / nodes.length) * Math.PI * 2 + 0.35) }));
+const logos = models.map((k, i) => ({ key: k, i, ...logoData[k], ...at(INN, (i / models.length) * Math.PI * 2 + Math.PI / 4) }));
+const BLOCKS = 7, GAP = 74, BX = C.x - ((BLOCKS - 1) * GAP) / 2, BY = 500;
+const tf = (p: { x: number; y: number; s: number }) => `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) scale(${p.s.toFixed(3)})`;
 ---
 
-<svg class="hero-orbit absolute inset-0 size-full" viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Pavii in the centre, connected to compute, AI agents, harness, coding, data storage, blockchain security and deployment, with Claude, OpenAI, Gemini and Grok around it">
+<svg class="hero-orbit absolute inset-0 size-full" viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Pavii in the centre as a shield. Compute, AI agents, harness, coding, data storage, blockchain and deployment orbit it. Claude, OpenAI, Gemini and Grok send calls that Pavii checks, and each passed call is recorded as a block on the chain.">
   <defs>
-    <radialGradient id="ho-glow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.16" />
-      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0" />
-    </radialGradient>
+    <pattern id="ho-dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.4" class="ho-dot" /></pattern>
+    <radialGradient id="ho-fade" cx="50%" cy="45%" r="55%"><stop offset="0" stop-color="#fff" /><stop offset="1" stop-color="#000" /></radialGradient>
+    <mask id="ho-mask"><rect width={W} height={H} fill="url(#ho-fade)" /></mask>
+    <linearGradient id="ho-shield" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="ho-sh-a" /><stop offset="1" class="ho-sh-b" /></linearGradient>
   </defs>
 
-  <circle cx={C.x} cy={C.y} r="330" fill="url(#ho-glow)" />
+  <rect width={W} height={H} fill="url(#ho-dots)" mask="url(#ho-mask)" />
 
-  {/* Wires: a faint track, the drawn line, and pulses travelling along it. */}
-  {nodes.map((n, i) => (
-    <g class="ho-wire" style={`--i:${i};--c:${n.color}`}>
-      <path d={wire(n)} class="ho-track" pathLength="1" />
-      <path d={wire(n)} class="ho-line" pathLength="1" />
-      <path d={wire(n)} class:list={['ho-pulse', i % 2 ? 'ho-in' : 'ho-out']} pathLength="1" />
-      <circle cx={wire(n).split(' ')[0].slice(1)} cy={wire(n).split(' ')[1]} r="5" class="ho-end" />
-    </g>
-  ))}
+  {/* Orbit tracks. */}
+  <ellipse cx={C.x} cy={C.y} rx={OUT.rx} ry={OUT.ry} class="ho-track" />
+  <ellipse cx={C.x} cy={C.y} rx={INN.rx} ry={INN.ry} class="ho-track ho-track-in" />
 
-  {/* Centre: turning rings and the mark. */}
-  <g class="ho-core">
-    <circle cx={C.x} cy={C.y} r="160" class="ho-ring ho-ring-a" />
-    <circle cx={C.x} cy={C.y} r="140" class="ho-ring ho-ring-b" />
-    <circle cx={C.x} cy={C.y} r="118" class="ho-disc" />
-    <image href="/pavii-mark.png" x={C.x - 82} y={C.y - 82} width="164" height="164" class="ho-mark" />
-  </g>
-
-  {/* Models orbit the mark; each badge stays upright. */}
-  <g class="ho-orbit-path"><circle cx={C.x} cy={C.y} r="228" /></g>
-  <g class="ho-orbit">
-    {logos.map((l, i) => {
-      const a = (l.angle * Math.PI) / 180;
-      const x = C.x + 228 * Math.cos(a), y = C.y + 228 * Math.sin(a);
-      const d = logoData[l.key];
-      return (
-        <g class="ho-badge" style={`--d:${i}`}>
-          <circle cx={x} cy={y} r="30" class="ho-badge-bg" />
-          <svg x={x - 17} y={y - 17} width="34" height="34" viewBox="0 0 24 24"><path d={d.path} fill={`#${d.hex}`} class={`ho-logo ho-logo-${l.key}`} /></svg>
-        </g>
-      );
-    })}
-  </g>
-
-  {/* The seven parts of the platform. */}
-  {nodes.map((n, i) => (
-    <g class="ho-node" style={`--i:${i};--c:${n.color}`}>
-      <g class="ho-node-float">
-        <polygon points={hex(n.x, n.y, R + 10)} class="ho-hex-halo" />
-        <polygon points={hex(n.x, n.y, R)} class="ho-hex" />
-        <svg x={n.x - 26} y={n.y - 26} width="52" height="52" viewBox="0 0 24 24" class="ho-icon" set:html={(icons.nodes as Record<string, string>)[n.key]} />
-        <text x={n.x} y={n.y + R + 38} text-anchor="middle" class="ho-label">{n.label.toUpperCase()}</text>
+  {/* Links from the shield to each part, with a packet on each. */}
+  <g data-links>
+    {chips.map(c => (
+      <g style={`--c:${c.color}`}>
+        <line x1={C.x} y1={C.y} x2={c.x} y2={c.y} class="ho-link" />
+        <circle cx={C.x} cy={C.y} r="5" class="ho-packet" />
       </g>
-    </g>
-  ))}
+    ))}
+  </g>
+
+  <g data-back>
+    {/* Inner orbit: the models. */}
+    {logos.filter(l => l.front === false).map(l => (
+      <g class="ho-logo-chip" data-logo data-i={l.i} transform={tf(l)} opacity={l.o.toFixed(2)}>
+        <circle r="31" class="ho-card" />
+        <svg x="-18" y="-18" width="36" height="36" viewBox="0 0 24 24"><path d={l.path} fill={`#${l.hex}`} class={`ho-logo-${l.key}`} /></svg>
+      </g>
+    ))}
+    {/* Outer orbit: the seven parts. */}
+    {chips.filter(c => c.front === false).map(c => (
+      <g class="ho-chip" data-chip data-i={c.i} transform={tf(c)} opacity={c.o.toFixed(2)} style={`--c:${c.color}`}>
+        <rect x={-c.w / 2} y="-29" width={c.w} height="58" rx="29" class="ho-card" />
+        <circle cx={-c.w / 2 + 29} cy="0" r="21" class="ho-icon-bg" />
+        <svg x={-c.w / 2 + 16} y="-13" width="26" height="26" viewBox="0 0 24 24" class="ho-icon" set:html={nodeIcons[c.key]} />
+        <text x={-c.w / 2 + 60} y="9" class="ho-label">{c.label}</text>
+      </g>
+    ))}
+  </g>
+
+  {/* The shield. */}
+  <g class="ho-core">
+    <circle cx={C.x} cy={C.y} r="94" class="ho-ripple" data-ripple />
+    <circle cx={C.x} cy={C.y} r="122" class="ho-ring ho-ring-a" />
+    <circle cx={C.x} cy={C.y} r="108" class="ho-ring ho-ring-b" />
+    <circle cx={C.x} cy={C.y} r="92" class="ho-disc" />
+    <circle cx={C.x} cy={C.y} r="92" class="ho-disc-edge" data-edge />
+    <image href="/pavii-mark.png" x={C.x - 62} y={C.y - 62} width="124" height="124" class="ho-mark" />
+  </g>
+
+  <g data-front>
+    {/* Inner orbit: the models. */}
+    {logos.filter(l => l.front === true).map(l => (
+      <g class="ho-logo-chip" data-logo data-i={l.i} transform={tf(l)} opacity={l.o.toFixed(2)}>
+        <circle r="31" class="ho-card" />
+        <svg x="-18" y="-18" width="36" height="36" viewBox="0 0 24 24"><path d={l.path} fill={`#${l.hex}`} class={`ho-logo-${l.key}`} /></svg>
+      </g>
+    ))}
+    {/* Outer orbit: the seven parts. */}
+    {chips.filter(c => c.front === true).map(c => (
+      <g class="ho-chip" data-chip data-i={c.i} transform={tf(c)} opacity={c.o.toFixed(2)} style={`--c:${c.color}`}>
+        <rect x={-c.w / 2} y="-29" width={c.w} height="58" rx="29" class="ho-card" />
+        <circle cx={-c.w / 2 + 29} cy="0" r="21" class="ho-icon-bg" />
+        <svg x={-c.w / 2 + 16} y="-13" width="26" height="26" viewBox="0 0 24 24" class="ho-icon" set:html={nodeIcons[c.key]} />
+        <text x={-c.w / 2 + 60} y="9" class="ho-label">{c.label}</text>
+      </g>
+    ))}
+  </g>
+
+  {/* The chain: one block per passed call. */}
+  <line x1={BX - 40} y1={BY} x2={BX + (BLOCKS - 1) * GAP + 40} y2={BY} class="ho-chain-line" />
+  <g data-chain>
+    {Array.from({ length: BLOCKS }, (_, i) => (
+      <g class="ho-block" style={`transform:translate(${BX + i * GAP}px,${BY}px)`}>
+        <rect x="-21" y="-21" width="42" height="42" rx="9" class="ho-block-body" />
+        <path d="M-9 0l6 6 12-12" class="ho-tick" />
+      </g>
+    ))}
+  </g>
+  <text x={C.x} y={BY + 50} text-anchor="middle" class="ho-caption">EVERY CHECK RECORDED ON HYPER 0X</text>
 </svg>
 
+<script define:vars={{ C, OUT, INN, GAP, BX, BY, BLOCKS }}>
+  const svg = document.querySelector('.hero-orbit');
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (svg && !still) {
+    const back = svg.querySelector('[data-back]');
+    const front = svg.querySelector('[data-front]');
+    const byI = (a, b) => a.dataset.i - b.dataset.i;
+    const chips = [...svg.querySelectorAll('[data-chip]')].sort(byI);
+    const logos = [...svg.querySelectorAll('[data-logo]')].sort(byI);
+    const links = [...svg.querySelectorAll('[data-links] > g')];
+    const ripple = svg.querySelector('[data-ripple]');
+    const edge = svg.querySelector('[data-edge]');
+    const chain = svg.querySelector('[data-chain]');
+    const items = [
+      ...chips.map((el, i) => ({ el, orbit: OUT, a0: (i / chips.length) * Math.PI * 2 + 0.35, speed: 0.07, front: null })),
+      ...logos.map((el, i) => ({ el, orbit: INN, a0: (i / logos.length) * Math.PI * 2 + Math.PI / 4, speed: -0.16, front: null })),
+    ];
+    // One call: a packet leaves a model and runs to the shield.
+    const call = { el: null, from: 0, t0: 0, bad: false, done: true };
+    const callDot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    callDot.setAttribute('r', '7');
+    callDot.setAttribute('class', 'ho-call');
+    svg.querySelector('.ho-core').before(callDot);
+    let n = 0, nextCall = 1.2;
+
+    const flash = bad => {
+      ripple.setAttribute('class', 'ho-ripple ' + (bad ? 'is-bad' : 'is-ok'));
+      edge.setAttribute('class', 'ho-disc-edge ' + (bad ? 'is-bad' : 'is-ok'));
+      void ripple.getBoundingClientRect();
+      ripple.classList.add('go');
+      setTimeout(() => edge.setAttribute('class', 'ho-disc-edge'), 700);
+    };
+    const addBlock = () => {
+      const blocks = [...chain.children];
+      const g = blocks[0].cloneNode(true);
+      g.classList.add('is-new');
+      g.style.transform = `translate(${BX + BLOCKS * GAP}px,${BY}px)`;
+      chain.append(g);
+      requestAnimationFrame(() => {
+        [...chain.children].forEach((b, i) => { b.style.transform = `translate(${BX + (i - 1) * GAP}px,${BY}px)`; });
+        blocks[0].classList.add('is-gone');
+        setTimeout(() => blocks[0].remove(), 900);
+        setTimeout(() => g.classList.remove('is-new'), 1200);
+      });
+    };
+
+    let t = 0, last = 0, raf = 0, visible = true;
+    const pos = (it, time) => {
+      const a = it.a0 + time * it.speed;
+      const sin = Math.sin(a), depth = (sin + 1) / 2;
+      return { x: C.x + it.orbit.rx * Math.cos(a), y: C.y + it.orbit.ry * sin, s: 0.72 + 0.28 * depth, o: 0.5 + 0.5 * depth, front: sin > 0 };
+    };
+    const frame = now => {
+      raf = requestAnimationFrame(frame);
+      const dt = Math.min(0.05, (now - (last || now)) / 1000);
+      last = now; t += dt;
+      const ps = items.map((it, k) => {
+        const p = pos(it, t);
+        it.el.setAttribute('transform', `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) scale(${p.s.toFixed(3)})`);
+        it.el.setAttribute('opacity', p.o.toFixed(2));
+        if (it.front !== p.front) { it.front = p.front; (p.front ? front : back).append(it.el); }
+        return p;
+      });
+      // Packets run along each link, out and back.
+      links.forEach((g, i) => {
+        const p = ps[i];
+        const line = g.firstElementChild, dot = g.lastElementChild;
+        line.setAttribute('x2', p.x.toFixed(1)); line.setAttribute('y2', p.y.toFixed(1));
+        line.setAttribute('opacity', p.o.toFixed(2));
+        let f = ((t * 0.42 + i / links.length) % 1);
+        if (i % 2) f = 1 - f;
+        const k = 0.28 + 0.72 * f;
+        dot.setAttribute('cx', (C.x + (p.x - C.x) * k).toFixed(1));
+        dot.setAttribute('cy', (C.y + (p.y - C.y) * k).toFixed(1));
+        dot.setAttribute('opacity', (Math.sin(f * Math.PI) * p.o).toFixed(2));
+      });
+      // Model calls into the shield.
+      if (call.done && t > nextCall) {
+        call.from = n % logos.length; call.bad = n % 4 === 3; call.t0 = t; call.done = false; n++;
+      }
+      if (!call.done) {
+        const p = ps[chips.length + call.from];
+        const f = Math.min(1, (t - call.t0) / 0.9);
+        const k = 1 - f * 0.62;
+        callDot.setAttribute('cx', (C.x + (p.x - C.x) * k).toFixed(1));
+        callDot.setAttribute('cy', (C.y + (p.y - C.y) * k).toFixed(1));
+        callDot.setAttribute('class', 'ho-call ' + (call.bad ? 'is-bad' : 'is-ok'));
+        callDot.setAttribute('opacity', f < 1 ? '1' : '0');
+        if (f >= 1) { call.done = true; nextCall = t + 1.6; flash(call.bad); if (!call.bad) addBlock(); }
+      }
+    };
+    const run = () => { if (!raf && visible && !document.hidden) { last = 0; raf = requestAnimationFrame(frame); } };
+    const stop = () => { cancelAnimationFrame(raf); raf = 0; };
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; visible ? run() : stop(); }).observe(svg);
+    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : run()));
+    run();
+  }
+</script>
+
 <style>
-  .hero-orbit { overflow: visible; }
-  .ho-track { fill: none; stroke: var(--c); stroke-opacity: 0.14; stroke-width: 6; stroke-linecap: round; }
-  .ho-line { fill: none; stroke: var(--c); stroke-opacity: 0.55; stroke-width: 2.5; stroke-dasharray: 1; stroke-dashoffset: 1; animation: ho-draw 900ms cubic-bezier(0.22, 1, 0.36, 1) forwards; animation-delay: calc(500ms + var(--i) * 140ms); }
-  .ho-pulse { fill: none; stroke: var(--c); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 0.07 0.93; opacity: 0; animation: ho-pulse-out 2.8s linear infinite; animation-delay: calc(1600ms + var(--i) * 380ms); }
-  .ho-pulse.ho-in { animation-name: ho-pulse-in; }
-  .ho-end { fill: var(--c); opacity: 0; animation: ho-fade 400ms ease forwards; animation-delay: calc(500ms + var(--i) * 140ms); }
-  .ho-ring { fill: none; stroke-width: 2; transform-box: fill-box; transform-origin: center; }
-  .ho-ring-a { stroke: #3b82f6; stroke-opacity: 0.55; stroke-dasharray: 26 14 4 14; animation: ho-spin 26s linear infinite; }
-  .ho-ring-b { stroke: #0b0b0c; stroke-opacity: 0.25; stroke-dasharray: 3 9; animation: ho-spin 40s linear infinite reverse; }
-  .ho-disc { fill: #fff; stroke: #e5e7eb; stroke-width: 2; filter: drop-shadow(0 18px 30px rgb(37 99 235 / 0.18)); }
-  .ho-mark { animation: ho-breathe 6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
-  .ho-orbit-path circle { fill: none; stroke: #94a3b8; stroke-opacity: 0.35; stroke-width: 1.5; stroke-dasharray: 2 8; }
-  .ho-orbit { transform-box: view-box; transform-origin: 800px 440px; animation: ho-spin 48s linear infinite; }
-  .ho-badge { transform-box: fill-box; transform-origin: center; animation: ho-spin 48s linear infinite reverse, ho-fade 600ms ease both; animation-delay: 0s, calc(1300ms + var(--d) * 160ms); }
-  .ho-badge-bg { fill: #fff; stroke: #e5e7eb; stroke-width: 1.5; filter: drop-shadow(0 6px 12px rgb(15 23 42 / 0.12)); }
-  .ho-node { opacity: 0; animation: ho-pop 700ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards; animation-delay: calc(200ms + var(--i) * 140ms); transform-box: fill-box; transform-origin: center; }
-  .ho-node-float { animation: ho-float 7s ease-in-out infinite; animation-delay: calc(var(--i) * -0.9s); }
-  .ho-hex { fill: #fff; stroke: var(--c); stroke-width: 4; filter: drop-shadow(0 10px 18px rgb(15 23 42 / 0.12)); }
-  .ho-hex-halo { fill: none; stroke: var(--c); stroke-opacity: 0.25; stroke-width: 2; stroke-dasharray: 6 6; }
+  .hero-orbit { overflow: visible; animation: ho-in 900ms ease both; }
+  .ho-dot { fill: #94a3b8; fill-opacity: 0.35; }
+  .ho-track { fill: none; stroke: #94a3b8; stroke-opacity: 0.4; stroke-width: 1.5; stroke-dasharray: 3 9; }
+  .ho-track-in { stroke-opacity: 0.3; }
+  .ho-link { stroke: var(--c); stroke-opacity: 0.35; stroke-width: 2; }
+  .ho-packet { fill: var(--c); }
+  .ho-card { fill: #fff; stroke: #e5e7eb; stroke-width: 1.5; filter: drop-shadow(0 8px 14px rgb(15 23 42 / 0.1)); }
+  .ho-icon-bg { fill: var(--c); fill-opacity: 0.12; }
   .ho-icon { color: var(--c); }
-  .ho-label { font: 700 22px/1 ui-sans-serif, system-ui, sans-serif; letter-spacing: 0.08em; fill: #1f2937; }
-  :global(.dark) .ho-disc, :global(.dark) .ho-hex, :global(.dark) .ho-badge-bg { fill: #111827; stroke: #374151; }
+  .ho-label { font: 700 25px/1 ui-sans-serif, system-ui, sans-serif; fill: #1f2937; }
+  .ho-ring { fill: none; transform-box: fill-box; transform-origin: center; }
+  .ho-ring-a { stroke: #2563eb; stroke-opacity: 0.5; stroke-width: 2; stroke-dasharray: 30 12 4 12; animation: ho-spin 28s linear infinite; }
+  .ho-ring-b { stroke: #0f172a; stroke-opacity: 0.18; stroke-width: 2; stroke-dasharray: 2 8; animation: ho-spin 44s linear infinite reverse; }
+  .ho-disc { fill: url(#ho-shield); filter: drop-shadow(0 18px 30px rgb(37 99 235 / 0.2)); }
+  .ho-sh-a { stop-color: #fff; }
+  .ho-sh-b { stop-color: #eef2ff; }
+  .ho-disc-edge { fill: none; stroke: #c7d2fe; stroke-width: 3; transition: stroke 300ms ease; }
+  .ho-disc-edge.is-ok { stroke: #2563eb; }
+  .ho-disc-edge.is-bad { stroke: #dc2626; }
+  .ho-ripple { fill: none; stroke-width: 3; opacity: 0; transform-box: fill-box; transform-origin: center; }
+  .ho-ripple.is-ok { stroke: #2563eb; }
+  .ho-ripple.is-bad { stroke: #dc2626; }
+  .ho-ripple.go { animation: ho-ripple 1s ease-out; }
+  .ho-call.is-ok { fill: #2563eb; }
+  .ho-call.is-bad { fill: #dc2626; }
+  .ho-mark { animation: ho-breathe 6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  .ho-chain-line { stroke: #94a3b8; stroke-opacity: 0.5; stroke-width: 2; stroke-dasharray: 6 6; }
+  .ho-block { transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1), opacity 700ms ease; }
+  .ho-block.is-gone { opacity: 0; }
+  .ho-block-body { fill: #fff; stroke: #6d28d9; stroke-opacity: 0.55; stroke-width: 2; transition: fill 600ms ease; }
+  .ho-block.is-new .ho-block-body { fill: #ede9fe; stroke-opacity: 1; }
+  .ho-tick { fill: none; stroke: #6d28d9; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .ho-caption { font: 700 17px/1 ui-monospace, SFMono-Regular, monospace; letter-spacing: 0.14em; fill: #64748b; }
+
+  :global(.dark) .ho-card, :global(.dark) .ho-block-body { fill: #111827; stroke: #374151; }
   :global(.dark) .ho-label { fill: #e5e7eb; }
+  :global(.dark) .ho-sh-a { stop-color: #1f2937; }
+  :global(.dark) .ho-sh-b { stop-color: #0f172a; }
+  :global(.dark) .ho-disc-edge { stroke: #334155; }
   :global(.dark) .ho-ring-b { stroke: #e5e7eb; }
   :global(.dark) .ho-mark { filter: invert(1); }
   :global(.dark) .ho-logo-openai, :global(.dark) .ho-logo-grok { fill: #f3f4f6; }
+  :global(.dark) .ho-block.is-new .ho-block-body { fill: #2e1065; }
+  :global(.dark) .ho-tick { stroke: #a78bfa; }
+  :global(.dark) .ho-block-body { stroke: #6d28d9; }
 
-  @keyframes ho-draw { to { stroke-dashoffset: 0; } }
-  @keyframes ho-pulse-out { 0% { stroke-dashoffset: 1; opacity: 0; } 8% { opacity: 1; } 85% { opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 0; } }
-  @keyframes ho-pulse-in { 0% { stroke-dashoffset: 0; opacity: 0; } 8% { opacity: 1; } 85% { opacity: 1; } 100% { stroke-dashoffset: 1; opacity: 0; } }
-  @keyframes ho-fade { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes ho-pop { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: scale(1); } }
+  @keyframes ho-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
   @keyframes ho-spin { to { transform: rotate(360deg); } }
   @keyframes ho-breathe { 50% { transform: scale(1.04); } }
-  @keyframes ho-float { 50% { transform: translateY(-8px); } }
+  @keyframes ho-ripple { from { opacity: 0.9; transform: scale(1); } to { opacity: 0; transform: scale(1.6); } }
 
   @media (prefers-reduced-motion: reduce) {
-    .ho-line { animation: none; stroke-dashoffset: 0; }
-    .ho-pulse { display: none; }
-    .ho-end, .ho-node, .ho-badge { animation: none; opacity: 1; }
-    .ho-ring-a, .ho-ring-b, .ho-orbit, .ho-mark, .ho-node-float { animation: none; }
+    .hero-orbit, .ho-ring-a, .ho-ring-b, .ho-mark { animation: none; }
+    .ho-packet { display: none; }
   }
 </style>
