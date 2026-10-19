@@ -6,7 +6,7 @@ import * as kitModule from '../../scripts/figures/kit/iso-kit.mjs';
  * steps, with the drawing taken out), the drawing itself, and the live
  * script wrapped so it can run as a module or inline.
  */
-export type FigureName = 'pavii-gates' | 'data-vault' | 'cipher-tower' | 'chain-rack';
+export type FigureName = 'call-sorter' | 'privacy-press' | 'brain-cabinet' | 'rule-loom';
 
 const html = import.meta.glob('../components/home/figures/*.html', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
 const live = import.meta.glob('../components/home/figures/*.live.js', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;

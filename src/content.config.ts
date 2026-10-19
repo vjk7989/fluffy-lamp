@@ -68,9 +68,9 @@ const productsCollection = defineCollection({
         second: image().optional(),
       }),
       // Animated Anatomy figures shown in the third tab instead of the images.
-      figures: z.array(z.enum(['pavii-gates', 'data-vault', 'cipher-tower', 'chain-rack'])).optional(),
+      figures: z.array(z.enum(['call-sorter', 'privacy-press', 'brain-cabinet', 'rule-loom'])).optional(),
       // An animated figure in place of the main picture at the top of the page.
-      mainFigure: z.enum(['pavii-gates', 'data-vault', 'cipher-tower', 'chain-rack']).optional(),
+      mainFigure: z.enum(['call-sorter', 'privacy-press', 'brain-cabinet', 'rule-loom']).optional(),
       // Animated "follow one request" explainers shown under the top section.
       flows: z.array(z.enum(['security', 'brain', 'privacy'])).optional(),
     }),
