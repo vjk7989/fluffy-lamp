@@ -225,6 +225,7 @@ const SITE_CSS = `
 .fig-pin-text small{white-space:normal;max-width:34ch}
 .fig-pin[data-expand]:not([data-on]) .fig-pin-text small{display:none}
 .fig-pin[data-seek] .fig-pin-tag{pointer-events:auto;cursor:pointer}
+@container figure (max-width:560px){.fig-pin-text small{display:none}}
 .fig-pin-num{display:inline-grid;place-items:center;min-width:16px;height:16px;padding:0 4px;margin-right:5px;border-radius:999px;font:700 9.5px/1 var(--font-mono,ui-monospace,monospace);color:#fff;background:var(--fig-accent,#7c3aed);vertical-align:1px}
 .fig-steps>li{display:flex}
 .fig-step{width:100%;margin:0;border:0;font:inherit;color:inherit;text-align:left;cursor:pointer;-webkit-tap-highlight-color:transparent}
