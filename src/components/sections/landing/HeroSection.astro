@@ -1,4 +1,5 @@
 ---
+import HeroOrbit from '@components/sections/landing/HeroOrbit.astro';
 // Import the necessary dependencies
 import { Image } from 'astro:assets';
 import PrimaryCTA from '@components/ui/buttons/PrimaryCTA.astro';
@@ -20,8 +21,7 @@ const {
   reviews,
   src,
   darkSrc,
-  alt,
-} = Astro.props;
+  alt, animated } = Astro.props;
 
 // Define TypeScript interface for props
 interface Props {
@@ -32,6 +32,8 @@ interface Props {
   secondaryBtn?: string;
   secondaryBtnURL?: string;
   withReview?: boolean;
+  /** Show the animated scene in place of the hero image. */
+  animated?: boolean;
   avatars?: Array<string>;
   starCount?: number;
   rating?: string;
@@ -97,8 +99,9 @@ interface Props {
   {/* Hero Image Section */}
   <div class="flex w-full justify-center">
     <div class="hero-image-wrapper relative aspect-video w-full max-w-6xl overflow-hidden" id="heroImageWrapper">
+      {animated && <HeroOrbit />}
       {
-        src && alt && (
+        !animated && src && alt && (
           <Image
             src={src}
             alt={alt}
@@ -114,7 +117,7 @@ interface Props {
         )
       }
       {
-        darkSrc && alt && (
+        !animated && darkSrc && alt && (
           <Image
             src={darkSrc}
             alt={alt}

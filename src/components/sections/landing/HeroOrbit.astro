@@ -1,0 +1,147 @@
+---
+import icons from '@data/hero-icons.json';
+
+/**
+ * The animated hero scene: Pavii in the centre, wired to the seven parts of
+ * the platform. Nodes pop in one by one and their wires draw in; then data
+ * pulses run along the wires, the rings around the mark turn, and the logos
+ * of the models Pavii protects orbit the mark. Pure SVG and CSS (no script),
+ * and still under reduced motion.
+ */
+const W = 1600, H = 900, C = { x: 800, y: 440 };
+const nodes = [
+  { key: 'compute', label: 'Compute', x: 545, y: 150, color: '#2563eb' },
+  { key: 'agents', label: 'AI agents', x: 1055, y: 150, color: '#059669' },
+  { key: 'harness', label: 'Harness', x: 395, y: 440, color: '#4f46e5' },
+  { key: 'coding', label: 'Coding', x: 1205, y: 440, color: '#0891b2' },
+  { key: 'storage', label: 'Data storage', x: 545, y: 730, color: '#7c3aed' },
+  { key: 'chain', label: 'Blockchain secured', x: 800, y: 790, color: '#6d28d9' },
+  { key: 'deploy', label: 'Deploy anywhere', x: 1055, y: 730, color: '#ea580c' },
+] as const;
+const R = 58; // hexagon radius
+const hex = (x: number, y: number, r: number) =>
+  Array.from({ length: 6 }, (_, i) => {
+    const a = (Math.PI / 3) * i - Math.PI / 6;
+    return `${(x + r * Math.cos(a)).toFixed(1)},${(y + r * Math.sin(a)).toFixed(1)}`;
+  }).join(' ');
+// A wire leaves the centre ring, runs out and turns into the node.
+const wire = (n: (typeof nodes)[number]) => {
+  const dx = n.x - C.x, dy = n.y - C.y;
+  const len = Math.hypot(dx, dy);
+  const sx = C.x + (dx / len) * 168, sy = C.y + (dy / len) * 168;
+  const ex = n.x - (dx / len) * (R + 14), ey = n.y - (dy / len) * (R + 14);
+  if (Math.abs(dx) < 40) return `M${sx.toFixed(1)} ${sy.toFixed(1)} L${ex.toFixed(1)} ${ey.toFixed(1)}`;
+  const mx = sx + (ex - sx) * 0.55;
+  return `M${sx.toFixed(1)} ${sy.toFixed(1)} L${mx.toFixed(1)} ${sy.toFixed(1)} Q${ex.toFixed(1)} ${sy.toFixed(1)} ${ex.toFixed(1)} ${(sy + (ey - sy) * 0.4).toFixed(1)} L${ex.toFixed(1)} ${ey.toFixed(1)}`;
+};
+const logos = [
+  { key: 'claude', angle: 0 },
+  { key: 'openai', angle: 90 },
+  { key: 'gemini', angle: 180 },
+  { key: 'grok', angle: 270 },
+] as const;
+type Logo = { title: string; hex: string; path: string };
+const logoData = icons.logos as Record<string, Logo>;
+---
+
+<svg class="hero-orbit absolute inset-0 size-full" viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Pavii in the centre, connected to compute, AI agents, harness, coding, data storage, blockchain security and deployment, with Claude, OpenAI, Gemini and Grok around it">
+  <defs>
+    <radialGradient id="ho-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.16" />
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <circle cx={C.x} cy={C.y} r="330" fill="url(#ho-glow)" />
+
+  {/* Wires: a faint track, the drawn line, and pulses travelling along it. */}
+  {nodes.map((n, i) => (
+    <g class="ho-wire" style={`--i:${i};--c:${n.color}`}>
+      <path d={wire(n)} class="ho-track" pathLength="1" />
+      <path d={wire(n)} class="ho-line" pathLength="1" />
+      <path d={wire(n)} class:list={['ho-pulse', i % 2 ? 'ho-in' : 'ho-out']} pathLength="1" />
+      <circle cx={wire(n).split(' ')[0].slice(1)} cy={wire(n).split(' ')[1]} r="5" class="ho-end" />
+    </g>
+  ))}
+
+  {/* Centre: turning rings and the mark. */}
+  <g class="ho-core">
+    <circle cx={C.x} cy={C.y} r="160" class="ho-ring ho-ring-a" />
+    <circle cx={C.x} cy={C.y} r="140" class="ho-ring ho-ring-b" />
+    <circle cx={C.x} cy={C.y} r="118" class="ho-disc" />
+    <image href="/pavii-mark.png" x={C.x - 82} y={C.y - 82} width="164" height="164" class="ho-mark" />
+  </g>
+
+  {/* Models orbit the mark; each badge stays upright. */}
+  <g class="ho-orbit-path"><circle cx={C.x} cy={C.y} r="228" /></g>
+  <g class="ho-orbit">
+    {logos.map((l, i) => {
+      const a = (l.angle * Math.PI) / 180;
+      const x = C.x + 228 * Math.cos(a), y = C.y + 228 * Math.sin(a);
+      const d = logoData[l.key];
+      return (
+        <g class="ho-badge" style={`--d:${i}`}>
+          <circle cx={x} cy={y} r="30" class="ho-badge-bg" />
+          <svg x={x - 17} y={y - 17} width="34" height="34" viewBox="0 0 24 24"><path d={d.path} fill={`#${d.hex}`} class={`ho-logo ho-logo-${l.key}`} /></svg>
+        </g>
+      );
+    })}
+  </g>
+
+  {/* The seven parts of the platform. */}
+  {nodes.map((n, i) => (
+    <g class="ho-node" style={`--i:${i};--c:${n.color}`}>
+      <g class="ho-node-float">
+        <polygon points={hex(n.x, n.y, R + 10)} class="ho-hex-halo" />
+        <polygon points={hex(n.x, n.y, R)} class="ho-hex" />
+        <svg x={n.x - 26} y={n.y - 26} width="52" height="52" viewBox="0 0 24 24" class="ho-icon" set:html={(icons.nodes as Record<string, string>)[n.key]} />
+        <text x={n.x} y={n.y + R + 38} text-anchor="middle" class="ho-label">{n.label.toUpperCase()}</text>
+      </g>
+    </g>
+  ))}
+</svg>
+
+<style>
+  .hero-orbit { overflow: visible; }
+  .ho-track { fill: none; stroke: var(--c); stroke-opacity: 0.14; stroke-width: 6; stroke-linecap: round; }
+  .ho-line { fill: none; stroke: var(--c); stroke-opacity: 0.55; stroke-width: 2.5; stroke-dasharray: 1; stroke-dashoffset: 1; animation: ho-draw 900ms cubic-bezier(0.22, 1, 0.36, 1) forwards; animation-delay: calc(500ms + var(--i) * 140ms); }
+  .ho-pulse { fill: none; stroke: var(--c); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 0.07 0.93; opacity: 0; animation: ho-pulse-out 2.8s linear infinite; animation-delay: calc(1600ms + var(--i) * 380ms); }
+  .ho-pulse.ho-in { animation-name: ho-pulse-in; }
+  .ho-end { fill: var(--c); opacity: 0; animation: ho-fade 400ms ease forwards; animation-delay: calc(500ms + var(--i) * 140ms); }
+  .ho-ring { fill: none; stroke-width: 2; transform-box: fill-box; transform-origin: center; }
+  .ho-ring-a { stroke: #3b82f6; stroke-opacity: 0.55; stroke-dasharray: 26 14 4 14; animation: ho-spin 26s linear infinite; }
+  .ho-ring-b { stroke: #0b0b0c; stroke-opacity: 0.25; stroke-dasharray: 3 9; animation: ho-spin 40s linear infinite reverse; }
+  .ho-disc { fill: #fff; stroke: #e5e7eb; stroke-width: 2; filter: drop-shadow(0 18px 30px rgb(37 99 235 / 0.18)); }
+  .ho-mark { animation: ho-breathe 6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  .ho-orbit-path circle { fill: none; stroke: #94a3b8; stroke-opacity: 0.35; stroke-width: 1.5; stroke-dasharray: 2 8; }
+  .ho-orbit { transform-box: view-box; transform-origin: 800px 440px; animation: ho-spin 48s linear infinite; }
+  .ho-badge { transform-box: fill-box; transform-origin: center; animation: ho-spin 48s linear infinite reverse, ho-fade 600ms ease both; animation-delay: 0s, calc(1300ms + var(--d) * 160ms); }
+  .ho-badge-bg { fill: #fff; stroke: #e5e7eb; stroke-width: 1.5; filter: drop-shadow(0 6px 12px rgb(15 23 42 / 0.12)); }
+  .ho-node { opacity: 0; animation: ho-pop 700ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards; animation-delay: calc(200ms + var(--i) * 140ms); transform-box: fill-box; transform-origin: center; }
+  .ho-node-float { animation: ho-float 7s ease-in-out infinite; animation-delay: calc(var(--i) * -0.9s); }
+  .ho-hex { fill: #fff; stroke: var(--c); stroke-width: 4; filter: drop-shadow(0 10px 18px rgb(15 23 42 / 0.12)); }
+  .ho-hex-halo { fill: none; stroke: var(--c); stroke-opacity: 0.25; stroke-width: 2; stroke-dasharray: 6 6; }
+  .ho-icon { color: var(--c); }
+  .ho-label { font: 700 22px/1 ui-sans-serif, system-ui, sans-serif; letter-spacing: 0.08em; fill: #1f2937; }
+  :global(.dark) .ho-disc, :global(.dark) .ho-hex, :global(.dark) .ho-badge-bg { fill: #111827; stroke: #374151; }
+  :global(.dark) .ho-label { fill: #e5e7eb; }
+  :global(.dark) .ho-ring-b { stroke: #e5e7eb; }
+  :global(.dark) .ho-mark { filter: invert(1); }
+  :global(.dark) .ho-logo-openai, :global(.dark) .ho-logo-grok { fill: #f3f4f6; }
+
+  @keyframes ho-draw { to { stroke-dashoffset: 0; } }
+  @keyframes ho-pulse-out { 0% { stroke-dashoffset: 1; opacity: 0; } 8% { opacity: 1; } 85% { opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 0; } }
+  @keyframes ho-pulse-in { 0% { stroke-dashoffset: 0; opacity: 0; } 8% { opacity: 1; } 85% { opacity: 1; } 100% { stroke-dashoffset: 1; opacity: 0; } }
+  @keyframes ho-fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes ho-pop { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: scale(1); } }
+  @keyframes ho-spin { to { transform: rotate(360deg); } }
+  @keyframes ho-breathe { 50% { transform: scale(1.04); } }
+  @keyframes ho-float { 50% { transform: translateY(-8px); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ho-line { animation: none; stroke-dashoffset: 0; }
+    .ho-pulse { display: none; }
+    .ho-end, .ho-node, .ho-badge { animation: none; opacity: 1; }
+    .ho-ring-a, .ho-ring-b, .ho-orbit, .ho-mark, .ho-node-float { animation: none; }
+  }
+</style>
