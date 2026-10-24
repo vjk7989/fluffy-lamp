@@ -22,8 +22,8 @@ longDescription:
   title: 'Longer Context, Better Inference'
   subTitle: |
     Compute gives your AI systems memory, model routing and inference. Model routing sends each task to the model that fits it best. Compute uses fine-tuned models, better transformer designs and better algorithms. It does not spend compute on large general models when a smaller model is enough. Pavii checks every call that Compute sends to a model.
-  btnTitle: 'Contact sales to learn more'
-  btnURL: '#'
+  btnTitle: 'Book a call to learn more'
+  btnURL: 'https://cal.com/buckleson-group/30min'
 descriptionList:
   - title: 'Context engine'
     subTitle: 'Gives AI longer, cleaner context. The model can reason across more information and keep the goal of the user.'

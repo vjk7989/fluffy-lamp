@@ -28,8 +28,6 @@
  * The allowlist mirrors what the site genuinely loads:
  *   googletagmanager.com    gtag.js, loaded inline in MainLayout's head
  *   *.google-analytics.com  GA4 collect beacons, including regional hosts
- *   api.github.com          live latest-release version on the download card
- *   eu.i.posthog.com        download-event capture POST
  *   images.unsplash.com     remote imagery
  *
  * Auth-critical -- removing any of these breaks sign-in:
@@ -69,11 +67,9 @@ export const CONTENT_SECURITY_POLICY = [
   "img-src 'self' data: https://images.unsplash.com https://www.google-analytics.com https://www.googletagmanager.com",
   [
     "connect-src 'self'",
-    'https://api.github.com',
     'https://www.google-analytics.com',
     'https://*.google-analytics.com',
     'https://www.googletagmanager.com',
-    'https://eu.i.posthog.com',
     GOOGLE_ACCOUNTS,
     'https://identitytoolkit.googleapis.com',
     'https://securetoken.googleapis.com',

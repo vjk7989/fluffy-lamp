@@ -1,64 +1,24 @@
 ---
 title: Installation
-description: Download and install Pavii.Ai on Windows, macOS, or Linux.
+description: Pavii.Ai is under development. The installer is not available yet.
 sidebar:
   order: 1
 ---
 
-Pavii.Ai ships as a single installer per platform. The install includes the
-Pavii Engine and the OpenCode CLI — the default AI agent — so a fresh machine
-has a working agent from the very first session, with no extra downloads and
-no Node or Python setup.
+## Coming soon
 
-## Download
+The installer is under development. Book a call to learn more:
+[https://cal.com/buckleson-group/30min](https://cal.com/buckleson-group/30min)
 
-| Platform | Package | Link |
-| -------- | ------- | ---- |
-| Windows (x64) | Installer (`.exe`) | [Download](https://github.com/buckleson/Pavii-Gui-Releases/releases/latest/download/Pavii.Ai-Windows-x64-Setup.exe) |
-| macOS (Apple Silicon) | Disk image (`.dmg`) | [Download](https://github.com/buckleson/Pavii-Gui-Releases/releases/latest/download/Pavii.Ai-macOS-arm64.dmg) |
-| Linux (x64) | AppImage | [Download](https://github.com/buckleson/Pavii-Gui-Releases/releases/latest/download/Pavii.Ai-Linux-x64.AppImage) |
+## Planned design
 
-All builds are published on the
-[releases page](https://github.com/buckleson/Pavii-Gui-Releases/releases/latest),
-where you can also find additional architectures.
+Pavii.Ai is planned to ship as one installer for each platform: Windows,
+macOS and Linux. The plan includes these parts:
 
-## Windows
-
-1. Run the downloaded `Pavii.Ai-Windows-x64-Setup.exe`.
-2. If Windows SmartScreen appears, choose **More info → Run anyway**.
-3. Follow the installer. It installs per-user — no administrator rights
-   needed.
-4. Launch **Pavii.Ai** from the Start menu.
-
-Updates are downloaded in the background and applied silently on restart.
-
-## macOS
-
-1. Open the downloaded `.dmg` and drag **Pavii.Ai** into **Applications**.
-2. On first open, macOS may warn that the app was downloaded from the
-   internet — choose **Open**.
-
-## Linux
-
-1. Make the AppImage executable:
-
-   ```bash
-   chmod +x Pavii.Ai-Linux-x64.AppImage
-   ```
-
-2. Run it:
-
-   ```bash
-   ./Pavii.Ai-Linux-x64.AppImage
-   ```
-
-## What gets installed
-
-- **The desktop app** — the interface you talk to.
-- **Pavii Engine** — a local engine that manages conversations, agents, and
-  your data. It runs on your machine; your data directory stays local.
-- **OpenCode CLI** — the default coding agent, preinstalled and ready in your
-  first session. If you already have your own OpenCode installed, yours takes
-  priority automatically.
+- **The desktop app** — the interface that you talk to.
+- **Pavii Engine** — a local engine that manages conversations, agents and
+  your data. It runs on your machine. Your data directory stays local.
+- **OpenCode CLI** — the default coding agent. It is planned to be ready in
+  your first session. If you have your own OpenCode, Pavii.Ai uses your copy.
 
 Next: [First launch →](/products/dev-tools/docs/getting-started/first-launch/)

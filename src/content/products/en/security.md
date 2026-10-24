@@ -22,7 +22,7 @@ longDescription:
   title: 'Protect Your Agents, Your Data and Your Users'
   subTitle: |
     AI agents read data, call tools and send messages for you. Pavii checks each of these actions and blocks the harmful ones. Pavii stops malicious activity, or at least makes it visible. Personal data does not leak. Model providers and agent vendors can still learn from usage, but they never get data that can harm your users.
-  btnTitle: 'Book a security demo'
+  btnTitle: 'Book a call to learn more'
   btnURL: 'https://cal.com/buckleson-group/30min'
 descriptionList:
   - title: 'Six gates on every call'

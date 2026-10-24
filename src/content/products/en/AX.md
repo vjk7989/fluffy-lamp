@@ -22,7 +22,7 @@ longDescription:
   title: 'Make Your Application Easy for AI to Use'
   subTitle: |
     Most systems today are made for people, not for AI. AX gives your business an interface for AI agents. Agents can find what your application does, call the right tools and follow your workflows. Pavii sets clear limits on what each agent can do, and it records every action.
-  btnTitle: 'Book an AX demo'
+  btnTitle: 'Book a call to learn more'
   btnURL: 'https://cal.com/buckleson-group/30min'
 descriptionList:
   - title: 'Simple AI connections'

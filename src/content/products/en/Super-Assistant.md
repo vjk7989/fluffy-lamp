@@ -18,15 +18,12 @@ tabs:
   - id: 'tabs-with-card-item-3'
     dataTab: '#tabs-with-card-3'
     title: 'Screenshots'
-  - id: 'tabs-with-card-item-4'
-    dataTab: '#tabs-with-card-4'
-    title: 'Download Alternatives'
 longDescription:
   title: 'One AI Agent for Everyday Work'
   subTitle: |
     Super Assistant helps you finish daily tasks from one place. It reads your goal, picks the best tools and does many steps across your connected services. It also has a marketplace for aggregators. An aggregator is a ready-made set of tools for one job. Builders can make aggregators, earn from them and share them with other users.
-  btnTitle: 'Contact sales to learn more'
-  btnURL: '#'
+  btnTitle: 'Book a call to learn more'
+  btnURL: 'https://cal.com/buckleson-group/30min'
 descriptionList:
   - title: 'Starts from your goal'
     subTitle: 'Super Assistant understands what you want to do. It picks the tools and the steps, so you do not manage each step yourself.'

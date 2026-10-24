@@ -5,17 +5,18 @@ sidebar:
   order: 2
 ---
 
+Pavii.Ai is under development. This page describes the planned design.
+
 After signing in, you land on the new-conversation screen. Three choices shape
 how the app works for you: which assistant you talk to, which
 model powers it, and how much it may do on its own.
 
 ## Sign in first
 
-The desktop app asks you to sign in to a Pavii account before you can use it.
+The desktop app is planned to ask you to sign in to a Pavii account before you can use it.
 
 1. Click **Sign in** on the welcome screen.
-2. Your normal browser opens `pavii.tech/login`. Sign in or create an account
-   there.
+2. Your normal browser opens the Pavii sign-in page. Sign in there.
 3. The browser hands the session back to the app and the welcome screen
    clears.
 
@@ -31,8 +32,8 @@ The WebUI has its own separate login and does not use this gate.
 Assistants are the personalities you chat with; each is backed by an agent.
 Out of the box:
 
-- **OpenCode** — the default coding agent. It ships inside the installer, so
-  it works in your very first session with nothing else installed.
+- **OpenCode** — the default coding agent. It is planned to ship with the
+  app, so it works in your first session with no other setup.
 - **Pavii CLI** — the built-in general assistant.
 - **Other CLI agents** — if you already use Claude Code, Codex, or Gemini CLI,
   Pavii.Ai detects them on your machine and offers them as assistants too.
@@ -47,7 +48,7 @@ Open **Settings → Models** to choose what powers your assistant:
 - **Your own API key** — add a key for your preferred model provider and your
   conversations go directly from your machine to that provider.
 - **Free providers** — the model picker also lists free options, so you can
-  try the app before bringing a paid key.
+  test models before you add a paid key.
 
 Credentials you enter are stored locally on your machine.
 

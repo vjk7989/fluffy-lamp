@@ -8,6 +8,8 @@ const aiTxt = `PAVii.AI AI-readable site summary
 Purpose:
 PAVii.AI protects AI agents, LLM applications and the people who use them. Pavii is a blockchain-based agentic security, LLM security and agentic observability platform by Buckleson, built on the Hyper 0X blockchain.
 
+Status: all Pavii products are under development (coming soon). Book a call to learn more: https://cal.com/buckleson-group/30min
+
 What Pavii does:
 1. One gateway for every AI agent and model (Claude, Claude Code, Codex, ChatGPT, Grok, OpenCode and custom agents).
 2. Six security gates on every call: injection, privacy, supply chain, budget, egress and output.
@@ -18,10 +20,10 @@ What Pavii does:
 7. Deployment on Pavii, on your own chain, or on existing platforms, with no change to business logic.
 
 Other products and services:
-- Dev Tools: AI coding workspace with agents, evaluations and checks.
-- Agentic Experience (AX): make applications accessible to AI agents through MCP and A2A.
-- Super Assistant: desktop super-agent for daily work.
-- Compute: context engine and inference with model routing, efficient and NPU-optimized models.
+- Dev Tools: AI coding workspace with agents, evaluations and checks (under development).
+- Agentic Experience (AX): make applications accessible to AI agents through MCP and A2A (under development).
+- Super Assistant: AI agent for daily work (under development).
+- Compute: context engine and inference with model routing, efficient and NPU-optimized models (under development).
 
 Best URLs:
 - ${baseUrl}/

@@ -19,8 +19,8 @@ import dashboard from '@images/dashboard-image.avif';
 import { SEO, SITE, SOCIAL_PREVIEW_IMAGE_URL } from '@/data_files/constants';
 
 
-// Extend the site-wide structured data with SoftwareApplication (PAVii is a
-// downloadable desktop product) and FAQPage schema for the homepage FAQ
+// Extend the site-wide structured data with SoftwareApplication (PAVii is
+// under development) and FAQPage schema for the homepage FAQ
 // section. Invisible to users; helps search engines and AI assistants.
 const homeStructuredData = {
   '@context': 'https://schema.org',
@@ -32,27 +32,14 @@ const homeStructuredData = {
       applicationCategory: 'DeveloperApplication',
       operatingSystem: 'Windows 10+, macOS 14 (Apple Silicon), Linux x64',
       description:
-        'PAVii is a blockchain-based agentic security, LLM security and agentic observability platform. It checks every AI agent call at six security gates, keeps personal data private and records each action on Hyper 0X.',
+        'PAVii is a blockchain-based agentic security, LLM security and agentic observability platform. It checks every AI agent call at six security gates, keeps personal data private and records each action on Hyper 0X. PAVii is under development.',
       url: `${SITE.url}/products/super-assistant/`,
       image: SOCIAL_PREVIEW_IMAGE_URL,
-      softwareVersion: '2.0.5',
       author: {
         '@type': 'Organization',
         name: SITE.title,
         url: SITE.url,
       },
-      offers: {
-        '@type': 'Offer',
-        price: '0',
-        priceCurrency: 'USD',
-      },
-      downloadUrl: [
-        'https://github.com/vjk7989/pavii-release/releases/latest/download/PAVii-Windows-x64-setup.exe',
-        'https://github.com/vjk7989/pavii-release/releases/latest/download/PAVii-macOS-arm64.dmg',
-        'https://github.com/vjk7989/pavii-release/releases/latest/download/PAVii-Linux-x64.AppImage',
-        'https://github.com/vjk7989/pavii-release/releases/latest/download/PAVii-Linux-x64.deb',
-        'https://github.com/vjk7989/pavii-release/releases/latest/download/PAVii-Linux-x64.rpm',
-      ],
     },
     {
       '@type': 'FAQPage',
@@ -80,10 +67,10 @@ const homeStructuredData = {
     title=`Protect Your AI Agents with <span
         class="text-blue-500 dark:text-blue-400" style="color:#3b82f6;">PAVii.AI</span>`
     subTitle="Blockchain-based security and observability for every AI agent and LLM. Pavii blocks harmful calls, keeps personal data private and records every action on Hyper 0X."
-    primaryBtn="Explore Products"
-    primaryBtnURL="/products/security/"
-    secondaryBtn="Book a Call"
-    secondaryBtnURL="https://cal.com/buckleson-group/30min"
+    primaryBtn="Book a Call"
+    primaryBtnURL="https://cal.com/buckleson-group/30min"
+    statusPill="Coming soon"
+    statusNote="Pavii is under development."
     withReview={false}
     animated={true}
     src={heroImage}
