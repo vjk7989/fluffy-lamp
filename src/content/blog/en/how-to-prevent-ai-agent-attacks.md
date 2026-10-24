@@ -82,7 +82,7 @@ The supply-chain gate in Pavii checks tools and servers against the approved lis
 
 Set a budget for each agent, each task and each user. A budget covers tokens, paid API calls and money. When an agent reaches the limit, it stops and asks a person.
 
-The budget gate in Pavii enforces these limits on every call. Pavii also routes work to efficient models and trims context. Across 82K+ queries, Pavii saved 100M+ AI tokens. On one measured Claude Code task, agents used 30 to 60 percent fewer tokens.
+The budget gate in Pavii enforces these limits on every call. Pavii also routes work to efficient models and trims context. On one measured Claude Code task, agents used 30 to 60 percent fewer tokens.
 
 ## What controls map to which attacks?
 

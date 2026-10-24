@@ -5,7 +5,6 @@ import PrimaryCTA from '@components/ui/buttons/PrimaryCTA.astro';
 import CardSmall from '@components/ui/cards/CardSmall.astro';
 import CardWide from '@components/ui/cards/CardWide.astro';
 import FeaturesStatsAlt from '@components/sections/features/FeaturesStatsAlt.astro';
-import TestimonialsSectionAlt from '@components/sections/testimonials/TestimonialsSectionAlt.astro';
 
 // Importing necessary functions from Astro
 import { getCollection } from 'astro:content';
@@ -26,40 +25,6 @@ const product: CollectionEntry<'products'>[] = (
 const title: string = 'Products';
 const subTitle: string =
   "Discover the power of PAVii.AI's AI infrastructure platform, built to help businesses deploy, manage, and scale intelligent applications with ease. From AI agents and automation workflows to secure data management and enterprise integrations, PAVii.AI provides the foundation for building next-generation AI solutions faster, smarter, and more efficiently.";
-
-// Testimonial data that will be rendered in the component
-const testimonials = [
-  // First testimonial data
-  {
-    content:
-      ' "PAVii.AI helped us move from scattered experiments to production-ready AI workflows. The agent tool kit gave our teams a reliable way to build, test, and ship assistants across departments." ',
-    author: 'Ritesh Patel.K',
-    role: 'Operations Lead | TopBuild',
-    avatarSrc:
-      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80',
-    avatarAlt: 'Image Description',
-  },
-  // Second testimonial data
-  {
-    content:
-      ' "The context and inference layer made our customer interactions feel consistent and informed. PAVii.AI gave us the confidence to scale AI support without losing control of our data or brand voice." ',
-    author: 'Sheryaa Anuradha',
-    role: 'Customer Experience Director | Creative Spaces',
-    avatarSrc:
-      'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1376&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80',
-    avatarAlt: 'Image Description',
-  },
-  // Third testimonial data
-  {
-    content:
-      ' "Super Assistant changed how quickly our internal teams find answers, summarize work, and act on live business context. It feels less like a chatbot and more like an operating layer for daily decisions." ',
-    author: 'NagRaj S',
-    role: 'Product Manager | FirstWoods AI',
-    avatarSrc:
-      'https://images.unsplash.com/photo-1474176857210-7287d38d27c6?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80',
-    avatarAlt: 'Image Description',
-  },
-];
 
 const pageTitle: string = `Products | ${SITE.title}`;
 const metaDescription =
@@ -137,10 +102,5 @@ const ogTitle = 'AI Infrastructure Products | PAVii.AI';
       'Context-aware inference designed for accurate, useful business outcomes.',
       'Developer tools and support built for secure, scalable AI deployment.',
     ]}
-  />
-  {/* Testimonials section */}
-  <TestimonialsSectionAlt
-    title="What Our Customers Say"
-    testimonials={testimonials}
   />
 </MainLayout>

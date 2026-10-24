@@ -20,7 +20,7 @@ export const GET: APIRoute = async () => {
     '- Privacy: a privacy gate removes personal data and secrets before a model sees them, and zero-knowledge proof designs let AI companies learn from usage without seeing personal data.',
     '- Teams: a shared company brain (graph memory) with access checked on the blockchain, so an agent cannot read knowledge above its user access.',
     '- Deployment: use Pavii, deploy your own chain inside your organization, or connect existing platforms, with no change to your business logic.',
-    '- Numbers: Pavii saved 100M+ AI tokens across 82K+ queries. Agents used 30 to 60 percent fewer tokens on one measured Claude Code task.',
+    '- Numbers: Agents used 30 to 60 percent fewer tokens on one measured Claude Code task.',
     '',
     '## Products',
     '',

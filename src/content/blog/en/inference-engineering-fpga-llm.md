@@ -36,7 +36,7 @@ Model routing means a small program reads each request and picks the model that 
 
 A router sends simple tasks to small models and hard tasks to large models. It can also send a task back up when the small model reports low confidence. Routing works best when you can use many providers, so you do not depend on one vendor. See our post on [model-agnostic AI](/blog/post-7/).
 
-Routing also cuts tokens. A token is a small unit of text that a model reads or writes. Pavii trims context and routes work to efficient models. Across 82K+ queries, Pavii saved 100M+ AI tokens. On one measured Claude Code task, agents used 30 to 60 percent fewer tokens.
+Routing also cuts tokens. A token is a small unit of text that a model reads or writes. Pavii trims context and routes work to efficient models. On one measured Claude Code task, agents used 30 to 60 percent fewer tokens.
 
 ## When does a small fine-tuned model beat a large one?
 

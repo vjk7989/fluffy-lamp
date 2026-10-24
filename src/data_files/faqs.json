@@ -30,7 +30,7 @@
 },
 {
 "question": "What does agentic observability show my team?",
-"answer": "Agentic observability shows how your agents behave: each call, each tool, each blocked action and the cost. Your team can use this record to find problems and make agents better. Pavii saved more than 100M AI tokens across more than 82K queries."
+"answer": "Agentic observability shows how your agents behave: each call, each tool, each blocked action and the cost. Your team can use this record to find problems and make agents better."
 }
 ]
 }

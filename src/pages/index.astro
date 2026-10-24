@@ -16,7 +16,6 @@ import features from '@data/features.json';
 import construction from '@images/construction-image.avif';
 import tools from '@images/automated-tools.avif';
 import dashboard from '@images/dashboard-image.avif';
-import testimonialAvatar from '@images/testis.webp';
 import { SEO, SITE, SOCIAL_PREVIEW_IMAGE_URL } from '@/data_files/constants';
 
 
@@ -152,25 +151,13 @@ const homeStructuredData = {
   </section>
 
  <TestimonialsSection
-title="What Teams Say About PAVii.AI"
-subTitle="Teams use Pavii to run AI agents with clear rules, private data and a full record of every action."
-
-testimonials={[
-{
-content:
-'PAVII.AI helped us streamline our AI infrastructure without disrupting our existing systems. The deployment process was smooth, the platform was easy to integrate, and the security-first approach gave us confidence in scaling our operations.',
-author: 'DEVARAAYA ATLURI',
-role: 'CEO | CaterHealth',
-avatarSrc: testimonialAvatar,
-},
-]}
-
-
+    title="By design"
+    subTitle="How Pavii is built to keep agents safe. Each call goes through the same gates. Each decision gets a receipt on Hyper 0X that nobody can change."
    statistics={[
   {
-    count: '100M+',
+    count: '4',
     description:
-      'AI tokens saved across 82K+ queries',
+      'layers of encryption: in transit, in computation, on the ledger and at rest',
   },
   {
     count: '6',
