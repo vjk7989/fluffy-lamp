@@ -1,10 +1,8 @@
 ---
 // Pavii account sign-in.
-// Firebase authentication (email/password, Google, GitHub, SAML SSO) with an
-// allow-listed redirect hand-off to the Pavii.Ai app: after sign-in the ID
-// token is appended as a URL fragment to `redirect_uri` (pavii:// deep link or
-// a localhost callback). Without a redirect parameter this is a plain account
-// portal. The page gates nothing on the site itself.
+// Firebase authentication with an ID-token handoff to the desktop apps
+// (h0x://auth, pavii://auth, Pavii.Ai loopback; see utils/authHandoff.mjs).
+// Without a redirect this is an account portal.
 import MainLayout from '@/layouts/MainLayout.astro';
 import { SITE } from '@data/constants';
 
@@ -167,17 +165,19 @@ const metaDescription = 'Sign in to your Pavii account.';
             </button>
           </div>
 
-          <button
-            id="login-sso"
-            type="button"
-            class="rounded-lg border border-neutral-300 px-4 py-2.5 text-sm font-semibold text-neutral-800 transition hover:bg-neutral-50 active:scale-[0.98] dark:border-white/10 dark:text-neutral-200 dark:hover:bg-white/5"
-          >
-            Continue with SSO
-          </button>
+          <div class="flex items-center justify-between gap-3">
+            <button id="login-switch" type="button" class="hidden text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white">
+              Use another account
+            </button>
+          </div>
 
           <p class="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
             New to Pavii?
             <button id="login-toggle" type="button" class="font-semibold text-blue-500 hover:text-blue-400">Create an account</button>
+          </p>
+          <p class="text-xs leading-relaxed text-neutral-400 dark:text-neutral-500">
+            By continuing, you agree to the <a class="underline hover:text-neutral-700 dark:hover:text-neutral-300" href="/terms/">Terms</a>
+            and acknowledge the <a class="underline hover:text-neutral-700 dark:hover:text-neutral-300" href="/privacy/">Privacy Policy</a>.
           </p>
         </form>
       </div>
@@ -205,57 +205,44 @@ const metaDescription = 'Sign in to your Pavii account.';
   <script>
     import { initializeApp } from 'firebase/app';
     import {
-      getAuth,
       GoogleAuthProvider,
       GithubAuthProvider,
-      SAMLAuthProvider,
+      EmailAuthProvider,
       createUserWithEmailAndPassword,
       signInWithEmailAndPassword,
       signInWithCredential,
       signInWithPopup,
       sendPasswordResetEmail,
+      linkWithCredential,
+      linkWithPopup,
+      onAuthStateChanged,
+      signOut,
     } from 'firebase/auth';
+    import { appCallback, parseLoginRequest } from '@/utils/authHandoff.mjs';
+    import { createSiteAuth } from '@/utils/siteAuth.mjs';
 
     // ── Firebase web config (public client identifiers, not secrets) ──────
+    // The live values are the defaults because the Pages deploy passes no env;
+    // .env.local (PUBLIC_*) still overrides them for local builds.
     const FIREBASE_CONFIG = {
-      apiKey: 'AIzaSyAmEshUrnliZJdtlyCA4TKqAoSVEQuoYGo',
-      authDomain: 'pavii-ai3.firebaseapp.com',
-      projectId: 'pavii-ai3',
-      storageBucket: 'pavii-ai3.firebasestorage.app',
-      messagingSenderId: '171533458599',
-      appId: '1:171533458599:web:a1b9aad9036fb744bf8f82',
+      apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY || 'AIzaSyAmEshUrnliZJdtlyCA4TKqAoSVEQuoYGo',
+      authDomain: import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN || 'pavii-ai3.firebaseapp.com',
+      projectId: import.meta.env.PUBLIC_FIREBASE_PROJECT_ID || 'pavii-ai3',
+      storageBucket: import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET || 'pavii-ai3.firebasestorage.app',
+      messagingSenderId: import.meta.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID || '171533458599',
+      appId: import.meta.env.PUBLIC_FIREBASE_APP_ID || '1:171533458599:web:a1b9aad9036fb744bf8f82',
     };
-    // SAML provider id, configured under Identity Platform when SSO goes live.
-    const SSO_PROVIDER_ID = 'saml.pavii-sso';
     // Google OAuth Web client (public identifier). Google sign-in uses the GIS
     // token flow + signInWithCredential instead of signInWithPopup: the page is
     // served from www.pavii.tech while authDomain is pavii-ai3.firebaseapp.com,
     // and Chrome's third-party storage partitioning breaks the cross-site
     // popup-handler handoff (popup hangs blank on /__/auth/handler).
-    const GOOGLE_WEB_CLIENT_ID = '171533458599-f25gkbpc9bghnmeljpbe2u68oh6rarm2.apps.googleusercontent.com';
+    const GOOGLE_WEB_CLIENT_ID = import.meta.env.PUBLIC_GOOGLE_WEB_CLIENT_ID || '171533458599-f25gkbpc9bghnmeljpbe2u68oh6rarm2.apps.googleusercontent.com';
     // ───────────────────────────────────────────────────────────────────────
 
-    // Only these redirect targets may receive the ID token. The pavii:// deep
-    // link reaches the desktop app; loopback URLs reach a local WebUI callback.
-    const isAllowedRedirect = (value: string): boolean => {
-      try {
-        const url = new URL(value);
-        if (url.protocol === 'pavii:') return true;
-        if (
-          (url.protocol === 'http:' || url.protocol === 'https:') &&
-          (url.hostname === 'localhost' || url.hostname === '127.0.0.1')
-        ) {
-          return true;
-        }
-      } catch {
-        // fall through
-      }
-      return false;
-    };
-
     const params = new URLSearchParams(location.search);
-    const redirectParam = params.get('redirect_uri');
-    const redirectTarget = redirectParam && isAllowedRedirect(redirectParam) ? redirectParam : null;
+    const loginRequest = parseLoginRequest(location.search);
+    const linkMode = params.get('mode') === 'link';
 
     const el = (id: string) => document.getElementById(id) as HTMLElement;
     const emailInput = el('login-email') as HTMLInputElement;
@@ -266,12 +253,18 @@ const metaDescription = 'Sign in to your Pavii account.';
     let mode: 'signin' | 'signup' = 'signin';
     let busy = false;
 
-    if (redirectTarget) {
-      el('login-subtitle').textContent = 'Sign in to continue to the Pavii.Ai app.';
+    if (loginRequest.kind === 'app') {
+      el('login-subtitle').textContent = loginRequest.app === 'h0x'
+        ? 'Sign in to continue to H-0x pannel.'
+        : 'Sign in to continue to the Pavii.Ai app.';
+    } else if (loginRequest.kind === 'invalid') {
+      el('login-form').classList.add('hidden');
+      el('login-subtitle').textContent = 'This sign-in request is invalid or incomplete.';
     }
 
-    const configured = FIREBASE_CONFIG.apiKey !== 'REPLACE_ME';
+    const configured = Object.values(FIREBASE_CONFIG).every(Boolean);
     const app = configured ? initializeApp(FIREBASE_CONFIG) : null;
+    const siteAuth = app ? createSiteAuth(app) : null;
 
     const showError = (message: string) => {
       errorEl.textContent = message;
@@ -294,6 +287,9 @@ const metaDescription = 'Sign in to your Pavii account.';
           return 'Email or password is incorrect.';
         case 'auth/email-already-in-use':
           return 'An account with this email already exists. Try signing in.';
+        case 'auth/account-exists-with-different-credential':
+        case 'auth/credential-already-in-use':
+          return 'This email already uses another sign-in method. Sign in with that method before linking this one.';
         case 'auth/weak-password':
           return 'Password needs at least 6 characters.';
         case 'auth/too-many-requests':
@@ -309,11 +305,11 @@ const metaDescription = 'Sign in to your Pavii account.';
     };
 
     const requireAuth = () => {
-      if (!app) {
+      if (!siteAuth) {
         showError('Sign-in is not configured on this deployment yet.');
         return null;
       }
-      return getAuth(app);
+      return siteAuth;
     };
 
     const setBusy = (value: boolean) => {
@@ -390,44 +386,11 @@ const metaDescription = 'Sign in to your Pavii account.';
     };
 
     const finish = async (user: import('firebase/auth').User) => {
-      if (redirectTarget) {
+      if (loginRequest.kind === 'app') {
         const idToken = await user.getIdToken();
-        if (/^https?:/.test(redirectTarget)) {
-          // Loopback hand-off: the app listens on 127.0.0.1 and receives the
-          // token via a same-machine request, so the page stays open for the
-          // success state. Loopback is exempt from mixed-content blocking.
-          const separator = redirectTarget.includes('?') ? '&' : '?';
-          const url = `${redirectTarget}${separator}id_token=${encodeURIComponent(idToken)}`;
-          let delivered = false;
-          try {
-            await fetch(url, { mode: 'no-cors' });
-            delivered = true;
-          } catch {
-            // App listener gone (app closed or timed out)
-          }
-          trace(delivered ? 'delivered-loopback' : 'loopback-unreachable');
-          celebrate(user.email, () => {
-            // The app keeps its loopback listener alive after sign-in; a
-            // /focus ping raises the window. pavii:// stays as fallback.
-            const focusUrl = `${new URL(redirectTarget).origin}/focus`;
-            fetch(focusUrl, { mode: 'no-cors' }).catch(() => {
-              location.href = 'pavii://open';
-            });
-          });
-          if (!delivered) {
-            showError('Could not reach the Pavii app. Make sure it is running, then sign in again.');
-          }
-          return;
-        }
-        // pavii:// deep link: token travels in the fragment so it never
-        // reaches server logs. Automatic launch plus a user-gesture retry via
-        // the toast button (reliable when the browser cached "no handler").
-        const separator = redirectTarget.includes('#') ? '&' : '#';
-        const deepLink = `${redirectTarget}${separator}id_token=${encodeURIComponent(idToken)}`;
-        celebrate(user.email, () => {
-          location.href = deepLink;
-        });
-        location.href = deepLink;
+        const callback = appCallback(loginRequest.redirectUri, idToken);
+        celebrate(user.email, () => { location.href = callback; });
+        location.href = callback;
         return;
       }
       showSuccess(`Signed in as ${user.email ?? 'your account'}.`);
@@ -497,7 +460,9 @@ const metaDescription = 'Sign in to your Pavii account.';
                   trace(response.access_token ? 'token-received' : `no-token:${response.error ?? 'unknown'}`);
                   if (!response.access_token) throw new Error('Google did not return a sign-in token.');
                   const credential = GoogleAuthProvider.credential(null, response.access_token);
-                  const result = await signInWithCredential(auth, credential);
+                  const result = linkMode && auth.currentUser
+                    ? await linkWithCredential(auth.currentUser, credential)
+                    : await signInWithCredential(auth, credential);
                   trace('firebase-ok');
                   await finish(result.user);
                 } catch (error) {
@@ -528,12 +493,14 @@ const metaDescription = 'Sign in to your Pavii account.';
     };
     // ───────────────────────────────────────────────────────────────────────
 
-    const runPopup = async (provider: GoogleAuthProvider | GithubAuthProvider | SAMLAuthProvider) => {
+    const runPopup = async (provider: GithubAuthProvider) => {
       const auth = requireAuth();
       if (!auth || busy) return;
       try {
         setBusy(true);
-        const credential = await signInWithPopup(auth, provider);
+        const credential = linkMode && auth.currentUser
+          ? await linkWithPopup(auth.currentUser, provider)
+          : await signInWithPopup(auth, provider);
         await finish(credential.user);
       } catch (error) {
         showError(friendly(error));
@@ -582,8 +549,9 @@ const metaDescription = 'Sign in to your Pavii account.';
         if (!auth || busy) return;
         try {
           setBusy(true);
-          const action = mode === 'signin' ? signInWithEmailAndPassword : createUserWithEmailAndPassword;
-          const credential = await action(auth, emailInput.value.trim(), passwordInput.value);
+          const credential = linkMode && auth.currentUser
+            ? await linkWithCredential(auth.currentUser, EmailAuthProvider.credential(emailInput.value.trim(), passwordInput.value))
+            : await (mode === 'signin' ? signInWithEmailAndPassword : createUserWithEmailAndPassword)(auth, emailInput.value.trim(), passwordInput.value);
           await finish(credential.user);
         } catch (error) {
           showError(friendly(error));
@@ -595,7 +563,16 @@ const metaDescription = 'Sign in to your Pavii account.';
 
     el('login-google').addEventListener('click', () => void runGoogle());
     el('login-github').addEventListener('click', () => void runPopup(new GithubAuthProvider()));
-    el('login-sso').addEventListener('click', () => void runPopup(new SAMLAuthProvider(SSO_PROVIDER_ID)));
+    el('login-switch').addEventListener('click', () => {
+      const auth = requireAuth();
+      if (!auth) return;
+      void signOut(auth).then(() => {
+        emailInput.value = '';
+        passwordInput.value = '';
+        showSuccess('Signed out here. Choose another account.');
+      }).catch((error) => showError(friendly(error)));
+    });
+    if (siteAuth) onAuthStateChanged(siteAuth, (user) => el('login-switch').classList.toggle('hidden', !user));
   </script>
 
   <script>

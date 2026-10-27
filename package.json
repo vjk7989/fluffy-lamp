@@ -6,6 +6,7 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro check && astro build && node process-html.mjs",
+    "test:auth": "node --test test/auth-handoff.test.mjs",
     "format:check": "prettier --check .",
     "format:fix": "prettier --write .",
     "preview": "astro preview",

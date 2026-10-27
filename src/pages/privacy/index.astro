@@ -1,0 +1,40 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro';
+---
+
+<MainLayout title="Privacy Policy | PAVii.AI" customDescription="How PAVii.AI handles account and H-0x pannel data.">
+  <main class="bg-white px-5 py-20 text-neutral-800 dark:bg-neutral-950 dark:text-neutral-200 sm:px-8">
+    <article class="mx-auto max-w-3xl">
+      <p class="text-sm font-semibold text-orange-500">PAVii.AI</p>
+      <h1 class="mt-3 text-4xl font-bold text-neutral-950 dark:text-white">Privacy Policy</h1>
+      <p class="mt-3 text-sm text-neutral-500 dark:text-neutral-400">Last updated September 6, 2026</p>
+
+      <div class="mt-10 space-y-9 text-base leading-7">
+        <section>
+          <h2 class="text-xl font-semibold text-neutral-950 dark:text-white">Information we handle</h2>
+          <p class="mt-3">A Pavii account may include your email address, display name, profile image, authentication provider identifiers, and security metadata supplied by Firebase Authentication. We do not receive your Google or GitHub password.</p>
+        </section>
+        <section>
+          <h2 class="text-xl font-semibold text-neutral-950 dark:text-white">H-0x pannel</h2>
+          <p class="mt-3">H-0x pannel is local-first. Conversations, workspace files, local agents, and local configuration remain on your device unless you deliberately send content to a model provider or integration you configure. Signing in establishes identity across Pavii applications; it does not automatically share one application’s data with another.</p>
+        </section>
+        <section>
+          <h2 class="text-xl font-semibold text-neutral-950 dark:text-white">Authentication handoff</h2>
+          <p class="mt-3">Desktop sign-in uses a short-lived, single-use authorization code protected by state and PKCE. The handoff does not place Firebase bearer or refresh tokens in callback URLs. Temporary authorization records expire after two minutes and contain a hashed secret rather than an identity token.</p>
+        </section>
+        <section>
+          <h2 class="text-xl font-semibold text-neutral-950 dark:text-white">Service providers</h2>
+          <p class="mt-3">We use Firebase and Google Cloud to authenticate accounts and operate the authorization service. Providers you choose, including Google, GitHub, and model or integration providers, process information under their own policies.</p>
+        </section>
+        <section>
+          <h2 class="text-xl font-semibold text-neutral-950 dark:text-white">Control and retention</h2>
+          <p class="mt-3">You can sign out of H-0x pannel without signing out of unrelated Pavii applications. Local workspace data is not deleted by signing out. Account security records are retained as needed to operate and protect the service. Contact us to request access, correction, or deletion of account information, subject to applicable obligations.</p>
+        </section>
+        <section>
+          <h2 class="text-xl font-semibold text-neutral-950 dark:text-white">Contact</h2>
+          <p class="mt-3">Questions and privacy requests can be sent to <a class="font-medium text-orange-500 underline" href="mailto:info@pavii.tech">info@pavii.tech</a>.</p>
+        </section>
+      </div>
+    </article>
+  </main>
+</MainLayout>
