@@ -18,11 +18,14 @@ tabs:
   - id: 'tabs-with-card-item-3'
     dataTab: '#tabs-with-card-3'
     title: 'Screenshots'
+  - id: 'tabs-with-card-item-4'
+    dataTab: '#tabs-with-card-4'
+    title: 'Download Alternatives'
 longDescription:
   title: 'A Light AI Coding Workspace'
   subTitle: |
     Dev Tools puts a fast editor and an AI agent in one workspace. Compare model answers beside your code. Ask agents to review changes, run evaluations and write tests. Find problems before they reach production. Pavii records each agent action, so your team can see what the agent changed and why.
-  btnTitle: 'Book a call to learn more'
+  btnTitle: 'Book a Dev Tools demo'
   btnURL: 'https://cal.com/buckleson-group/30min'
 descriptionList:
   - title: 'Models beside your code'
