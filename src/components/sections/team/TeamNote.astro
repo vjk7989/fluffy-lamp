@@ -1,0 +1,43 @@
+---
+import { Picture } from 'astro:assets';
+import vengalPhoto from '@images/team/vengal.jpeg';
+---
+
+<section
+  class="mx-auto max-w-(--breakpoint-xl) px-4 py-10 sm:px-6 lg:px-8 lg:py-14"
+  aria-labelledby="team-note-title"
+>
+  <p
+    id="team-note-title"
+    class="text-sm font-semibold tracking-wide text-blue-600 uppercase dark:text-blue-400"
+  >
+    Team Pavii
+  </p>
+  <figure class="mt-6 flex flex-col items-start gap-8 md:flex-row md:items-center md:gap-12">
+    <Picture
+      src={vengalPhoto}
+      formats={['avif', 'webp']}
+      widths={[160, 220, 440]}
+      sizes="(min-width: 768px) 220px, 160px"
+      alt="Vengal T, Vice President, Team Pavii"
+      loading="lazy"
+      decoding="async"
+      class="size-40 shrink-0 rounded-2xl object-cover object-top md:size-52"
+    />
+    <div>
+      <blockquote
+        class="text-2xl leading-snug font-semibold tracking-tight text-balance text-neutral-800 md:text-3xl lg:text-4xl dark:text-neutral-200"
+      >
+        Inherited will, the destiny of the age, and the dreams of the people.
+      </blockquote>
+      <p class="mt-3 text-sm text-neutral-500 dark:text-neutral-400">
+        Gol D. Roger, One Piece
+      </p>
+      <figcaption class="mt-6">
+        <p class="font-bold text-neutral-800 dark:text-neutral-200">Vengal T</p>
+        <p class="text-sm text-neutral-600 dark:text-neutral-400">Vice President</p>
+        <p class="text-sm text-neutral-600 dark:text-neutral-400">Team Pavii</p>
+      </figcaption>
+    </div>
+  </figure>
+</section>

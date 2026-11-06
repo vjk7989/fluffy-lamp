@@ -1,0 +1,56 @@
+---
+title: 'Agentic Security features'
+description: 'The six gates, on-chain rules, receipts, the kill switch and other features of Agentic Security.'
+sidebar:
+  order: 2
+---
+
+Each feature below works on every call that an agent makes. You do not add them one by one.
+
+## Injection gate
+
+The injection gate finds hidden instructions in prompts, files, web pages and tool results. It blocks them before the model can act on them. It also keeps a label that shows where each text came from.
+
+## Privacy gate
+
+The privacy gate removes personal data and secrets before a model sees them. The model gets a placeholder, such as a token that stands for a customer name. The real value stays inside your boundary. Zero-knowledge proof designs let a provider check a fact without seeing the data behind it.
+
+## Supply chain gate
+
+The supply chain gate checks the tools, packages and MCP servers that an agent wants to use. MCP (Model Context Protocol) is a standard way for agents to connect to tools and data. The gate checks each one before the agent uses it.
+
+## Budget gate
+
+The budget gate sets limits on tokens and spend for each agent. A token is a small piece of text that a model reads or writes. When a call goes over the limit, the gate stops it. For payments, the gate checks the amount, the recipient and the purpose.
+
+## Egress gate
+
+Egress means data that leaves your systems. A smart contract on Hyper 0X decides what each agent can send out and what it can do. A change to this rule needs a new on-chain rule, so nobody can widen an agent's rights in secret.
+
+## Output gate
+
+The output gate checks the answer of the model before it reaches a user or a tool. It looks for secrets, personal data and hidden channels. One example of a hidden channel is an image link that carries data in its address.
+
+## Rules as smart contracts
+
+Important rules are stored as smart contracts on Hyper 0X. A rule outside the model runs on every action. It still applies when a long session fills the context window, which is the amount of text a model can read at once. Smart contracts check actions, such as tool calls, amounts and recipients. Style and tone stay as guidance in the prompt.
+
+## Receipts nobody can change
+
+The gateway writes a signed receipt for each action. The agent cannot write or sign receipts. Each receipt links to the one before it through a hash, which is a short fingerprint of data. Pavii anchors the chain on Hyper 0X, so nobody can secretly change or delete a record.
+
+## Agent observability
+
+Observability means seeing what an agent did. You see each call, tool, blocked action and cost for every agent. Use this record to find problems and make your agents better.
+
+## Kill switch
+
+An agent that breaks rules moves from observed to restricted to stopped. A person can stop any agent at any time. This gives you a fast way to stop an agent that acts in a way you did not expect.
+
+## Company brain
+
+The company brain is a shared graph memory built from usage. Restricted nodes, their links and their names stay hidden together. Pavii checks access on the blockchain for each read, so the agent of a junior employee cannot read restricted knowledge.
+
+## Deployment choices
+
+You can use the Pavii chain, run your rules on-chain, or deploy your own chain inside your organization. You do not need to change your business logic to use any of these options.

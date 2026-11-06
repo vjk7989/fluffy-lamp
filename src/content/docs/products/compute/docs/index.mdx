@@ -1,0 +1,34 @@
+---
+title: 'Compute'
+description: 'Compute is a context engine and inference service. It gives AI longer context and sends each task to a model that fits it.'
+sidebar:
+  order: 1
+---
+
+Compute is a context engine and an inference service. It gives your AI longer and more useful context. It also helps you pick the best model for each job.
+
+## Key ideas
+
+- **Context.** The information a model reads before it answers. This includes the task, the history and the data.
+- **Inference.** Running a trained model to get an answer.
+- **Parameters.** The internal settings that a model learns during training. A model with one trillion parameters needs a lot of compute to run.
+- **Fine-tuned model.** A model that is trained further on data for one kind of work.
+
+## How it works
+
+1. The context engine gathers the history, data and task state that the model needs. It keeps the goal of the user clear.
+2. The inference router reads the task. It picks the model that fits the task best, based on the quality, speed and compute that the task needs.
+3. A small fine-tuned model handles the task when it is enough. Large general models are used only when they are needed.
+4. Pavii checks every call that Compute sends to a model with its six security gates.
+
+## Why it matters
+
+- Not every task needs a very large model. A smaller model often does the job better.
+- Less wasted compute means lower token and model spend.
+- Better context helps the model reason across more information without losing the goal.
+
+## Who it is for
+
+Compute suits AI products, agent systems, internal assistants and businesses that need longer context and a practical choice of models.
+
+See [Compute features](/products/compute/docs/features/) for each part of the product.

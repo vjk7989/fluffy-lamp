@@ -1,0 +1,50 @@
+---
+title: 'Agentic Security'
+description: 'One gateway for every AI agent, with six security gates, rules on a blockchain and receipts that nobody can change.'
+sidebar:
+  order: 1
+---
+
+AI agents read your data, call tools and send messages for you. Agentic Security checks these actions before they can do harm. Every agent and every large language model (LLM) goes through one Pavii gateway.
+
+## Key ideas
+
+- **AI agent.** A program that uses an AI model to finish tasks. It can read files, call tools and take actions.
+- **Prompt injection.** Hidden text in a web page, file or message. It tries to take control of an agent.
+- **Blockchain.** A shared record. Many parties can check it, and nobody can quietly change an entry.
+- **Smart contract.** A small program on a blockchain. It runs the same way for everyone.
+- **Hyper 0X.** The post-quantum-resistant blockchain from Buckleson. Pavii keeps its rules and receipts there.
+
+## How it works
+
+1. Your app or agent sends a call to the Pavii gateway. A call is a request to a model or a tool.
+2. Pavii checks the call at six security gates.
+3. Pavii checks the call against your rules. The important rules are smart contracts on Hyper 0X.
+4. Pavii allows the call, changes it or blocks it. Each decision goes into a receipt.
+
+## The six gates
+
+| Gate | What it checks |
+|---|---|
+| Injection | Hidden instructions in prompts, files, web pages and tool results |
+| Privacy | Personal data and secrets, removed before a model sees them |
+| Supply chain | The tools, packages and MCP servers an agent wants to use |
+| Budget | Tokens and spend for each agent, with a stop at the limit |
+| Egress | What data an agent can send out, and what it can do |
+| Output | The answer of the model, before it reaches a user or a tool |
+
+## What it protects
+
+- **Rules that the model cannot forget.** A rule in a long chat can fade. A rule on Hyper 0X still applies to every action.
+- **A record that nobody can change.** Each action gets a receipt. The receipts link together and are anchored on Hyper 0X.
+- **A kill switch.** A person can stop any agent at any time.
+
+## Supported agents
+
+Claude, Claude Code, Codex, ChatGPT, Grok, OpenCode and custom agents.
+
+:::note
+Pavii cannot stop a model from reading a hidden instruction. Pavii limits what the agent can do after it reads one.
+:::
+
+See [Agentic Security features](/products/security/docs/features/) for each gate and feature in detail.

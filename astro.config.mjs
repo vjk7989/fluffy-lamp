@@ -85,6 +85,22 @@ export default defineConfig({
           label: 'Advanced',
           items: [{ autogenerate: { directory: 'products/dev-tools/docs/advanced' } }],
         },
+        {
+          label: 'Agentic Security',
+          items: [{ autogenerate: { directory: 'products/security/docs' } }],
+        },
+        {
+          label: 'Super Assistant',
+          items: [{ autogenerate: { directory: 'products/super-assistant/docs' } }],
+        },
+        {
+          label: 'AX',
+          items: [{ autogenerate: { directory: 'products/ax/docs' } }],
+        },
+        {
+          label: 'Compute',
+          items: [{ autogenerate: { directory: 'products/compute/docs' } }],
+        },
       ],
       social: [
         {
