@@ -1,43 +1,96 @@
 ---
 import { Picture } from 'astro:assets';
 import vengalPhoto from '@images/team/vengal.jpeg';
+
+const quote = 'Inherited will, the destiny of the age, and the dreams of the people.';
+const words = quote.split(' ');
 ---
 
-<section
-  class="mx-auto max-w-(--breakpoint-xl) px-4 py-10 sm:px-6 lg:px-8 lg:py-14"
-  aria-labelledby="team-note-title"
->
-  <p
-    id="team-note-title"
-    class="text-sm font-semibold tracking-wide text-blue-600 uppercase dark:text-blue-400"
-  >
-    Team Pavii
-  </p>
-  <figure class="mt-6 flex flex-col items-start gap-8 md:flex-row md:items-center md:gap-12">
-    <Picture
-      src={vengalPhoto}
-      formats={['avif', 'webp']}
-      widths={[160, 220, 440]}
-      sizes="(min-width: 768px) 220px, 160px"
-      alt="Vengal T, Vice President, Team Pavii"
-      loading="lazy"
-      decoding="async"
-      class="size-40 shrink-0 rounded-2xl object-cover object-top md:size-52"
-    />
-    <div>
-      <blockquote
-        class="text-2xl leading-snug font-semibold tracking-tight text-balance text-neutral-800 md:text-3xl lg:text-4xl dark:text-neutral-200"
-      >
-        Inherited will, the destiny of the age, and the dreams of the people.
-      </blockquote>
-      <p class="mt-3 text-sm text-neutral-500 dark:text-neutral-400">
-        Gol D. Roger, One Piece
-      </p>
-      <figcaption class="mt-6">
-        <p class="font-bold text-neutral-800 dark:text-neutral-200">Vengal T</p>
-        <p class="text-sm text-neutral-600 dark:text-neutral-400">Vice President</p>
-        <p class="text-sm text-neutral-600 dark:text-neutral-400">Team Pavii</p>
-      </figcaption>
-    </div>
-  </figure>
+<section class="tn-wrap" aria-labelledby="team-note-title">
+  <div class="tn-box" data-team-note>
+    <p id="team-note-title" class="tn-label">Team Pavii</p>
+    <figure class="tn-figure">
+      <Picture
+        src={vengalPhoto}
+        formats={['avif', 'webp']}
+        widths={[160, 220, 440]}
+        sizes="(min-width: 768px) 240px, 160px"
+        alt="Vengal T, Vice President, Team Pavii"
+        loading="lazy"
+        decoding="async"
+        class="tn-photo"
+      />
+      <div class="tn-text">
+        <blockquote class="tn-quote" aria-label={quote}>
+          {words.map((w) => <span class="tn-word" aria-hidden="true">{w}</span>).reduce((acc: any[], el, i) => (i === 0 ? [el] : [...acc, ' ', el]), [])}
+        </blockquote>
+        <p class="tn-source">Gol D. Roger, One Piece</p>
+        <figcaption class="tn-name">
+          <p class="tn-name-main">Vengal T</p>
+          <p class="tn-name-sub">Vice President</p>
+          <p class="tn-name-sub">Team Pavii</p>
+        </figcaption>
+      </div>
+    </figure>
+  </div>
 </section>
+
+<style>
+  .tn-wrap { margin: 0 auto; max-width: 80rem; padding: 2.5rem 0; }
+  .tn-box { background: #0a0a0a; color: #fff; border-radius: 2rem; padding: 2rem 1.5rem; }
+  .tn-label { font-size: 0.875rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #60a5fa; margin: 0; }
+  .tn-figure { margin: 1.75rem 0 0; display: flex; flex-direction: column; gap: 2rem; align-items: flex-start; }
+  :global(.tn-photo) { width: 10rem; height: 10rem; flex-shrink: 0; border-radius: 1.25rem; object-fit: cover; object-position: top; }
+  .tn-quote { margin: 0; font-size: 1.75rem; line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; text-wrap: balance; color: #fff; }
+  .tn-source { margin: 1rem 0 0; font-size: 0.875rem; color: #a3a3a3; }
+  .tn-name { margin: 1.75rem 0 0; }
+  .tn-name-main { margin: 0; font-weight: 700; color: #fff; }
+  .tn-name-sub { margin: 0; font-size: 0.875rem; color: #a3a3a3; }
+  @media (min-width: 768px) {
+    .tn-box { padding: 4rem 3.5rem; }
+    .tn-figure { flex-direction: row; align-items: center; gap: 3.5rem; }
+    :global(.tn-photo) { width: 15rem; height: 15rem; }
+    .tn-quote { font-size: 2.75rem; }
+  }
+  @media (min-width: 1024px) { .tn-quote { font-size: 3.25rem; } }
+</style>
+
+<script>
+  // Scroll highlight: each quote word turns from grey to white as the box moves
+  // up through the viewport. It measures the box on every frame, so lazy content
+  // above it (the Anatomy figure) can change the page height without breaking it.
+  const box = document.querySelector<HTMLElement>('[data-team-note]');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (box && !reduce) {
+    const words = [...box.querySelectorAll<HTMLElement>('.tn-word')];
+    const grey = [92, 92, 92];
+    const mix = (t: number) => {
+      const c = grey.map(g => Math.round(g + (255 - g) * t));
+      return `rgb(${c[0]}, ${c[1]}, ${c[2]})`;
+    };
+    let ticking = false;
+    const paint = () => {
+      ticking = false;
+      const r = box.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // 0 when the box top reaches 85% of the viewport, 1 when the box bottom reaches 55%.
+      const start = vh * 0.85;
+      const end = vh * 0.55 - r.height;
+      const p = Math.min(1, Math.max(0, (start - r.top) / (start - end)));
+      const n = words.length;
+      words.forEach((w, i) => {
+        const t = Math.min(1, Math.max(0, p * n - i));
+        w.style.color = mix(t);
+      });
+    };
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(paint);
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    paint();
+  }
+</script>

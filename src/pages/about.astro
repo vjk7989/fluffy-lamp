@@ -1,16 +1,55 @@
 ---
 import MainLayout from '@/layouts/MainLayout.astro';
 import TeamNote from '@components/sections/team/TeamNote.astro';
-import HeroSectionAlt from '@components/sections/landing/HeroSectionAlt.astro';
 import IsoFigure from '@components/ui/IsoFigure.astro';
 import { SITE, SOCIAL_PREVIEW_IMAGE_URL } from '@data/constants';
 
 const pageTitle = `About | ${SITE.title}`;
 const metaDescription =
-  'About PAVii.AI: the AI security and AI products team. We make AI agents safe to trust, with proof of every action on Hyper 0X, the blockchain built by Buckleson.';
+  'Pavii is an AI company. We help people and enterprises use AI safely, and we measure our work by results.';
 
-const products = ['Agentic Security', 'Dev Tools', 'Super Assistant', 'AX', 'Compute'];
-const label = 'text-sm font-semibold tracking-wide uppercase';
+const CAL = 'https://cal.com/buckleson-group/30min';
+
+const joinWords = (text: string) =>
+  text
+    .split(' ')
+    .map((w) => ({ w }));
+const heroLines = [
+  { words: joinWords('Pavii is an AI company.'), grad: false },
+  { words: joinWords('We make sure your AI'), grad: false },
+  { words: joinWords('works for you, not against you.'), grad: true },
+];
+
+const story = [
+  'Everyone uses AI now. Most people do not know where their data goes.',
+  'People upload contracts, health records, code and family photos, because AI makes their work faster.',
+  'They follow TikTok and Instagram AI trends for views and likes, and hand over their faces and private details.',
+  'Nobody forced them. They gave the data away themselves, without knowing it.',
+  'We started Pavii so people can keep using AI exactly the way they do today, without worrying about their data.',
+];
+
+const stats = [
+  { to: 362, pre: '', suf: '', dec: 0, label: 'AI incidents recorded in 2025', note: 'Up from 233 in 2024.', src: 'Stanford AI Index 2026', href: 'https://hai.stanford.edu/ai-index/2026-ai-index-report' },
+  { to: 68, pre: '', suf: '%', dec: 0, label: 'of breached firms had no AI governance', note: 'They had no rules for how AI is used.', src: 'IBM Cost of a Data Breach 2026', href: 'https://www.varonis.com/blog/ibm-cost-of-a-data-breach-report-2026' },
+  { to: 17, pre: '', suf: '%', dec: 0, label: 'of firms run AI agents today', note: '42% more plan to within 12 months.', src: 'Gartner 2026', href: 'https://1password.com/blog/gartner-agentic-ai-governance' },
+  { to: 5.89, pre: '$', suf: 'M', dec: 2, label: 'average cost of a prompt-injection breach', note: 'One bad prompt can cost a firm millions.', src: 'IBM Cost of a Data Breach 2026', href: 'https://www.varonis.com/blog/ibm-cost-of-a-data-breach-report-2026' },
+];
+
+const mvg = [
+  { n: '01', k: 'Mission', t: 'Let every person and every company use AI as freely as they do today, with nothing to fear about their data.' },
+  { n: '02', k: 'Vision', t: 'An internet where AI is safe by default, and every AI action can be proven.' },
+  { n: '03', k: 'Goal', t: 'Results you can measure: data that stays private, AI work that ships, and proof for every decision.' },
+];
+
+const outcomes = [
+  { n: '01', t: 'Your teams use any AI tool. Your data does not leak.', d: 'People keep their speed. Your private data stays inside your walls.' },
+  { n: '02', t: 'You can show an auditor what each agent did.', d: 'Each action leaves a record that you can check and nobody can change.' },
+  { n: '03', t: 'AI costs stay under control.', d: 'You see what AI work costs, and you set the limits.' },
+  { n: '04', t: 'New AI services launch faster, because security is already in place.', d: 'Teams do not wait for a long review of each new idea.' },
+  { n: '05', t: 'Your customers trust your AI features.', d: 'You can tell them how their data is handled, and you can prove it.' },
+];
+
+const services = ['Video generation', 'Coding', 'Research', 'Custom LLMs', 'AI assistants', 'Compute', 'Agent workflows'];
 ---
 
 <MainLayout
@@ -28,72 +67,360 @@ const label = 'text-sm font-semibold tracking-wide uppercase';
     inLanguage: 'en-US',
   }}
 >
-  <section class="mx-auto max-w-(--breakpoint-xl) px-4 pt-12 pb-6 sm:px-6 lg:px-8 lg:pt-16" aria-labelledby="about-title">
-    <p class={`${label} text-blue-600 dark:text-blue-400`}>About PAVii.AI</p>
-    <h1 id="about-title" class="mt-2 max-w-4xl text-4xl leading-tight font-bold tracking-tight text-balance text-neutral-800 md:text-5xl lg:text-6xl dark:text-neutral-200">
-      We make AI agents safe to trust, and we make AI ship results
-    </h1>
-    <p class="mt-5 max-w-3xl text-lg text-pretty text-neutral-600 dark:text-neutral-400">
-      Pavii is the AI security and AI products team. Our products are {products.join(', ')}. They run on Hyper 0X, the post-quantum-resistant blockchain from Buckleson. Each agent action gets a check, and each check gets a receipt that nobody can change.
-    </p>
-    <ul class="mt-6 flex flex-wrap gap-2">
-      {products.map(p => (
-        <li class="rounded-full border border-neutral-200 bg-white px-3 py-1 text-sm font-medium text-neutral-700 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">{p}</li>
-      ))}
-    </ul>
-    <div class="mt-10"><IsoFigure name="call-sorter" /></div>
-  </section>
+  <div class="ab">
+    <!-- 1. HERO -->
+    <section class="ab-hero" aria-labelledby="about-title">
+      <div class="ab-orb ab-orb-a" aria-hidden="true"></div>
+      <div class="ab-orb ab-orb-b" aria-hidden="true"></div>
+      <div class="ab-grid-bg" aria-hidden="true"></div>
+      <p class="ab-eyebrow ab-rel" data-hero-fade>About PAVii.AI</p>
+      <h1 id="about-title" class="ab-h1">
+        {heroLines.map((l) => (
+          <span class:list={['ab-line', l.grad && 'ab-grad']}>
+            {l.words.map((x, i) => (
+              <Fragment><span class="ab-w"><span class="ab-wi">{x.w}</span></span>{i < l.words.length - 1 ? ' ' : ''}</Fragment>
+            ))}
+          </span>
+        ))}
+      </h1>
+      <p class="ab-sub" data-hero-fade>
+        We help people and enterprises use AI safely. We judge our work by one thing: the result. Not the activity, not the demo.
+      </p>
+      <div class="ab-btns" data-hero-fade>
+        <a class="ab-btn ab-btn-dark" href={CAL} target="_blank" rel="noopener noreferrer">Book a call</a>
+        <a class="ab-btn ab-btn-line" href="/products/security/">Our products</a>
+      </div>
+    </section>
 
-  <section class="mx-auto max-w-(--breakpoint-xl) px-4 py-10 sm:px-6 lg:px-8 lg:py-14" aria-labelledby="bento-title">
-    <p class={`${label} text-blue-600 dark:text-blue-400`}>Why we exist</p>
-    <h2 id="bento-title" class="mt-2 max-w-3xl text-3xl font-bold text-balance text-neutral-800 md:text-4xl dark:text-neutral-200">Our mission, vision and goal</h2>
+    <!-- 2. STORY -->
+    <section class="ab-story" aria-labelledby="story-title">
+      <div class="ab-story-stage" data-story-stage>
+        <div class="ab-story-head">
+          <p class="ab-eyebrow" id="story-title">Why we started</p>
+          <p class="ab-count" aria-hidden="true"><span data-story-num>01</span> / 0{story.length}</p>
+        </div>
+        <div class="ab-blocks">
+          {story.map((t, i) => (
+            <p class:list={['ab-block', i === story.length - 1 && 'ab-block-last']} data-story-block>{t}</p>
+          ))}
+        </div>
+        <div class="ab-bar" aria-hidden="true"><div class="ab-bar-fill" data-story-fill></div></div>
+      </div>
+    </section>
 
-    <div class="mt-8 grid grid-cols-1 gap-4 md:auto-rows-fr md:grid-cols-6">
-      <article class="rounded-2xl bg-neutral-900 p-6 text-white md:col-span-4 md:row-span-2 md:p-10 dark:bg-neutral-800">
-        <p class={`${label} text-blue-400`}>Mission</p>
-        <h3 class="mt-3 text-2xl font-bold text-balance md:text-4xl">We build AI products that deliver results you can measure, not demos.</h3>
-        <p class="mt-4 max-w-xl text-pretty text-neutral-300">Your agents stay safe. Your tokens go further. Your team sees what each agent did, and why.</p>
-      </article>
+    <!-- 3. DATA -->
+    <section class="ab-dark ab-data" aria-labelledby="data-title">
+      <p class="ab-eyebrow ab-eyebrow-on-dark" data-reveal>Why now</p>
+      <h2 id="data-title" class="ab-h2 ab-on-dark" data-reveal>AI moves faster than the rules around it.</h2>
+      <div class="ab-stats">
+        {stats.map((s) => (
+          <article class="ab-stat" data-reveal>
+            <p class="ab-stat-num">
+              <span data-count data-to={s.to} data-dec={s.dec} data-pre={s.pre} data-suf={s.suf}>{s.pre}{s.to.toFixed(s.dec)}{s.suf}</span>
+            </p>
+            <p class="ab-stat-label">{s.label}</p>
+            <p class="ab-stat-note">{s.note}</p>
+            <p class="ab-stat-src">Source: <a href={s.href} target="_blank" rel="noopener noreferrer">{s.src}</a></p>
+          </article>
+        ))}
+      </div>
+    </section>
 
-      <article class="rounded-2xl p-6 text-white md:col-span-2" style="background-color:#2563eb">
-        <p class="text-5xl font-bold">6</p>
-        <p class="mt-2 text-pretty text-blue-50">security gates on every agent call</p>
-      </article>
+    <!-- 4. INSIDE PAVII -->
+    <section class="ab-sec" aria-labelledby="inside-title">
+      <p class="ab-eyebrow" data-reveal>Inside Pavii</p>
+      <h2 id="inside-title" class="ab-h2" data-reveal>One building. Many AI services. One security layer around all of them.</h2>
+      <div class="ab-fig" data-reveal><IsoFigure name="ai-tower" /></div>
+    </section>
 
-      <article class="rounded-2xl border border-neutral-200 bg-white p-6 md:col-span-2 dark:border-neutral-700 dark:bg-neutral-900">
-        <p class="text-5xl font-bold text-neutral-800 dark:text-neutral-200">1</p>
-        <p class="mt-2 text-pretty text-neutral-600 dark:text-neutral-400">gateway for every AI agent and model</p>
-      </article>
+    <!-- 5. MISSION VISION GOAL -->
+    <section class="ab-sec" aria-labelledby="mvg-title">
+      <p class="ab-eyebrow" data-reveal>What drives us</p>
+      <h2 id="mvg-title" class="ab-h2" data-reveal>Mission, vision and goal</h2>
+      <div class="ab-mvg">
+        {mvg.map((m, i) => (
+          <article class:list={['ab-mvg-card', i === 1 && 'ab-mvg-blue']} data-reveal>
+            <span class="ab-mvg-n" aria-hidden="true">{m.n}</span>
+            <h3 class="ab-mvg-k">{m.k}</h3>
+            <p class="ab-mvg-t">{m.t}</p>
+          </article>
+        ))}
+      </div>
+    </section>
 
-      <article class="rounded-2xl border border-neutral-200 bg-white p-6 md:col-span-3 md:p-8 dark:border-neutral-700 dark:bg-neutral-900">
-        <p class={`${label} text-blue-600 dark:text-blue-400`}>Vision</p>
-        <h3 class="mt-3 text-xl font-bold text-balance text-neutral-800 md:text-2xl dark:text-neutral-200">An internet where every AI agent is safe to trust, because every action has proof.</h3>
-      </article>
+    <!-- 6. OUTCOMES -->
+    <section class="ab-sec" aria-labelledby="out-title">
+      <p class="ab-eyebrow" data-reveal>What an enterprise gets</p>
+      <h2 id="out-title" class="ab-h2" data-reveal>Outcomes, not features.</h2>
+      <div class="ab-outs">
+        {outcomes.map((o, i) => (
+          <article class:list={['ab-out', i === 0 && 'ab-out-wide']} data-reveal>
+            <span class="ab-out-n" aria-hidden="true">{o.n}</span>
+            <h3 class="ab-out-t">{o.t}</h3>
+            <p class="ab-out-d">{o.d}</p>
+            <span class="ab-out-line" aria-hidden="true"></span>
+          </article>
+        ))}
+      </div>
+      <div class="ab-marquee" role="group" aria-label="What Pavii secures and builds: video generation, coding, research, custom LLMs, AI assistants, compute and agent workflows" data-reveal>
+        <div class="ab-track" aria-hidden="true">
+          {[0, 1].map(() => (
+            <ul class="ab-set">
+              {services.map((s) => <li><span class="ab-dot"></span>{s}</li>)}
+            </ul>
+          ))}
+        </div>
+      </div>
+    </section>
 
-      <article class="rounded-2xl bg-neutral-200 p-6 md:col-span-3 md:p-8 dark:bg-neutral-800">
-        <p class={`${label} text-blue-600 dark:text-blue-400`}>Goal</p>
-        <h3 class="mt-3 text-xl font-bold text-balance text-neutral-800 md:text-2xl dark:text-neutral-200">Help every team put AI agents into real work, with safety and proof built in.</h3>
-      </article>
+    <!-- 7. TEAM NOTE -->
+    <TeamNote />
 
-      <article class="rounded-2xl bg-neutral-900 p-6 text-white md:col-span-6 md:flex md:items-center md:justify-between md:gap-8 dark:bg-neutral-800">
-        <p class="text-lg font-semibold text-balance md:text-xl">Receipts on Hyper 0X that nobody can change.</p>
-        <p class="mt-2 max-w-md text-pretty text-neutral-300 md:mt-0">Each receipt links to the one before it. You can show any decision to an auditor, a customer or your own team.</p>
-      </article>
-    </div>
-  </section>
-
-  <section class="mx-auto max-w-(--breakpoint-xl) px-4 py-10 sm:px-6 lg:px-8 lg:py-14" aria-labelledby="rules-title">
-    <p class={`${label} text-blue-600 dark:text-blue-400`}>How we keep the promise</p>
-    <h2 id="rules-title" class="mt-2 max-w-3xl text-3xl font-bold text-balance text-neutral-800 md:text-4xl dark:text-neutral-200">Rules that hold, even in a long chat</h2>
-    <p class="mt-3 max-w-2xl text-lg text-pretty text-neutral-600 dark:text-neutral-400">Pavii keeps your rules as smart contracts on Hyper 0X. The model cannot forget them. Nobody can change them in secret.</p>
-    <div class="mt-8"><IsoFigure name="rule-loom" /></div>
-  </section>
-
-  <TeamNote />
-
-  <HeroSectionAlt
-    title="Talk to the PAVii.AI Team"
-    subTitle="Book a call. We show you how Pavii keeps your agents safe and gives you proof of every action."
-    url="https://cal.com/buckleson-group/30min"
-  />
+    <!-- 8. CLOSING CTA -->
+    <section class="ab-dark ab-cta" aria-labelledby="cta-title">
+      <div class="ab-orb ab-orb-c" aria-hidden="true"></div>
+      <h2 id="cta-title" class="ab-cta-h" data-reveal>Use AI the way you want. We keep it safe.</h2>
+      <p class="ab-cta-p" data-reveal>Book a 30-minute call. Tell us what you want to build with AI, and we show you how to do it safely.</p>
+      <div class="ab-btns ab-btns-c" data-reveal>
+        <a class="ab-btn ab-btn-white" href={CAL} target="_blank" rel="noopener noreferrer">Book a call</a>
+      </div>
+    </section>
+  </div>
 </MainLayout>
+
+<style>
+  .ab {
+    --ink: #0a0a0a; --mut: #525252; --card: #ffffff; --line: #e5e5e5;
+    --blue: #2563eb;
+    color: var(--ink);
+    padding-bottom: 2rem;
+  }
+  :global(.dark) .ab { --ink: #f5f5f5; --mut: #a3a3a3; --card: #1c1d20; --line: #3a3b3f; --blue: #60a5fa; }
+
+  .ab-rel { position: relative; }
+  .ab-eyebrow { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin: 0; }
+  .ab-eyebrow-on-dark { color: #60a5fa; }
+  .ab-h2 { margin: 0.75rem 0 0; max-width: 56rem; font-size: clamp(2rem, 5vw, 3.75rem); line-height: 1.05; font-weight: 800; letter-spacing: -0.03em; text-wrap: balance; }
+  .ab-on-dark { color: #fff; }
+  .ab-sec { padding: 4rem 0; }
+
+  /* hero */
+  .ab-hero { position: relative; padding: 4.5rem 0 5rem; overflow-x: clip; }
+  .ab-h1 { position: relative; margin: 1.25rem 0 0; font-size: clamp(2.5rem, 8.2vw, 7rem); line-height: 1; font-weight: 800; letter-spacing: -0.045em; }
+  .ab-line { display: block; }
+  .ab-w { display: inline-block; overflow: clip; padding-bottom: 0.22em; margin-bottom: -0.22em; vertical-align: top; }
+  .ab-wi { display: inline-block; padding-bottom: 0.18em; margin-bottom: -0.18em; }
+  .ab-grad .ab-wi {
+    background: linear-gradient(100deg, #1d4ed8, #60a5fa, #0a0a0a, #2563eb, #1d4ed8);
+    background-size: 300% 100%;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    animation: ab-shift 7s linear infinite;
+  }
+  :global(.dark) .ab-grad .ab-wi { background-image: linear-gradient(100deg, #60a5fa, #bfdbfe, #ffffff, #3b82f6, #60a5fa); }
+  @keyframes ab-shift { to { background-position: -300% 0; } }
+  .ab-sub { position: relative; margin: 1.75rem 0 0; max-width: 40rem; font-size: 1.25rem; line-height: 1.5; color: var(--mut); text-wrap: pretty; }
+  .ab-btns { position: relative; display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2.25rem; }
+  .ab-btns-c { justify-content: center; }
+  .ab-btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.95rem 1.6rem; border-radius: 0.75rem; font-weight: 700; font-size: 0.95rem; text-decoration: none; transition: transform .25s ease, box-shadow .25s ease, background-color .25s ease; }
+  .ab-btn:hover { transform: translateY(-2px); }
+  .ab-btn-dark { background: #0a0a0a; color: #fff; }
+  .ab-btn-dark:hover { background: #2563eb; box-shadow: 0 10px 30px -8px rgba(37,99,235,.6); }
+  :global(.dark) .ab-btn-dark { background: #f5f5f5; color: #0a0a0a; }
+  .ab-btn-line { border: 1.5px solid var(--ink); color: var(--ink); }
+  .ab-btn-line:hover { background: var(--ink); color: var(--card); }
+  .ab-btn-white { background: #fff; color: #0a0a0a; }
+  .ab-btn-white:hover { box-shadow: 0 10px 40px -8px rgba(96,165,250,.8); }
+  .ab-orb { position: absolute; border-radius: 9999px; filter: blur(70px); pointer-events: none; }
+  .ab-orb-a { width: 26rem; height: 26rem; right: -6rem; top: -4rem; background: rgba(59,130,246,.28); animation: ab-float 12s ease-in-out infinite; }
+  .ab-orb-b { width: 18rem; height: 18rem; left: 30%; bottom: -5rem; background: rgba(147,197,253,.35); animation: ab-float 15s ease-in-out infinite reverse; }
+  .ab-orb-c { width: 30rem; height: 30rem; left: 50%; top: -12rem; margin-left: -15rem; background: rgba(37,99,235,.45); animation: ab-float 14s ease-in-out infinite; }
+  @keyframes ab-float { 50% { transform: translate3d(-30px, 24px, 0) scale(1.08); } }
+  .ab-grid-bg { position: absolute; inset: 0; pointer-events: none; opacity: .5;
+    background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 56px 56px;
+    -webkit-mask-image: radial-gradient(ellipse at 70% 30%, #000, transparent 70%); mask-image: radial-gradient(ellipse at 70% 30%, #000, transparent 70%); }
+
+  /* story: plain stack by default (mobile, no JS). JS adds .is-pinned on desktop. */
+  .ab-story { padding: 3rem 0; }
+  .ab-story-stage { background: #0a0a0a; color: #fff; border-radius: 2rem; padding: 2.5rem 1.5rem; }
+  .ab-story-head { display: flex; justify-content: space-between; align-items: center; }
+  .ab-story .ab-eyebrow { color: #60a5fa; }
+  .ab-count { margin: 0; font-variant-numeric: tabular-nums; color: #737373; font-weight: 600; }
+  .ab-blocks { margin-top: 2rem; display: flex; flex-direction: column; gap: 2rem; }
+  .ab-block { margin: 0; font-size: clamp(1.5rem, 3.4vw, 3rem); line-height: 1.15; font-weight: 700; letter-spacing: -0.025em; text-wrap: balance; }
+  .ab-block-last { color: #93c5fd; }
+  .ab-bar { display: none; }
+  .ab-story-stage.is-pinned { min-height: calc(100vh - 2rem); display: flex; flex-direction: column; padding: 2.5rem 3.5rem; }
+  .is-pinned .ab-blocks { display: grid; flex: 1; align-content: center; margin-top: 0; max-width: 62rem; }
+  .is-pinned .ab-block { grid-area: 1 / 1; font-size: clamp(2rem, 4.2vw, 4rem); }
+  .is-pinned .ab-bar { display: block; height: 3px; background: #262626; border-radius: 9999px; overflow: hidden; }
+  .ab-bar-fill { height: 100%; width: 100%; background: linear-gradient(90deg, #2563eb, #93c5fd); transform-origin: left; transform: scaleX(0); }
+
+  /* dark blocks */
+  .ab-dark { position: relative; overflow: clip; background: #0a0a0a; color: #fff; border-radius: 2rem; padding: 3.5rem 1.5rem; }
+  .ab-data { margin: 2rem 0; }
+  .ab-stats { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 2.5rem; }
+  .ab-stat { background: #141414; border: 1px solid #262626; border-radius: 1.5rem; padding: 1.75rem; transition: border-color .3s ease, transform .3s ease; }
+  .ab-stat:hover { border-color: #2563eb; transform: translateY(-4px); }
+  .ab-stat-num { margin: 0; font-size: clamp(3rem, 7vw, 4.75rem); line-height: 1; font-weight: 800; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; color: #fff; }
+  .ab-stat-label { margin: 1rem 0 0; font-size: 1.125rem; font-weight: 600; color: #fff; text-wrap: balance; }
+  .ab-stat-note { margin: 0.5rem 0 0; color: #a3a3a3; font-size: 0.95rem; }
+  .ab-stat-src { margin: 1.25rem 0 0; font-size: 0.75rem; color: #737373; }
+  .ab-stat-src a { color: #93c5fd; text-decoration: underline; text-underline-offset: 3px; }
+  .ab-stat-src a:hover { color: #fff; }
+
+  .ab-fig { margin-top: 2.5rem; }
+
+  /* mission vision goal */
+  .ab-mvg { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 2.5rem; }
+  .ab-mvg-card { position: relative; overflow: clip; background: var(--card); border: 1px solid var(--line); border-radius: 1.75rem; padding: 2rem; min-height: 20rem; display: flex; flex-direction: column; transition: transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease; }
+  .ab-mvg-card:hover { transform: translateY(-8px); box-shadow: 0 30px 60px -30px rgba(37,99,235,.45); }
+  .ab-mvg-blue { background: #2563eb; border-color: #2563eb; color: #fff; }
+  .ab-mvg-n { position: absolute; right: 1.25rem; top: 0.25rem; font-size: 7rem; font-weight: 800; line-height: 1; letter-spacing: -0.06em; opacity: .07; }
+  .ab-mvg-k { margin: 0; font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); }
+  .ab-mvg-blue .ab-mvg-k { color: #bfdbfe; }
+  .ab-mvg-t { margin: auto 0 0; padding-top: 2rem; font-size: clamp(1.35rem, 2.2vw, 1.85rem); line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; text-wrap: balance; }
+
+  /* outcomes */
+  .ab-outs { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 2.5rem; }
+  .ab-out { position: relative; overflow: clip; background: var(--card); border: 1px solid var(--line); border-radius: 1.5rem; padding: 1.75rem; transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, border-color .35s ease; }
+  .ab-out:hover { transform: translateY(-6px); border-color: #2563eb; box-shadow: 0 24px 50px -28px rgba(37,99,235,.5); }
+  .ab-out-n { font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.1em; color: var(--blue); }
+  .ab-out-t { margin: 1rem 0 0; font-size: 1.4rem; line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; text-wrap: balance; }
+  .ab-out-d { margin: 0.75rem 0 0; color: var(--mut); }
+  .ab-out-line { position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: linear-gradient(90deg, #2563eb, #93c5fd); transform: scaleX(0); transform-origin: left; transition: transform .45s ease; }
+  .ab-out:hover .ab-out-line { transform: scaleX(1); }
+
+  /* marquee */
+  .ab-marquee { margin-top: 3rem; overflow: hidden; border-block: 1px solid var(--line); padding: 1.25rem 0;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+  .ab-track { display: flex; width: max-content; animation: ab-scroll 32s linear infinite; }
+  .ab-marquee:hover .ab-track { animation-play-state: paused; }
+  .ab-set { display: flex; gap: 3rem; padding: 0 1.5rem; margin: 0; list-style: none; }
+  .ab-set li { display: flex; align-items: center; gap: 0.75rem; white-space: nowrap; font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 700; letter-spacing: -0.02em; }
+  .ab-dot { width: 0.6rem; height: 0.6rem; border-radius: 9999px; background: #2563eb; }
+  @keyframes ab-scroll { to { transform: translateX(-50%); } }
+
+  /* cta */
+  .ab-cta { margin: 2rem 0 0; padding: 5rem 1.5rem; text-align: center; }
+  .ab-cta-h { position: relative; margin: 0 auto; max-width: 52rem; font-size: clamp(2.25rem, 6vw, 4.5rem); line-height: 1.02; font-weight: 800; letter-spacing: -0.035em; text-wrap: balance; color: #fff; }
+  .ab-cta-p { position: relative; margin: 1.5rem auto 0; max-width: 36rem; font-size: 1.125rem; color: #a3a3a3; }
+
+  @media (min-width: 768px) {
+    .ab-dark { padding: 5rem 3.5rem; }
+    .ab-stats { grid-template-columns: repeat(2, 1fr); }
+    .ab-mvg { grid-template-columns: repeat(3, 1fr); }
+    .ab-outs { grid-template-columns: repeat(2, 1fr); }
+    .ab-out-wide { grid-column: span 2; }
+    .ab-out-wide .ab-out-t { font-size: 2rem; max-width: 40rem; }
+    .ab-sec { padding: 6rem 0; }
+    .ab-hero { padding: 7rem 0 8rem; }
+  }
+  @media (min-width: 1024px) {
+    .ab-stats { grid-template-columns: repeat(4, 1fr); }
+    .ab-outs { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ab-orb, .ab-grad .ab-wi, .ab-track { animation: none; }
+    .ab-marquee { overflow-x: auto; }
+    .ab-btn, .ab-stat, .ab-mvg-card, .ab-out, .ab-out-line { transition: none; }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Lenis (loaded by MainLayout) moves the native scroll position, so
+  // ScrollTrigger sees it through normal scroll events. No extra wiring needed.
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!reduce) {
+    // Hero entrance
+    gsap.from('.ab-wi', { yPercent: 110, duration: 1.1, ease: 'power4.out', stagger: 0.07, delay: 0.1 });
+    gsap.from('[data-hero-fade]', { autoAlpha: 0, y: 24, duration: 0.9, ease: 'power3.out', stagger: 0.12, delay: 0.7 });
+
+    // Scroll reveals
+    gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((el) => {
+      gsap.from(el, {
+        autoAlpha: 0,
+        y: 48,
+        duration: 0.9,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+      });
+    });
+
+    // Count-ups
+    gsap.utils.toArray<HTMLElement>('[data-count]').forEach((el) => {
+      const to = parseFloat(el.dataset.to || '0');
+      const dec = parseInt(el.dataset.dec || '0', 10);
+      const pre = el.dataset.pre || '';
+      const suf = el.dataset.suf || '';
+      const state = { v: 0 };
+      el.textContent = `${pre}${(0).toFixed(dec)}${suf}`;
+      gsap.to(state, {
+        v: to,
+        duration: 2.2,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: el, start: 'top 90%', once: true },
+        onUpdate: () => { el.textContent = `${pre}${state.v.toFixed(dec)}${suf}`; },
+        onComplete: () => { el.textContent = `${pre}${to.toFixed(dec)}${suf}`; },
+      });
+    });
+
+    // Sticky story: pinned on desktop, simple stack on mobile
+    const mm = gsap.matchMedia();
+    mm.add('(min-width: 768px)', () => {
+      const stage = document.querySelector<HTMLElement>('[data-story-stage]');
+      const blocks = gsap.utils.toArray<HTMLElement>('[data-story-block]');
+      const fill = document.querySelector<HTMLElement>('[data-story-fill]');
+      const num = document.querySelector<HTMLElement>('[data-story-num]');
+      if (!stage || !blocks.length) return;
+      stage.classList.add('is-pinned');
+      gsap.set(blocks, { autoAlpha: 0, y: 40 });
+      gsap.set(blocks[0], { autoAlpha: 1, y: 0 }); // first line shows as soon as the section pins
+      const n = blocks.length;
+      const tl = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: {
+          trigger: stage,
+          start: 'top top+=16',
+          end: `+=${n * 90}%`,
+          pin: true,
+          scrub: 0.6,
+          onUpdate: (self) => {
+            if (num) num.textContent = String(Math.min(n, Math.floor(self.progress * n) + 1)).padStart(2, '0');
+          },
+        },
+      });
+      blocks.forEach((b, i) => {
+        if (i > 0) tl.to(b, { autoAlpha: 1, y: 0, duration: 0.4 }, i);
+        // Fade the line out fully (ends at i + 0.9) before the next one starts at i + 1, so lines never overlap.
+        if (i < n - 1) tl.to(b, { autoAlpha: 0, y: -40, duration: 0.3 }, i + 0.6);
+      });
+      if (fill) tl.to(fill, { scaleX: 1, duration: n - 0.4 }, 0);
+      tl.to({}, { duration: 0.4 });
+      return () => {
+        stage.classList.remove('is-pinned');
+        gsap.set(blocks, { clearProps: 'all' });
+        if (num) num.textContent = '01';
+      };
+    });
+
+    window.addEventListener('load', () => ScrollTrigger.refresh());
+    // The Anatomy figure loads lazily and makes the page taller after 'load'.
+    // Refresh every trigger (story pin, count-ups, team-note highlight) when the height changes.
+    let lastH = document.body.scrollHeight;
+    let refreshTimer = 0;
+    new ResizeObserver(() => {
+      const h = document.body.scrollHeight;
+      if (Math.abs(h - lastH) < 2) return;
+      lastH = h;
+      clearTimeout(refreshTimer);
+      refreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), 150);
+    }).observe(document.body);
+  }
+</script>
