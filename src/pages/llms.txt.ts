@@ -41,6 +41,7 @@ export const GET: APIRoute = async () => {
     '',
     '## More',
     '',
+    `- [About](${baseUrl}/about/)`,
     `- [Services](${baseUrl}/services/)`,
     `- [Dev Tools docs](${baseUrl}/products/dev-tools/docs/)`,
     `- [Buckleson](https://buckleson.com/): the company behind Pavii and the Hyper 0X blockchain.`,

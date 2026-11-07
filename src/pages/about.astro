@@ -1,0 +1,99 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro';
+import TeamNote from '@components/sections/team/TeamNote.astro';
+import HeroSectionAlt from '@components/sections/landing/HeroSectionAlt.astro';
+import IsoFigure from '@components/ui/IsoFigure.astro';
+import { SITE, SOCIAL_PREVIEW_IMAGE_URL } from '@data/constants';
+
+const pageTitle = `About | ${SITE.title}`;
+const metaDescription =
+  'About PAVii.AI: the AI security and AI products team. We make AI agents safe to trust, with proof of every action on Hyper 0X, the blockchain built by Buckleson.';
+
+const products = ['Agentic Security', 'Dev Tools', 'Super Assistant', 'AX', 'Compute'];
+const label = 'text-sm font-semibold tracking-wide uppercase';
+---
+
+<MainLayout
+  title={pageTitle}
+  customDescription={metaDescription}
+  customOgTitle="About PAVii.AI"
+  structuredData={{
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    '@id': `${SITE.url}/about`,
+    url: `${SITE.url}/about`,
+    name: 'About PAVii.AI',
+    description: metaDescription,
+    image: SOCIAL_PREVIEW_IMAGE_URL,
+    inLanguage: 'en-US',
+  }}
+>
+  <section class="mx-auto max-w-(--breakpoint-xl) px-4 pt-12 pb-6 sm:px-6 lg:px-8 lg:pt-16" aria-labelledby="about-title">
+    <p class={`${label} text-blue-600 dark:text-blue-400`}>About PAVii.AI</p>
+    <h1 id="about-title" class="mt-2 max-w-4xl text-4xl leading-tight font-bold tracking-tight text-balance text-neutral-800 md:text-5xl lg:text-6xl dark:text-neutral-200">
+      We make AI agents safe to trust, and we make AI ship results
+    </h1>
+    <p class="mt-5 max-w-3xl text-lg text-pretty text-neutral-600 dark:text-neutral-400">
+      Pavii is the AI security and AI products team. Our products are {products.join(', ')}. They run on Hyper 0X, the post-quantum-resistant blockchain from Buckleson. Each agent action gets a check, and each check gets a receipt that nobody can change.
+    </p>
+    <ul class="mt-6 flex flex-wrap gap-2">
+      {products.map(p => (
+        <li class="rounded-full border border-neutral-200 bg-white px-3 py-1 text-sm font-medium text-neutral-700 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">{p}</li>
+      ))}
+    </ul>
+    <div class="mt-10"><IsoFigure name="call-sorter" /></div>
+  </section>
+
+  <section class="mx-auto max-w-(--breakpoint-xl) px-4 py-10 sm:px-6 lg:px-8 lg:py-14" aria-labelledby="bento-title">
+    <p class={`${label} text-blue-600 dark:text-blue-400`}>Why we exist</p>
+    <h2 id="bento-title" class="mt-2 max-w-3xl text-3xl font-bold text-balance text-neutral-800 md:text-4xl dark:text-neutral-200">Our mission, vision and goal</h2>
+
+    <div class="mt-8 grid grid-cols-1 gap-4 md:auto-rows-fr md:grid-cols-6">
+      <article class="rounded-2xl bg-neutral-900 p-6 text-white md:col-span-4 md:row-span-2 md:p-10 dark:bg-neutral-800">
+        <p class={`${label} text-blue-400`}>Mission</p>
+        <h3 class="mt-3 text-2xl font-bold text-balance md:text-4xl">We build AI products that deliver results you can measure, not demos.</h3>
+        <p class="mt-4 max-w-xl text-pretty text-neutral-300">Your agents stay safe. Your tokens go further. Your team sees what each agent did, and why.</p>
+      </article>
+
+      <article class="rounded-2xl p-6 text-white md:col-span-2" style="background-color:#2563eb">
+        <p class="text-5xl font-bold">6</p>
+        <p class="mt-2 text-pretty text-blue-50">security gates on every agent call</p>
+      </article>
+
+      <article class="rounded-2xl border border-neutral-200 bg-white p-6 md:col-span-2 dark:border-neutral-700 dark:bg-neutral-900">
+        <p class="text-5xl font-bold text-neutral-800 dark:text-neutral-200">1</p>
+        <p class="mt-2 text-pretty text-neutral-600 dark:text-neutral-400">gateway for every AI agent and model</p>
+      </article>
+
+      <article class="rounded-2xl border border-neutral-200 bg-white p-6 md:col-span-3 md:p-8 dark:border-neutral-700 dark:bg-neutral-900">
+        <p class={`${label} text-blue-600 dark:text-blue-400`}>Vision</p>
+        <h3 class="mt-3 text-xl font-bold text-balance text-neutral-800 md:text-2xl dark:text-neutral-200">An internet where every AI agent is safe to trust, because every action has proof.</h3>
+      </article>
+
+      <article class="rounded-2xl bg-neutral-200 p-6 md:col-span-3 md:p-8 dark:bg-neutral-800">
+        <p class={`${label} text-blue-600 dark:text-blue-400`}>Goal</p>
+        <h3 class="mt-3 text-xl font-bold text-balance text-neutral-800 md:text-2xl dark:text-neutral-200">Help every team put AI agents into real work, with safety and proof built in.</h3>
+      </article>
+
+      <article class="rounded-2xl bg-neutral-900 p-6 text-white md:col-span-6 md:flex md:items-center md:justify-between md:gap-8 dark:bg-neutral-800">
+        <p class="text-lg font-semibold text-balance md:text-xl">Receipts on Hyper 0X that nobody can change.</p>
+        <p class="mt-2 max-w-md text-pretty text-neutral-300 md:mt-0">Each receipt links to the one before it. You can show any decision to an auditor, a customer or your own team.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-(--breakpoint-xl) px-4 py-10 sm:px-6 lg:px-8 lg:py-14" aria-labelledby="rules-title">
+    <p class={`${label} text-blue-600 dark:text-blue-400`}>How we keep the promise</p>
+    <h2 id="rules-title" class="mt-2 max-w-3xl text-3xl font-bold text-balance text-neutral-800 md:text-4xl dark:text-neutral-200">Rules that hold, even in a long chat</h2>
+    <p class="mt-3 max-w-2xl text-lg text-pretty text-neutral-600 dark:text-neutral-400">Pavii keeps your rules as smart contracts on Hyper 0X. The model cannot forget them. Nobody can change them in secret.</p>
+    <div class="mt-8"><IsoFigure name="rule-loom" /></div>
+  </section>
+
+  <TeamNote />
+
+  <HeroSectionAlt
+    title="Talk to the PAVii.AI Team"
+    subTitle="Book a call. We show you how Pavii keeps your agents safe and gives you proof of every action."
+    url="https://cal.com/buckleson-group/30min"
+  />
+</MainLayout>
