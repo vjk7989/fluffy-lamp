@@ -43,3 +43,37 @@ export function appCallback(redirectUri, idToken) {
   }
   throw new Error('Invalid redirect target');
 }
+
+// HyperOx desktop handoff (separate from the redirect_uri flow above).
+// /login?client=hyperox-desktop&port=<PORT>&state=<STATE> signs the user in,
+// asks for an explicit Continue, then form-POSTs the tokens to
+// http://127.0.0.1:<PORT>/callback. Tokens never go in a URL.
+export const DESKTOP_CLIENT = 'hyperox-desktop';
+const DESKTOP_PORT = /^[1-9][0-9]{3,4}$/;
+const DESKTOP_STATE = /^[A-Za-z0-9_-]{43}$/;
+
+/** @typedef {{ kind: 'desktop', port: number, state: string } | { kind: 'desktop-invalid' }} DesktopRequest */
+
+/**
+ * Returns null when the URL is not a HyperOx desktop request, so /login keeps
+ * its normal behaviour. A desktop request wins over redirect_uri.
+ * @param {string} search
+ * @returns {DesktopRequest | null}
+ */
+export function parseDesktopRequest(search) {
+  const params = new URLSearchParams(search);
+  if (params.get('client') !== DESKTOP_CLIENT) return null;
+  const port = params.get('port') ?? '';
+  const state = params.get('state') ?? '';
+  const portNumber = DESKTOP_PORT.test(port) ? Number(port) : 0;
+  if (portNumber < 1024 || portNumber > 65535 || !DESKTOP_STATE.test(state)) {
+    return { kind: 'desktop-invalid' };
+  }
+  return { kind: 'desktop', port: portNumber, state };
+}
+
+/** The only form action the desktop mode ever posts to. @param {number} port */
+export function desktopCallbackAction(port) {
+  if (!Number.isInteger(port) || port < 1024 || port > 65535) throw new Error('Invalid port');
+  return `http://127.0.0.1:${port}/callback`;
+}

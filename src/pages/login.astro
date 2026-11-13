@@ -84,6 +84,37 @@ const metaDescription = 'Sign in to your Pavii account.';
           <p id="login-done-email" class="mt-6 text-xs text-neutral-400 dark:text-neutral-500"></p>
         </div>
 
+        <!-- HyperOx desktop handoff: account confirmation (see utils/authHandoff.mjs) -->
+        <div id="login-desktop" class="hidden py-2 text-center">
+          <img src="/pavii-mark.png" alt="" width="56" height="56" class="mx-auto h-14 w-14 rounded-full" />
+          <h2 class="mt-5 text-2xl font-bold tracking-tight text-neutral-900 dark:text-white">Continue to HyperOx</h2>
+          <p class="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
+            Signing in to <strong class="font-semibold text-neutral-800 dark:text-neutral-200">HyperOx</strong> on this computer.
+          </p>
+          <p id="login-desktop-account" class="mt-5 break-all text-sm font-medium text-neutral-800 dark:text-neutral-200"></p>
+          <div class="mt-6 flex flex-col gap-3">
+            <button
+              id="login-desktop-continue"
+              type="button"
+              class="rounded-lg bg-neutral-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-neutral-700 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200">
+              Continue to HyperOx
+            </button>
+            <button
+              id="login-desktop-other"
+              type="button"
+              class="hidden rounded-lg border border-neutral-300 px-4 py-2.5 text-sm font-semibold text-neutral-800 transition hover:bg-neutral-50 dark:border-white/10 dark:text-neutral-200 dark:hover:bg-white/5">
+              Use another account
+            </button>
+            <button
+              id="login-desktop-cancel"
+              type="button"
+              class="text-sm font-medium text-neutral-500 hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-white">
+              Cancel
+            </button>
+          </div>
+          <p id="login-desktop-error" class="mt-4 hidden rounded-lg bg-red-50 px-3.5 py-2.5 text-sm font-medium text-red-700 dark:bg-red-950/50 dark:text-red-400" role="alert"></p>
+        </div>
+
         <h1 class="text-2xl font-bold tracking-tight text-neutral-900 dark:text-white" id="login-heading">
           Sign in
         </h1>
@@ -218,7 +249,7 @@ const metaDescription = 'Sign in to your Pavii account.';
       onAuthStateChanged,
       signOut,
     } from 'firebase/auth';
-    import { appCallback, parseLoginRequest } from '@/utils/authHandoff.mjs';
+    import { appCallback, desktopCallbackAction, parseDesktopRequest, parseLoginRequest } from '@/utils/authHandoff.mjs';
     import { createSiteAuth } from '@/utils/siteAuth.mjs';
 
     // ── Firebase web config (public client identifiers, not secrets) ──────
@@ -241,8 +272,10 @@ const metaDescription = 'Sign in to your Pavii account.';
     // ───────────────────────────────────────────────────────────────────────
 
     const params = new URLSearchParams(location.search);
-    const loginRequest = parseLoginRequest(location.search);
-    const linkMode = params.get('mode') === 'link';
+    // HyperOx desktop mode wins over redirect_uri; otherwise the old handoff runs unchanged.
+    const desktopRequest = parseDesktopRequest(location.search);
+    const loginRequest = desktopRequest ? ({ kind: 'portal' } as const) : parseLoginRequest(location.search);
+    const linkMode = params.get('mode') === 'link' && !desktopRequest;
 
     const el = (id: string) => document.getElementById(id) as HTMLElement;
     const emailInput = el('login-email') as HTMLInputElement;
@@ -253,7 +286,16 @@ const metaDescription = 'Sign in to your Pavii account.';
     let mode: 'signin' | 'signup' = 'signin';
     let busy = false;
 
-    if (loginRequest.kind === 'app') {
+    if (desktopRequest?.kind === 'desktop-invalid') {
+      el('login-form').classList.add('hidden');
+      el('login-subtitle').textContent = 'This sign-in link is invalid.';
+    } else if (desktopRequest?.kind === 'desktop') {
+      el('login-subtitle').replaceChildren(
+        'Signing in to ',
+        Object.assign(document.createElement('strong'), { textContent: 'HyperOx' }),
+        ' on this computer.'
+      );
+    } else if (loginRequest.kind === 'app') {
       el('login-subtitle').textContent = loginRequest.app === 'h0x'
         ? 'Sign in to continue to H-0x pannel.'
         : 'Sign in to continue to the Pavii.Ai app.';
@@ -267,7 +309,8 @@ const metaDescription = 'Sign in to your Pavii account.';
     const siteAuth = app ? createSiteAuth(app) : null;
 
     const showError = (message: string) => {
-      errorEl.textContent = message;
+      // Desktop mode never posts to the app on a sign-in error; it asks the user to retry.
+      errorEl.textContent = desktopRequest?.kind === 'desktop' && !/try again/i.test(message) ? `${message} Try again.` : message;
       errorEl.classList.remove('hidden');
       successEl.classList.add('hidden');
     };
@@ -385,7 +428,94 @@ const metaDescription = 'Sign in to your Pavii account.';
       confettiBurst();
     };
 
+    // ── HyperOx desktop handoff ───────────────────────────────────────────
+    // After sign-in the user must press Continue; then a top-level form POST
+    // (not fetch) sends the tokens to the app's loopback listener. Tokens are
+    // never put in a URL, logged, or copied to storage by this page.
+    let desktopUser: import('firebase/auth').User | null = null;
+    let desktopHidden: HTMLElement[] = [];
+    const desktopError = el('login-desktop-error');
+    const desktopContinue = el('login-desktop-continue') as HTMLButtonElement;
+
+    const postToDesktop = (fields: Record<string, string>) => {
+      if (desktopRequest?.kind !== 'desktop') return;
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.enctype = 'application/x-www-form-urlencoded';
+      form.action = desktopCallbackAction(desktopRequest.port);
+      for (const [name, value] of Object.entries(fields)) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = value;
+        form.append(input);
+      }
+      document.body.append(form);
+      form.submit();
+    };
+
+    const showDesktopConfirm = (user: import('firebase/auth').User, alreadySignedIn: boolean) => {
+      desktopUser = user;
+      const card = el('login-card');
+      desktopHidden = Array.from(card.children).filter(
+        (child): child is HTMLElement => child.id !== 'login-desktop' && !child.classList.contains('hidden')
+      );
+      for (const child of desktopHidden) child.classList.add('hidden');
+      const who = user.displayName || user.email || 'your Pavii account';
+      el('login-desktop-account').textContent = alreadySignedIn ? `Signed in as ${who}` : `Signed in as ${user.email ?? who}`;
+      desktopContinue.textContent = alreadySignedIn ? `Continue as ${who}` : 'Continue to HyperOx';
+      el('login-desktop-other').classList.toggle('hidden', !alreadySignedIn);
+      desktopError.classList.add('hidden');
+      el('login-desktop').classList.remove('hidden');
+    };
+
+    const hideDesktopConfirm = () => {
+      el('login-desktop').classList.add('hidden');
+      for (const child of desktopHidden) child.classList.remove('hidden');
+      desktopHidden = [];
+      desktopUser = null;
+    };
+
+    desktopContinue.addEventListener('click', () => {
+      void (async () => {
+        if (desktopRequest?.kind !== 'desktop' || !desktopUser) return;
+        desktopContinue.disabled = true;
+        try {
+          const idToken = await desktopUser.getIdToken(true);
+          const { signInProvider } = await desktopUser.getIdTokenResult();
+          postToDesktop({
+            state: desktopRequest.state,
+            id_token: idToken,
+            refresh_token: desktopUser.refreshToken,
+            provider: signInProvider ?? desktopUser.providerData[0]?.providerId ?? 'password',
+          });
+        } catch (error) {
+          desktopError.textContent = `${friendly(error)} Try again.`;
+          desktopError.classList.remove('hidden');
+          desktopContinue.disabled = false;
+        }
+      })();
+    });
+
+    el('login-desktop-cancel').addEventListener('click', () => {
+      if (desktopRequest?.kind === 'desktop') postToDesktop({ state: desktopRequest.state, error: 'cancelled' });
+    });
+
+    el('login-desktop-other').addEventListener('click', () => {
+      const auth = requireAuth();
+      if (!auth) return;
+      void signOut(auth).then(hideDesktopConfirm).catch((error) => {
+        desktopError.textContent = `${friendly(error)} Try again.`;
+        desktopError.classList.remove('hidden');
+      });
+    });
+    // ───────────────────────────────────────────────────────────────────────
+
     const finish = async (user: import('firebase/auth').User) => {
+      if (desktopRequest?.kind === 'desktop') {
+        showDesktopConfirm(user, false);
+        return;
+      }
       if (loginRequest.kind === 'app') {
         const idToken = await user.getIdToken();
         const callback = appCallback(loginRequest.redirectUri, idToken);
@@ -573,6 +703,13 @@ const metaDescription = 'Sign in to your Pavii account.';
       }).catch((error) => showError(friendly(error)));
     });
     if (siteAuth) onAuthStateChanged(siteAuth, (user) => el('login-switch').classList.toggle('hidden', !user));
+    // Desktop mode: an existing session gets "Continue as …" instead of a new sign-in.
+    if (siteAuth && desktopRequest?.kind === 'desktop') {
+      void siteAuth.authStateReady().then(() => {
+        const user = siteAuth.currentUser;
+        if (user && !desktopUser && !busy) showDesktopConfirm(user, true);
+      });
+    }
   </script>
 
   <script>

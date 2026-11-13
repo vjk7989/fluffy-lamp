@@ -62,7 +62,8 @@ const DESKTOP_LOOPBACK = 'http://localhost:* http://127.0.0.1:*';
 export const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
   "base-uri 'self'",
-  "form-action 'self'",
+  // The HyperOx desktop handoff form-POSTs to its loopback listener (any port).
+  "form-action 'self' http://127.0.0.1:*",
   `frame-src 'self' ${GOOGLE_ACCOUNTS} ${FIREBASE_AUTH_DOMAIN}`,
   `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com ${GOOGLE_ACCOUNTS} ${GAPI}`,
   "style-src 'self' 'unsafe-inline'",

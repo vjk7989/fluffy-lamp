@@ -121,3 +121,40 @@ test('login page uses the deep-link handoff and no PKCE code exchange', async ()
   assert.doesNotMatch(source, /h0xCallback|\/v1\/authorize|code_challenge|PAVII_AUTH_URL/);
   assert.doesNotMatch(source, /SAMLAuthProvider|login-sso|saml\.pavii-sso/);
 });
+
+import { DESKTOP_CLIENT, desktopCallbackAction, parseDesktopRequest } from '../src/utils/authHandoff.mjs';
+
+const STATE = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ';
+const desk = (fields) => parseDesktopRequest(`?${new URLSearchParams(fields)}`);
+
+test('desktop mode: valid client, port and 43-char state', () => {
+  assert.equal(STATE.length, 43);
+  assert.deepEqual(desk({ client: DESKTOP_CLIENT, port: '53682', state: STATE }), { kind: 'desktop', port: 53682, state: STATE });
+  assert.deepEqual(desk({ client: DESKTOP_CLIENT, port: '1024', state: STATE }).port, 1024);
+  assert.deepEqual(desk({ client: DESKTOP_CLIENT, port: '65535', state: 'a_B-'.repeat(10) + 'xyz' }).port, 65535);
+});
+
+test('desktop mode: other clients are not desktop requests', () => {
+  assert.equal(desk({ client: 'other', port: '53682', state: STATE }), null);
+  assert.equal(desk({ port: '53682', state: STATE }), null);
+  assert.equal(desk({ client: 'HyperOx-Desktop', port: '53682', state: STATE }), null);
+});
+
+test('desktop mode: rejects bad ports and states', () => {
+  for (const port of ['80', '1023', '65536', '99999', 'abc', '', '053682', '5368 2', '53682.0', '+53682', '0x1F90']) {
+    assert.deepEqual(desk({ client: DESKTOP_CLIENT, port, state: STATE }), { kind: 'desktop-invalid' }, port);
+  }
+  for (const state of [STATE.slice(1), STATE + 'R', STATE.slice(1) + '=', STATE.slice(1) + '.', '', STATE.slice(1) + ' ']) {
+    assert.deepEqual(desk({ client: DESKTOP_CLIENT, port: '53682', state }), { kind: 'desktop-invalid' }, state);
+  }
+});
+
+test('desktop mode wins over redirect_uri', () => {
+  const search = `?${new URLSearchParams({ client: DESKTOP_CLIENT, port: '53682', state: STATE, redirect_uri: 'pavii://auth' })}`;
+  assert.equal(parseDesktopRequest(search).kind, 'desktop');
+});
+
+test('desktop callback action is always the literal 127.0.0.1 loopback', () => {
+  assert.equal(desktopCallbackAction(53682), 'http://127.0.0.1:53682/callback');
+  for (const port of [80, 1023, 65536, NaN, 1.5]) assert.throws(() => desktopCallbackAction(port));
+});
