@@ -77,3 +77,19 @@ export function desktopCallbackAction(port) {
   if (!Number.isInteger(port) || port < 1024 || port > 65535) throw new Error('Invalid port');
   return `http://127.0.0.1:${port}/callback`;
 }
+
+const DESKTOP_RESULTS = new Set(['ok', 'cancelled', 'error']);
+
+/**
+ * The page the app's 303 lands on after a HyperOx desktop sign-in:
+ * /login/?client=hyperox-desktop&result=<ok|cancelled|error>. Port and state
+ * are ignored here. Takes priority over the desktop sign-in mode.
+ * @param {string} search
+ * @returns {'ok' | 'cancelled' | 'error' | null}
+ */
+export function parseDesktopResult(search) {
+  const params = new URLSearchParams(search);
+  if (params.get('client') !== DESKTOP_CLIENT) return null;
+  const results = params.getAll('result');
+  return results.length === 1 && DESKTOP_RESULTS.has(results[0]) ? results[0] : null;
+}

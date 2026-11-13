@@ -84,6 +84,24 @@ const metaDescription = 'Sign in to your Pavii account.';
           <p id="login-done-email" class="mt-6 text-xs text-neutral-400 dark:text-neutral-500"></p>
         </div>
 
+        <!-- HyperOx desktop result: where the app's 303 lands (see parseDesktopResult) -->
+        <div id="login-result" class="hidden py-6 text-center" role="status">
+          <div id="login-result-ok-icon" class="mx-auto hidden h-14 w-14 items-center justify-center rounded-full bg-green-100 text-green-600 dark:bg-green-500/15 dark:text-green-400">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </div>
+          <img id="login-result-mark" src="/pavii-mark.png" alt="" width="56" height="56" class="mx-auto hidden h-14 w-14 rounded-full" />
+          <h2 id="login-result-title" tabindex="-1" class="mt-5 text-2xl font-bold tracking-tight text-neutral-900 outline-none dark:text-white"></h2>
+          <p id="login-result-text" class="mt-3 text-sm text-neutral-500 dark:text-neutral-400"></p>
+          <button
+            id="login-result-close"
+            type="button"
+            class="mt-6 rounded-lg bg-neutral-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-neutral-700 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200">
+            Close this tab
+          </button>
+        </div>
+
         <!-- HyperOx desktop handoff: account confirmation (see utils/authHandoff.mjs) -->
         <div id="login-desktop" class="hidden py-2 text-center">
           <img src="/pavii-mark.png" alt="" width="56" height="56" class="mx-auto h-14 w-14 rounded-full" />
@@ -249,7 +267,7 @@ const metaDescription = 'Sign in to your Pavii account.';
       onAuthStateChanged,
       signOut,
     } from 'firebase/auth';
-    import { appCallback, desktopCallbackAction, parseDesktopRequest, parseLoginRequest } from '@/utils/authHandoff.mjs';
+    import { appCallback, desktopCallbackAction, parseDesktopRequest, parseDesktopResult, parseLoginRequest } from '@/utils/authHandoff.mjs';
     import { createSiteAuth } from '@/utils/siteAuth.mjs';
 
     // ── Firebase web config (public client identifiers, not secrets) ──────
@@ -273,7 +291,9 @@ const metaDescription = 'Sign in to your Pavii account.';
 
     const params = new URLSearchParams(location.search);
     // HyperOx desktop mode wins over redirect_uri; otherwise the old handoff runs unchanged.
-    const desktopRequest = parseDesktopRequest(location.search);
+    // A result view (the app's 303 landing) wins over both and does no auth work.
+    const desktopResult = parseDesktopResult(location.search);
+    const desktopRequest = desktopResult ? null : parseDesktopRequest(location.search);
     const loginRequest = desktopRequest ? ({ kind: 'portal' } as const) : parseLoginRequest(location.search);
     const linkMode = params.get('mode') === 'link' && !desktopRequest;
 
@@ -305,7 +325,7 @@ const metaDescription = 'Sign in to your Pavii account.';
     }
 
     const configured = Object.values(FIREBASE_CONFIG).every(Boolean);
-    const app = configured ? initializeApp(FIREBASE_CONFIG) : null;
+    const app = configured && !desktopResult ? initializeApp(FIREBASE_CONFIG) : null;
     const siteAuth = app ? createSiteAuth(app) : null;
 
     const showError = (message: string) => {
@@ -362,7 +382,7 @@ const metaDescription = 'Sign in to your Pavii account.';
     };
 
     // ── Success celebration: confetti burst + welcome card + Open Pavii toast ──
-    const confettiBurst = () => {
+    const confettiBurst = (durationMs = 3800) => {
       if (!window.matchMedia('(prefers-reduced-motion: no-preference)').matches) return;
       const canvas = document.getElementById('fx-confetti') as HTMLCanvasElement | null;
       const ctx = canvas?.getContext('2d');
@@ -397,7 +417,7 @@ const metaDescription = 'Sign in to your Pavii account.';
           ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
           ctx.restore();
         }
-        if (now - started < 3800) {
+        if (now - started < durationMs) {
           requestAnimationFrame(tick);
         } else {
           ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
@@ -427,6 +447,29 @@ const metaDescription = 'Sign in to your Pavii account.';
       }
       confettiBurst();
     };
+
+    // ── HyperOx desktop result view ───────────────────────────────────────
+    if (desktopResult) {
+      const copy = {
+        ok: ["You're signed in to HyperOx", 'You can close this tab and go back to HyperOx.'],
+        cancelled: ['Sign-in cancelled', 'You can close this tab. Start again from HyperOx whenever you like.'],
+        error: ["Sign-in didn't finish", 'Go back to HyperOx and try again.'],
+      }[desktopResult];
+      const card = el('login-card');
+      for (const child of Array.from(card.children)) {
+        if (child.id !== 'login-result') (child as HTMLElement).classList.add('hidden');
+      }
+      el('login-result-title').textContent = copy[0];
+      el('login-result-text').textContent = copy[1];
+      const icon = el(desktopResult === 'ok' ? 'login-result-ok-icon' : 'login-result-mark');
+      icon.classList.remove('hidden');
+      if (desktopResult === 'ok') icon.classList.add('flex');
+      // Only works for tabs opened by script; harmless otherwise.
+      el('login-result-close').addEventListener('click', () => window.close());
+      el('login-result').classList.remove('hidden');
+      el('login-result-title').focus();
+      if (desktopResult === 'ok') confettiBurst(1500);
+    }
 
     // ── HyperOx desktop handoff ───────────────────────────────────────────
     // After sign-in the user must press Continue; then a top-level form POST

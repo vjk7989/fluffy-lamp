@@ -122,7 +122,7 @@ test('login page uses the deep-link handoff and no PKCE code exchange', async ()
   assert.doesNotMatch(source, /SAMLAuthProvider|login-sso|saml\.pavii-sso/);
 });
 
-import { DESKTOP_CLIENT, desktopCallbackAction, parseDesktopRequest } from '../src/utils/authHandoff.mjs';
+import { DESKTOP_CLIENT, desktopCallbackAction, parseDesktopRequest, parseDesktopResult } from '../src/utils/authHandoff.mjs';
 
 const STATE = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ';
 const desk = (fields) => parseDesktopRequest(`?${new URLSearchParams(fields)}`);
@@ -157,4 +157,26 @@ test('desktop mode wins over redirect_uri', () => {
 test('desktop callback action is always the literal 127.0.0.1 loopback', () => {
   assert.equal(desktopCallbackAction(53682), 'http://127.0.0.1:53682/callback');
   for (const port of [80, 1023, 65536, NaN, 1.5]) assert.throws(() => desktopCallbackAction(port));
+});
+
+const res = (fields) => parseDesktopResult(`?${new URLSearchParams(fields)}`);
+
+test('desktop result: exact lowercase ok/cancelled/error only', () => {
+  for (const result of ['ok', 'cancelled', 'error']) assert.equal(res({ client: DESKTOP_CLIENT, result }), result);
+  for (const result of ['OK', 'Ok', 'Cancelled', 'ERROR', 'done', '', ' ok', 'ok ']) {
+    assert.equal(res({ client: DESKTOP_CLIENT, result }), null, result);
+  }
+  assert.equal(parseDesktopResult(`?client=${DESKTOP_CLIENT}`), null);
+});
+
+test('desktop result: requires the exact client', () => {
+  assert.equal(res({ result: 'ok' }), null);
+  assert.equal(res({ client: 'other', result: 'ok' }), null);
+  assert.equal(res({ client: 'HyperOx-Desktop', result: 'ok' }), null);
+});
+
+test('desktop result: port, state and other params are ignored; duplicates rejected', () => {
+  assert.equal(res({ client: DESKTOP_CLIENT, result: 'cancelled', port: 'bad', state: 'x', foo: 'y' }), 'cancelled');
+  assert.equal(res({ client: DESKTOP_CLIENT, result: 'ok', port: '53682', state: STATE, redirect_uri: 'pavii://auth' }), 'ok');
+  assert.equal(parseDesktopResult(`?client=${DESKTOP_CLIENT}&result=ok&result=error`), null);
 });
