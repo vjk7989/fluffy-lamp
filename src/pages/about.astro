@@ -127,9 +127,12 @@ const services = ['Video generation', 'Coding', 'Research', 'Custom LLMs', 'AI a
     </section>
 
     <!-- 4. INSIDE PAVII -->
-    <section class="ab-sec" aria-labelledby="inside-title">
-      <p class="ab-eyebrow" data-reveal>Inside Pavii</p>
-      <h2 id="inside-title" class="ab-h2" data-reveal>One building. Many AI services. One security layer around all of them.</h2>
+    <section class="ab-sec ab-inside" aria-labelledby="inside-title">
+      <div class="ab-inside-text">
+        <p class="ab-eyebrow" data-reveal>Inside Pavii</p>
+        <h2 id="inside-title" class="ab-h2" data-reveal>One building. Many AI services. One security layer around all of them.</h2>
+        <p class="ab-inside-lead" data-reveal>Video generation, coding, research, custom LLMs, assistants and compute all run inside Pavii. Every request passes the same security gate first, and every result gets a receipt on Hyper 0X.</p>
+      </div>
       <div class="ab-fig" data-reveal><IsoFigure name="ai-tower" /></div>
     </section>
 
@@ -200,13 +203,13 @@ const services = ['Video generation', 'Coding', 'Research', 'Custom LLMs', 'AI a
   .ab-rel { position: relative; }
   .ab-eyebrow { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin: 0; }
   .ab-eyebrow-on-dark { color: #60a5fa; }
-  .ab-h2 { margin: 0.75rem 0 0; max-width: 56rem; font-size: clamp(2rem, 5vw, 3.75rem); line-height: 1.05; font-weight: 800; letter-spacing: -0.03em; text-wrap: balance; }
+  .ab-h2 { margin: 0.75rem 0 0; max-width: 56rem; font-size: clamp(1.75rem, min(5vw, 7vh), 3.75rem); line-height: 1.05; font-weight: 800; letter-spacing: -0.03em; text-wrap: balance; }
   .ab-on-dark { color: #fff; }
   .ab-sec { padding: 4rem 0; }
 
   /* hero */
   .ab-hero { position: relative; padding: 4.5rem 0 5rem; overflow-x: clip; }
-  .ab-h1 { position: relative; margin: 1.25rem 0 0; font-size: clamp(2.5rem, 8.2vw, 7rem); line-height: 1; font-weight: 800; letter-spacing: -0.045em; }
+  .ab-h1 { position: relative; margin: 1.25rem 0 0; font-size: clamp(2.5rem, min(8.2vw, 11vh), 7rem); line-height: 1; font-weight: 800; letter-spacing: -0.045em; }
   .ab-line { display: block; }
   .ab-w { display: inline-block; overflow: clip; padding-bottom: 0.22em; margin-bottom: -0.22em; vertical-align: top; }
   .ab-wi { display: inline-block; padding-bottom: 0.18em; margin-bottom: -0.18em; }
@@ -250,7 +253,7 @@ const services = ['Video generation', 'Coding', 'Research', 'Custom LLMs', 'AI a
   .ab-block { margin: 0; font-size: clamp(1.5rem, 3.4vw, 3rem); line-height: 1.15; font-weight: 700; letter-spacing: -0.025em; text-wrap: balance; }
   .ab-block-last { color: #93c5fd; }
   .ab-bar { display: none; }
-  .ab-story-stage.is-pinned { min-height: calc(100vh - 2rem); display: flex; flex-direction: column; padding: 2.5rem 3.5rem; }
+  .ab-story-stage.is-pinned { min-height: calc(100vh - 6.5rem); display: flex; flex-direction: column; padding: 2.5rem 3.5rem; }
   .is-pinned .ab-blocks { display: grid; flex: 1; align-content: center; margin-top: 0; max-width: 62rem; }
   .is-pinned .ab-block { grid-area: 1 / 1; font-size: clamp(2rem, 4.2vw, 4rem); }
   .is-pinned .ab-bar { display: block; height: 3px; background: #262626; border-radius: 9999px; overflow: hidden; }
@@ -269,11 +272,18 @@ const services = ['Video generation', 'Coding', 'Research', 'Custom LLMs', 'AI a
   .ab-stat-src a { color: #93c5fd; text-decoration: underline; text-underline-offset: 3px; }
   .ab-stat-src a:hover { color: #fff; }
 
-  .ab-fig { margin-top: 2.5rem; }
+  .ab-fig { margin: 1.5rem auto 0; width: min(100%, calc((100vh - 15rem) * 1.25)); }
+  .ab-inside-lead { margin: 1rem 0 0; max-width: 34rem; font-size: 1.05rem; line-height: 1.55; color: var(--mut); }
+  /* Laptop and up: text left, figure right, figure sized to the screen height. */
+  @media (min-width: 1024px) {
+    .ab-inside { display: grid; grid-template-columns: minmax(0, 0.85fr) auto; gap: 2.5rem; align-items: center; padding-block: clamp(1.5rem, 4vh, 6rem); }
+    .ab-inside .ab-h2 { font-size: clamp(1.75rem, min(3.2vw, 5.5vh), 3rem); }
+    .ab-inside .ab-fig { margin: 0; width: min(54vw, calc((100vh - 8rem) * 0.8)); }
+  }
 
   /* mission vision goal */
   .ab-mvg { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 2.5rem; }
-  .ab-mvg-card { position: relative; overflow: clip; background: var(--card); border: 1px solid var(--line); border-radius: 1.75rem; padding: 2rem; min-height: 20rem; display: flex; flex-direction: column; transition: transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease; }
+  .ab-mvg-card { position: relative; overflow: clip; background: var(--card); border: 1px solid var(--line); border-radius: 1.75rem; padding: 2rem; min-height: clamp(13rem, 38vh, 20rem); display: flex; flex-direction: column; transition: transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease; }
   .ab-mvg-card:hover { transform: translateY(-8px); box-shadow: 0 30px 60px -30px rgba(37,99,235,.45); }
   .ab-mvg-blue { background: #2563eb; border-color: #2563eb; color: #fff; }
   .ab-mvg-n { position: absolute; right: 1.25rem; top: 0.25rem; font-size: 7rem; font-weight: 800; line-height: 1; letter-spacing: -0.06em; opacity: .07; }
@@ -282,17 +292,17 @@ const services = ['Video generation', 'Coding', 'Research', 'Custom LLMs', 'AI a
   .ab-mvg-t { margin: auto 0 0; padding-top: 2rem; font-size: clamp(1.35rem, 2.2vw, 1.85rem); line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; text-wrap: balance; }
 
   /* outcomes */
-  .ab-outs { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 2.5rem; }
-  .ab-out { position: relative; overflow: clip; background: var(--card); border: 1px solid var(--line); border-radius: 1.5rem; padding: 1.75rem; transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, border-color .35s ease; }
+  .ab-outs { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: clamp(1.25rem, 3vh, 2.5rem); }
+  .ab-out { position: relative; overflow: clip; background: var(--card); border: 1px solid var(--line); border-radius: 1.5rem; padding: clamp(1.1rem, 2.6vh, 1.75rem); transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, border-color .35s ease; }
   .ab-out:hover { transform: translateY(-6px); border-color: #2563eb; box-shadow: 0 24px 50px -28px rgba(37,99,235,.5); }
   .ab-out-n { font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.1em; color: var(--blue); }
-  .ab-out-t { margin: 1rem 0 0; font-size: 1.4rem; line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; text-wrap: balance; }
+  .ab-out-t { margin: 0.75rem 0 0; font-size: clamp(1.1rem, 2.6vh, 1.4rem); line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; text-wrap: balance; }
   .ab-out-d { margin: 0.75rem 0 0; color: var(--mut); }
   .ab-out-line { position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: linear-gradient(90deg, #2563eb, #93c5fd); transform: scaleX(0); transform-origin: left; transition: transform .45s ease; }
   .ab-out:hover .ab-out-line { transform: scaleX(1); }
 
   /* marquee */
-  .ab-marquee { margin-top: 3rem; overflow: hidden; border-block: 1px solid var(--line); padding: 1.25rem 0;
+  .ab-marquee { margin-top: clamp(1.25rem, 3vh, 3rem); overflow: hidden; border-block: 1px solid var(--line); padding: clamp(0.75rem, 2vh, 1.25rem) 0;
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
   .ab-track { display: flex; width: max-content; animation: ab-scroll 32s linear infinite; }
   .ab-marquee:hover .ab-track { animation-play-state: paused; }
@@ -307,14 +317,14 @@ const services = ['Video generation', 'Coding', 'Research', 'Custom LLMs', 'AI a
   .ab-cta-p { position: relative; margin: 1.5rem auto 0; max-width: 36rem; font-size: 1.125rem; color: #a3a3a3; }
 
   @media (min-width: 768px) {
-    .ab-dark { padding: 5rem 3.5rem; }
+    .ab-dark { padding: clamp(2.5rem, 7vh, 5rem) 3.5rem; }
     .ab-stats { grid-template-columns: repeat(2, 1fr); }
     .ab-mvg { grid-template-columns: repeat(3, 1fr); }
     .ab-outs { grid-template-columns: repeat(2, 1fr); }
     .ab-out-wide { grid-column: span 2; }
-    .ab-out-wide .ab-out-t { font-size: 2rem; max-width: 40rem; }
-    .ab-sec { padding: 6rem 0; }
-    .ab-hero { padding: 7rem 0 8rem; }
+    .ab-out-wide .ab-out-t { font-size: clamp(1.4rem, 3.6vh, 2rem); max-width: 40rem; }
+    .ab-sec { padding: clamp(2.5rem, 8vh, 6rem) 0; }
+    .ab-hero { padding: clamp(2rem, 7vh, 7rem) 0 clamp(2.5rem, 8vh, 8rem); }
   }
   @media (min-width: 1024px) {
     .ab-stats { grid-template-columns: repeat(4, 1fr); }
@@ -387,7 +397,7 @@ const services = ['Video generation', 'Coding', 'Research', 'Custom LLMs', 'AI a
         defaults: { ease: 'none' },
         scrollTrigger: {
           trigger: stage,
-          start: 'top top+=16',
+          start: 'top top+=88',
           end: `+=${n * 90}%`,
           pin: true,
           scrub: 0.6,
