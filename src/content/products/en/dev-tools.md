@@ -51,7 +51,7 @@ specificationsRight:
   - title: 'Mods'
     subTitle: 'The interface is scriptable. Extend it with JavaScript mods.'
   - title: 'Account'
-    subTitle: 'Sign in with Google for account features. Profile lists Token saving, Observability engine, Blockchain security for PII masking, and Phone and Telegram pairing (through Remote). Requires Windows 10/11 x64, macOS on Apple Silicon, or Linux x86_64/aarch64.'
+    subTitle: 'Sign in with Google, GitHub or email for account features. Profile lists Token saving, Observability engine, Blockchain security for PII masking, and Phone and Telegram pairing (through Remote). Requires Windows 10/11 x64, macOS on Apple Silicon, or Linux x86_64/aarch64.'
 blueprints:
   first: '@/images/dev-tools/hyperox-main.png'
   second: '@/images/dev-tools/hyperox-profile.png'

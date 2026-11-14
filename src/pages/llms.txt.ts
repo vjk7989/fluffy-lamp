@@ -25,7 +25,7 @@ export const GET: APIRoute = async () => {
     '## Products',
     '',
     `- [Agentic Security](${baseUrl}/products/security/): blockchain security and observability for AI agents and LLMs.`,
-    `- [Dev Tools](${baseUrl}/products/dev-tools/): AI coding workspace with agents, evaluations and checks.`,
+    `- [Dev Tools](${baseUrl}/products/dev-tools/): a desktop app for running coding agents (Claude Code, Codex, OpenCode, Gemini CLI) in tabs and panes, in beta.`,
     `- [Agentic Experience (AX)](${baseUrl}/products/ax/): make applications accessible to AI agents through MCP and A2A.`,
     `- [Super Assistant](${baseUrl}/products/super-assistant/): a desktop super-agent for daily work.`,
     `- [Compute](${baseUrl}/products/compute/): context engine and inference with model routing.`,

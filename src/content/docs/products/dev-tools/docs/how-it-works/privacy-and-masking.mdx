@@ -1,0 +1,30 @@
+---
+title: Privacy and blockchain-backed masking
+description: Personal data is masked before a prompt leaves your computer.
+sidebar:
+  order: 2
+---
+
+:::note[Beta and invite-only]
+HyperOx is in beta, so not every feature described here is in the current early-access app. The complete application is invite-only: we email a few selected users an invitation to try it.
+:::
+
+Prompts often carry names, emails, keys and IDs that a model never needs to see.
+
+## Sealed envelopes
+
+Think of a mail room that swaps each real name for a numbered envelope before the letter goes out. The reply comes back with envelopes, and the mail room puts the real names back.
+
+## How it works
+
+1. HyperOx detects personal data in a prompt, on your computer.
+2. It replaces each item with a placeholder, so the prompt leaves with placeholders only.
+3. In the answer, the placeholders are swapped back for the real values.
+
+## The notary's ledger
+
+Masking creates a tamper-evident record, backed by a blockchain. It proves what was masked and when. It never stores the data itself. As with a notary's ledger, no one can quietly rewrite an entry afterward. Our security partner is Buckleson.
+
+## Turning it on
+
+Blockchain security for PII masking is part of the complete application and switches on when you sign in. See also [Privacy and data](/products/dev-tools/docs/help/privacy-and-data/).

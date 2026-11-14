@@ -18,7 +18,7 @@ What Pavii does:
 7. Deployment on Pavii, on your own chain, or on existing platforms, with no change to business logic.
 
 Other products and services:
-- Dev Tools: AI coding workspace with agents, evaluations and checks.
+- Dev Tools: HyperOx, a desktop app for running coding agents (Claude Code, Codex, OpenCode, Gemini CLI) in tabs and panes, in beta.
 - Agentic Experience (AX): make applications accessible to AI agents through MCP and A2A.
 - Super Assistant: desktop super-agent for daily work.
 - Compute: context engine and inference with model routing, efficient and NPU-optimized models.

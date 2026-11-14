@@ -70,20 +70,16 @@ export default defineConfig({
           items: [{ autogenerate: { directory: 'products/dev-tools/docs/getting-started' } }],
         },
         {
-          label: 'Concepts',
-          items: [{ autogenerate: { directory: 'products/dev-tools/docs/concepts' } }],
+          label: 'Using HyperOx',
+          items: [{ autogenerate: { directory: 'products/dev-tools/docs/using-hyperox' } }],
         },
         {
-          label: 'Features',
-          items: [{ autogenerate: { directory: 'products/dev-tools/docs/features' } }],
+          label: 'How It Works',
+          items: [{ autogenerate: { directory: 'products/dev-tools/docs/how-it-works' } }],
         },
         {
-          label: 'Guides',
-          items: [{ autogenerate: { directory: 'products/dev-tools/docs/guides' } }],
-        },
-        {
-          label: 'Advanced',
-          items: [{ autogenerate: { directory: 'products/dev-tools/docs/advanced' } }],
+          label: 'Help',
+          items: [{ autogenerate: { directory: 'products/dev-tools/docs/help' } }],
         },
         {
           label: 'Agentic Security',

@@ -1,0 +1,29 @@
+---
+title: Token saving
+description: Leaner prompts and prompt caching, so sessions use fewer tokens.
+sidebar:
+  order: 1
+---
+
+:::note[Beta and invite-only]
+HyperOx is in beta, so not every feature described here is in the current early-access app. The complete application is invite-only: we email a few selected users an invitation to try it.
+:::
+
+Every turn with an agent re-sends a lot: your instructions, project context and files it has already seen. Models bill for all of it, each time.
+
+## The librarian
+
+Imagine a librarian who fetches every book again at each question. Token saving is the librarian who leaves the books you are using on your desk.
+
+## How it works
+
+- **Prompt caching.** The stable parts of a session (instructions, project context, files already sent) are reused instead of sent and billed again.
+- **Leaner prompts.** Only what changed travels with each turn.
+
+The agent gets the same context. You pay for less of it.
+
+## Turning it on
+
+Token saving is part of the complete application and switches on when you sign in. Without it, agents work as usual.
+
+See where tokens go in [Observability](/products/dev-tools/docs/how-it-works/observability/).

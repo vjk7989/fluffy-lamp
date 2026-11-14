@@ -1,61 +1,30 @@
 ---
 title: First launch
-description: Pick an assistant, connect a model, and set permissions on your first run of Pavii.Ai.
+description: Sign in or skip, then open your first space and start an agent.
 sidebar:
   order: 2
 ---
 
-After signing in, you land on the new-conversation screen. Three choices shape
-how the app works for you: which assistant you talk to, which
-model powers it, and how much it may do on its own.
+The first time HyperOx opens, a welcome screen offers two paths. Both lead to the same app.
 
-## Sign in first
+## Sign in, or skip
 
-The desktop app asks you to sign in to a Pavii account before you can use it.
+Signing in opens your browser at pavii.tech. Choose Google, GitHub or email, and you come back signed in. It switches on the account features: Token saving, the Observability engine and Blockchain security for PII masking. These belong to the complete application, so what you see depends on your access.
 
-1. Click **Sign in** on the welcome screen.
-2. Your normal browser opens `pavii.tech/login`. Sign in or create an account
-   there.
-3. The browser hands the session back to the app and the welcome screen
-   clears.
+:::note[Beta and invite-only]
+HyperOx is in beta, so not every feature described here is in the current early-access app. The complete application is invite-only: we email a few selected users an invitation to try it.
+:::
 
-If the handover does not happen — some browsers block the return link, and it
-cannot work at all if you opened the login page in a different browser profile
-— use **copy the sign-in link** on the welcome screen and paste it into the
-browser you are actually signed in to.
+Skip sign-in and everything else keeps working: spaces, agents, panels, themes and remote machines.
 
-The WebUI has its own separate login and does not use this gate.
+## Your first space
 
-## Pick an assistant
+A space holds the work for one project or machine. Create one, then point it at your project folder. It opens with a single tab and a terminal.
 
-Assistants are the personalities you chat with; each is backed by an agent.
-Out of the box:
+## Your first agent
 
-- **OpenCode** — the default coding agent. It ships inside the installer, so
-  it works in your very first session with nothing else installed.
-- **Pavii CLI** — the built-in general assistant.
-- **Other CLI agents** — if you already use Claude Code, Codex, or Gemini CLI,
-  Pavii.Ai detects them on your machine and offers them as assistants too.
+Press Ctrl+Shift+1 to start Claude Code in a new tab. If the agent's CLI is not installed yet, HyperOx tells you with a short message. Install it, then try again.
 
-You can switch assistants at any time — type `/agents` in the composer or use
-the assistants page.
+Other keys start Codex (2), OpenCode (3) and Gemini CLI (4). More in [Running agents](/products/dev-tools/docs/using-hyperox/running-agents/).
 
-## Connect a model
-
-Open **Settings → Models** to choose what powers your assistant:
-
-- **Your own API key** — add a key for your preferred model provider and your
-  conversations go directly from your machine to that provider.
-- **Free providers** — the model picker also lists free options, so you can
-  try the app before bringing a paid key.
-
-Credentials you enter are stored locally on your machine.
-
-## Set the permission mode
-
-Agents can read files, edit code, and run commands. The permission selector in
-the composer controls how independent they are — from asking before every
-action to working autonomously. Start conservative; you can raise it per
-conversation once you trust the flow.
-
-Next: [Your first conversation →](/products/dev-tools/docs/getting-started/first-conversation/)
+Next: [Spaces, tabs and panes →](/products/dev-tools/docs/using-hyperox/spaces-tabs-panes/)
