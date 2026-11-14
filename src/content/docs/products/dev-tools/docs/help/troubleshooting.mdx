@@ -1,0 +1,26 @@
+---
+title: Troubleshooting
+description: Fixes for blocked installs, macOS warnings and missing agents.
+sidebar:
+  order: 1
+---
+
+## Install is blocked
+
+Windows or your security software may stop an unknown installer. Use the signed install command on the [Installation](/products/dev-tools/docs/getting-started/installation/) page, which checks the signature before it unpacks.
+
+## macOS says the app is damaged
+
+The system quarantine flag is the cause. Run the self-sign command from [Installation](/products/dev-tools/docs/getting-started/installation/#self-sign-on-macos).
+
+## "Agent not installed"
+
+HyperOx starts agents but does not install them. Install the CLI (for example Claude Code or Codex) on that machine, then try the shortcut again. For your own agents, check the command in Settings > Agents.
+
+## Account features are missing
+
+Token saving, observability and masking belong to the complete application, which is invite-only. See the note on the [overview](/products/dev-tools/docs/).
+
+## Where is my data
+
+Activity stays on your computer. See [Privacy and data](/products/dev-tools/docs/help/privacy-and-data/).

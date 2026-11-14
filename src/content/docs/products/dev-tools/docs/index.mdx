@@ -3,7 +3,7 @@ title: HyperOx Docs
 head:
   - tag: title
     content: HyperOx Docs
-description: Install HyperOx 0.1.33 and run coding agents in tabs and split panes.
+description: A control tower for your coding agents. Install HyperOx and run agents in tabs and split panes.
 template: splash
 editUrl: false
 lastUpdated: false
@@ -27,20 +27,22 @@ hero:
 
 import '@styles/starlight_main.css';
 
-HyperOx is a desktop app for running coding agents. Version 0.1.33 is in early
-access. Enterprise version coming soon.
+HyperOx is a control tower for your coding agents. Claude Code, Codex, OpenCode, Gemini CLI or your own each run in their own terminal, and HyperOx shows you which are working, which are done and which are waiting for you.
 
-Install it with the [installation guide](/products/dev-tools/docs/getting-started/installation/).
+:::note[Beta and invite-only]
+HyperOx is in beta, so not every feature described in these docs is in the current early-access app (0.1.33). The complete application is invite-only: we email a few selected users an invitation to try it. Enterprise version coming soon.
+:::
 
-## What is in 0.1.33
+## Where to start
 
-- Run coding agents (Claude Code, Codex, OpenCode, Gemini CLI, plus your own) in tabs and split panes, grouped into spaces per project or machine.
-- An agents panel shows each agent's state (working, done or idle) and lets you pin agents.
-- Ctrl+Shift+1 to 9 starts an agent in a new tab: 1 Claude Code, 2 Codex, 3 OpenCode, 4 Gemini CLI, then your own. It works on every keyboard layout. Add your own agents and CLI tools in Settings > Agents.
-- Files, Changes (git), To-do and Sessions panels sit next to your terminals. Files that are not text open in their default app.
-- Remote machines: add a machine and run agents there. The sidebar groups spaces by machine.
-- Activity graph in Settings > Profile: your agent activity over the last year on this computer. It is kept privately on your computer.
-- Themes: darkmatter (the default dark theme), Sodium, Voltage and Phosphor. HyperOx follows light and dark.
-- Mods: the interface is scriptable with JavaScript mods.
-- Signed releases (every file has a minisig signature) and in-app updates.
-- Sign in with Google for account features. Profile lists Token saving, Observability engine, Blockchain security for PII masking, and Phone and Telegram pairing (through Remote).
+- **Getting started.** [Install](/products/dev-tools/docs/getting-started/installation/) the app, then take your [first launch](/products/dev-tools/docs/getting-started/first-launch/).
+- **Using HyperOx.** [Spaces, tabs and panes](/products/dev-tools/docs/using-hyperox/spaces-tabs-panes/), [running agents](/products/dev-tools/docs/using-hyperox/running-agents/), panels, remote machines, themes and updates.
+- **How it works.** What the account features do: [token saving](/products/dev-tools/docs/how-it-works/token-saving/), [privacy and blockchain-backed masking](/products/dev-tools/docs/how-it-works/privacy-and-masking/) and [observability](/products/dev-tools/docs/how-it-works/observability/).
+- **Help.** [Troubleshooting](/products/dev-tools/docs/help/troubleshooting/) and [privacy and data](/products/dev-tools/docs/help/privacy-and-data/).
+
+## In the app today
+
+- Agents in tabs and split panes, grouped into spaces per project or machine.
+- An agents panel with each agent's state, and shortcuts Ctrl+Shift+1 to 9 to start them.
+- Files, Changes (git), To-do and Sessions panels.
+- Remote machines, themes, mods, signed releases and in-app updates.
