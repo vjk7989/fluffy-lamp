@@ -69,6 +69,23 @@ export const flows = {
       { label: 'weekly usage report', icon: 'chart-bar', done: 'sent · aggregates only' },
     ],
   },
+  hyperox: {
+    label: 'HyperOx · one agent session',
+    unit: 'session',
+    layers: [
+      { icon: 'chat-1', title: 'You start an agent', text: 'Ctrl+Shift+1 opens Claude Code in a new tab, in your space.', chips: ['Claude Code', 'Codex', 'OpenCode', 'Gemini CLI'] },
+      { icon: 'dashboard-2', title: 'Token saving', text: 'The stable context is reused through prompt caching. Only what changed is sent.', chips: ['Prompt caching'] },
+      { icon: 'eye-close', title: 'PII masking', text: 'Names, emails and keys are swapped for placeholders before the prompt leaves your computer. A blockchain-backed record proves it.', chips: ['Placeholders', 'Keys'] },
+      { icon: 'ai', title: 'The model answers', text: 'The placeholders are swapped back, so the answer reads as if nothing was hidden.', chips: ['Placeholders restored'] },
+      { icon: 'chart-bar', title: 'Observability', text: 'Logs, traces and evals record what the agent ran, changed and spent.', chips: ['Logs', 'Traces', 'Evals'] },
+    ],
+    end: { icon: 'git-commit', title: 'Back in your workspace', text: 'Review the diff in Changes and commit. Save the space as a Workspace to bring it back later.' },
+    runs: [
+      { label: 'prompt: fix the failing test', icon: 'chat-1', done: 'diff ready · 2 files changed' },
+      { label: 'prompt with an API key', icon: 'key-2', done: 'masked: sk-… · key never left your computer' },
+      { label: 'prompt: email jane@acme.com', icon: 'chat-1', done: 'email masked · restored in the answer' },
+    ],
+  },
 } satisfies Record<string, Flow>;
 
 export type FlowName = keyof typeof flows;
