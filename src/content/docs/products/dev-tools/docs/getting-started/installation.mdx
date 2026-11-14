@@ -1,64 +1,76 @@
 ---
 title: Installation
-description: Download and install Pavii.Ai on Windows, macOS, or Linux.
+description: Install HyperOx 0.1.33 on Windows, macOS or Linux.
 sidebar:
   order: 1
 ---
 
-Pavii.Ai ships as a single installer per platform. The install includes the
-Pavii Engine and the OpenCode CLI — the default AI agent — so a fresh machine
-has a working agent from the very first session, with no extra downloads and
-no Node or Python setup.
+HyperOx 0.1.33 is in early access. The installers check each release's
+signature, then install the app and HyperOx core.
+
+## Requirements
+
+- Windows 10/11 x64
+- macOS on Apple Silicon (Intel Macs are not supported)
+- Linux x86_64 or aarch64
 
 ## Download
 
-| Platform | Package | Link |
-| -------- | ------- | ---- |
-| Windows (x64) | Installer (`.exe`) | [Download](https://github.com/buckleson/Pavii-Gui-Releases/releases/latest/download/Pavii.Ai-Windows-x64-Setup.exe) |
-| macOS (Apple Silicon) | Disk image (`.dmg`) | [Download](https://github.com/buckleson/Pavii-Gui-Releases/releases/latest/download/Pavii.Ai-macOS-arm64.dmg) |
-| Linux (x64) | AppImage | [Download](https://github.com/buckleson/Pavii-Gui-Releases/releases/latest/download/Pavii.Ai-Linux-x64.AppImage) |
+Get the archive for your system from the
+[releases page](https://github.com/buckleson/h0x-ADE-Releases/releases/latest).
+There is no `.exe` or `.dmg` installer. Each archive has a `.minisig` signature
+next to it.
 
-All builds are published on the
-[releases page](https://github.com/buckleson/Pavii-Gui-Releases/releases/latest),
-where you can also find additional architectures.
+| Platform | File |
+| -------- | ---- |
+| Windows x86_64 | `h0x-ade-windows-x86_64.tar.gz` |
+| macOS Apple Silicon | `h0x-ade-macos-aarch64.tar.gz` |
+| Linux x86_64 | `h0x-ade-linux-x86_64.tar.gz` |
+| Linux aarch64 | `h0x-ade-linux-aarch64.tar.gz` |
 
-## Windows
+## Install with a command
 
-1. Run the downloaded `Pavii.Ai-Windows-x64-Setup.exe`.
-2. If Windows SmartScreen appears, choose **More info → Run anyway**.
-3. Follow the installer. It installs per-user — no administrator rights
-   needed.
-4. Launch **Pavii.Ai** from the Start menu.
+The installers are signed scripts. They verify the `.minisig` signature before
+they unpack anything.
 
-Updates are downloaded in the background and applied silently on restart.
+### macOS and Linux
 
-## macOS
+```sh
+curl -fsSL https://github.com/vjk7989/h0x-ADE-app/releases/latest/download/install.sh | sh
+```
 
-1. Open the downloaded `.dmg` and drag **Pavii.Ai** into **Applications**.
-2. On first open, macOS may warn that the app was downloaded from the
-   internet — choose **Open**.
+On macOS the app goes to `~/Applications/HyperOx.app`. On Linux the installer
+adds a launcher entry.
 
-## Linux
+### Windows (PowerShell)
 
-1. Make the AppImage executable:
+```powershell
+powershell -c "irm https://github.com/vjk7989/h0x-ADE-app/releases/latest/download/install.ps1 | iex"
+```
 
-   ```bash
-   chmod +x Pavii.Ai-Linux-x64.AppImage
-   ```
+HyperOx installs to `%LOCALAPPDATA%\Programs\h0x-ade` and is added to your
+PATH.
 
-2. Run it:
+### Windows (curl.exe)
 
-   ```bash
-   ./Pavii.Ai-Linux-x64.AppImage
-   ```
+Download the installer, then run it:
 
-## What gets installed
+```powershell
+curl.exe -fsSLo "$env:TEMP\hyperox-install.ps1" https://github.com/vjk7989/h0x-ADE-app/releases/latest/download/install.ps1
+powershell -ExecutionPolicy Bypass -File "$env:TEMP\hyperox-install.ps1"
+```
 
-- **The desktop app** — the interface you talk to.
-- **Pavii Engine** — a local engine that manages conversations, agents, and
-  your data. It runs on your machine; your data directory stays local.
-- **OpenCode CLI** — the default coding agent, preinstalled and ready in your
-  first session. If you already have your own OpenCode installed, yours takes
-  priority automatically.
+## Self-sign on macOS
+
+The installer already signs the app. Run this if you downloaded the tarball by
+hand, or if macOS says the app is damaged:
+
+```sh
+xattr -dr com.apple.quarantine ~/Applications/HyperOx.app && codesign --force --deep --sign - ~/Applications/HyperOx.app && open ~/Applications/HyperOx.app
+```
+
+## Updates
+
+HyperOx updates itself from inside the app. Releases are signed.
 
 Next: [First launch →](/products/dev-tools/docs/getting-started/first-launch/)
