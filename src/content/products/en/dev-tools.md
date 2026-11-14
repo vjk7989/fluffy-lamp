@@ -1,13 +1,13 @@
 ---
-title: 'Dev Tools'
-description: 'A light code editor with AI agents'
+title: 'HyperOx'
+description: 'A desktop app for running coding agents, version 0.1.33'
 main:
   id: 1
   content: |
-    Dev Tools is a light code editor with AI next to your code. Run models beside your files and check the results in one place. Let an AI agent do the repeated checks that slow your team down. Every agent call goes through Pavii, so the six security gates protect your code and secrets.
+    HyperOx is a desktop app for running coding agents. Run Claude Code, Codex, OpenCode and Gemini CLI in tabs and split panes, and see what each agent is doing. It is in early access. Version 0.1.33 is the current release.
   imgCard: '@/images/product-image-1.avif'
   imgMain: '@/images/product-image-main-1.avif'
-  imgAlt: 'Developer workspace with code editor and AI model panel'
+  imgAlt: 'HyperOx desktop app running coding agents'
 tabs:
   - id: 'tabs-with-card-item-1'
     dataTab: '#tabs-with-card-1'
@@ -20,39 +20,39 @@ tabs:
     title: 'Screenshots'
   - id: 'tabs-with-card-item-4'
     dataTab: '#tabs-with-card-4'
-    title: 'Download Alternatives'
+    title: 'Install with a command'
 longDescription:
-  title: 'A Light AI Coding Workspace'
+  title: 'One Place for Your Coding Agents'
   subTitle: |
-    Dev Tools puts a fast editor and an AI agent in one workspace. Compare model answers beside your code. Ask agents to review changes, run evaluations and write tests. Find problems before they reach production. Pavii records each agent action, so your team can see what the agent changed and why.
-  btnTitle: 'Book a Dev Tools demo'
+    HyperOx puts your coding agents, terminals, files and git changes in one window. Group work into spaces per project or machine. See which agents are working, done or idle. Releases are signed, and the app updates itself.
+  btnTitle: 'Book a demo for the Enterprise version'
   btnURL: 'https://cal.com/buckleson-group/30min'
 descriptionList:
-  - title: 'Models beside your code'
-    subTitle: 'Run AI models next to your code. Prompts, answers, files and context stay visible in one place.'
-  - title: 'Help from AI agents'
-    subTitle: 'Give the repeated work to an agent: code checks, evaluations, new tests and issue sorting.'
-  - title: 'Protected by Pavii'
-    subTitle: 'The privacy gate removes secrets and personal data before a model sees your code. The egress gate controls what the agent can send out.'
+  - title: 'Agents in tabs and panes'
+    subTitle: 'Run Claude Code, Codex, OpenCode, Gemini CLI or your own agents side by side. Group them into spaces per project or machine.'
+  - title: 'Panels next to your terminals'
+    subTitle: 'Files, Changes (git), To-do and Sessions sit beside the terminal. Files that are not text open in their default app.'
+  - title: 'Signed releases'
+    subTitle: 'Every release file has a minisig signature, and the installers check it before they unpack. The app updates itself.'
 specificationsLeft:
-  - title: 'Editor'
-    subTitle: 'A light code editor with one clean workspace for files, prompts, model answers and notes.'
-  - title: 'Model Workspace'
-    subTitle: 'Run and compare model answers beside your code. Test ideas without leaving the editor.'
-  - title: 'AI Agent'
-    subTitle: 'The agent checks changes, finds risks, suggests fixes and does repeated tasks for you.'
-  - title: 'Tests'
-    subTitle: 'Write and run tests from the code that you have open. Ship with more confidence.'
+  - title: 'Agents'
+    subTitle: 'Claude Code, Codex, OpenCode and Gemini CLI are built in. Add your own agents and CLI tools in Settings > Agents.'
+  - title: 'Agents panel'
+    subTitle: 'Shows each agent as working, done or idle. Pin the agents you want to keep in view.'
+  - title: 'Shortcuts'
+    subTitle: 'Ctrl+Shift+1 to 9 starts an agent in a new tab: 1 Claude Code, 2 Codex, 3 OpenCode, 4 Gemini CLI, then your own. It works on every keyboard layout.'
+  - title: 'Remote machines'
+    subTitle: 'Add a machine and run agents there. The sidebar groups spaces by machine.'
 specificationsRight:
-  - title: 'Evaluations'
-    subTitle: 'Make repeatable checks for prompts, model behavior and code quality.'
-  - title: 'Review Checks'
-    subTitle: 'Ask the agent to find regressions, missing tests, wrong assumptions and risky code.'
-  - title: 'People in Control'
-    subTitle: 'You see the context and each suggestion. Nothing changes until a person accepts it.'
-  - title: 'Best For'
-    subTitle: 'Product teams that use AI, solo developers and engineering groups that want faster coding and better checks.'
+  - title: 'Activity graph'
+    subTitle: 'Settings > Profile shows your agent activity over the last year on this computer. It is kept privately on your computer.'
+  - title: 'Themes'
+    subTitle: 'darkmatter (the default dark theme), Sodium, Voltage and Phosphor. HyperOx follows your light or dark setting.'
+  - title: 'Mods'
+    subTitle: 'The interface is scriptable. Extend it with JavaScript mods.'
+  - title: 'Account'
+    subTitle: 'Sign in with Google for account features. Profile lists Token saving, Observability engine, Blockchain security for PII masking, and Phone and Telegram pairing (through Remote). Requires Windows 10/11 x64, macOS on Apple Silicon, or Linux x86_64/aarch64.'
 blueprints:
-  first: '@/images/dev-tools/Screenshot 2026-08-26 153357.png'
-  second: '@/images/dev-tools/Screenshot 2026-08-26 153406.png'
+  first: '@/images/dev-tools/hyperox-main.png'
+  second: '@/images/dev-tools/hyperox-profile.png'
 ---
