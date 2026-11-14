@@ -41,9 +41,22 @@ const isDevTools = product.id === 'en/dev-tools';
 const docsUrl = `/products/${product.id.replace(/^en\//, '')}/docs/`;
 // Only the HyperOx page (src/content/products/en/dev-tools.md) offers downloads.
 const hasPaviiDownloads = isDevTools;
+// One constant to bump on each release. The links below always point at the
+// newest release ("latest"), so the file names carry no version.
 const hyperoxVersion = '0.1.33';
-const hyperoxReleasesUrl =
-  'https://github.com/buckleson/h0x-ADE-Releases/releases/latest';
+const hyperoxReleasesUrl = 'https://github.com/buckleson/h0x-ADE-Releases';
+const hyperoxDownloadBase = `${hyperoxReleasesUrl}/releases/latest/download`;
+const hyperoxDownloads = [
+  { key: 'windows', os: 'Windows', detail: 'x64', architecture: 'x86_64', file: 'h0x-ade-windows-x86_64.tar.gz' },
+  { key: 'macos', os: 'macOS', detail: 'Apple Silicon', architecture: 'aarch64', file: 'h0x-ade-macos-aarch64.tar.gz' },
+  { key: 'linux', os: 'Linux', detail: 'x86_64', architecture: 'x86_64', file: 'h0x-ade-linux-x86_64.tar.gz' },
+  { key: 'linux', os: 'Linux', detail: 'ARM64', architecture: 'aarch64', file: 'h0x-ade-linux-aarch64.tar.gz' },
+].map(d => ({ ...d, url: `${hyperoxDownloadBase}/${d.file}` }));
+const osIcons: Record<string, string> = {
+  windows: 'M3 5.5 10.5 4.4v7.1H3V5.5Zm8.5-1.2L21 3v8.5h-9.5V4.3ZM3 12.5h7.5v7.1L3 18.5v-6Zm8.5 0H21V21l-9.5-1.3v-7.2Z',
+  macos: 'M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.8-.8-3-.8-1.5 0-2.9.9-3.7 2.2-1.6 2.8-.4 6.8 1.1 9 .8 1.1 1.6 2.3 2.8 2.3 1.1 0 1.5-.7 2.9-.7 1.3 0 1.7.7 2.9.7 1.2 0 2-1.1 2.7-2.2.9-1.2 1.2-2.4 1.2-2.5 0 0-2.500-1-2.500-3.600ZM14.2 5.8c.6-.8 1-1.8.9-2.8-.9 0-2 .6-2.6 1.4-.6.7-1.100 1.7-.9 2.700 1 .1 2-.5 2.600-1.300Z',
+  linux: 'M12 2c-2 0-3.500 1.800-3.500 4.100 0 1-.2 1.700-.7 2.500-.6 1-1.300 2.200-1.400 4.400L4.200 17.800c-.4.800 0 1.700.8 2.100.7.300 1.500.1 2-.5.8 1.600 2.700 2.600 5 2.600s4.200-1 5-2.600c.5.600 1.300.8 2 .5.8-.4 1.200-1.300.8-2.100L17.600 13c-.1-2.200-.8-3.400-1.400-4.400-.5-.8-.7-1.500-.7-2.500C15.500 3.800 14 2 12 2Z',
+};
 const paviiDownloadAnalyticsScript = `
 (() => {
   const endpoint = 'https://eu.i.posthog.com/capture/';
@@ -127,52 +140,58 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
         </p>
         {
           hasPaviiDownloads && (
-            <div class="mt-8 w-full max-w-3xl rounded-2xl border border-neutral-200 bg-white/80 p-4 shadow-sm backdrop-blur sm:p-6 dark:border-neutral-700 dark:bg-neutral-900/70">
-              <p class="text-sm font-semibold tracking-wide text-neutral-800 uppercase dark:text-neutral-200">
-                HyperOx {hyperoxVersion}
-              </p>
-              <p class="mt-2 text-base text-neutral-600 dark:text-neutral-400">
-                Early access for Windows, macOS on Apple Silicon and Linux. Releases are signed.
-              </p>
-              <div class="mt-5 flex flex-wrap items-center gap-3">
-                <a
-                  href={hyperoxReleasesUrl}
-                  data-pavii-download
-                  data-platform="all"
-                  data-package="releases"
-                  data-version={hyperoxVersion}
-                  class="group inline-flex min-w-44 items-center justify-center gap-2 rounded-lg bg-blue-500 px-5 py-3 text-sm font-bold text-white shadow-sm transition duration-300 hover:bg-blue-600 focus-visible:ring-3 focus-visible:ring-blue-300 focus-visible:outline-hidden active:bg-blue-700 2xl:text-base dark:focus-visible:ring-blue-800"
-                  style="background-color:#3b82f6; color:#ffffff;"
-                >
-                  <span>Download early access now</span>
-                  <svg
-                    class="size-4 shrink-0 text-white transition duration-300 group-hover:translate-x-1"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
+            <div class="mt-8 w-full max-w-3xl rounded-2xl border border-neutral-200 bg-white/80 p-4 shadow-sm backdrop-blur sm:p-6 dark:border-neutral-700 dark:bg-neutral-900/70" id="download">
+              <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                <h2 class="text-lg font-bold text-neutral-800 dark:text-neutral-200">Download HyperOx</h2>
+                <p class="text-sm font-semibold text-neutral-600 dark:text-neutral-400">Version {hyperoxVersion} &middot; early access</p>
+              </div>
+              <div class="mt-4 grid gap-3 sm:grid-cols-2" data-pavii-os-list>
+                {hyperoxDownloads.map(download => (
+                  <a
+                    href={download.url}
+                    download
+                    data-pavii-download
+                    data-pavii-os={download.key}
+                    data-platform={download.key}
+                    data-architecture={download.architecture}
+                    data-package="tar.gz"
+                    data-version={hyperoxVersion}
+                    class="group relative flex min-h-14 min-w-0 items-center gap-3 rounded-xl border border-neutral-200 bg-white px-4 py-3 text-neutral-800 shadow-sm transition duration-200 hover:border-blue-400 hover:shadow-md focus-visible:ring-3 focus-visible:ring-blue-300 focus-visible:outline-hidden data-[recommended]:border-blue-500 data-[recommended]:bg-blue-500 data-[recommended]:text-white dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:hover:border-blue-500 dark:focus-visible:ring-blue-800 dark:data-[recommended]:bg-blue-500"
+                    aria-label={`Download HyperOx for ${download.os} (${download.detail})`}
                   >
-                    <path d="m9 18 6-6-6-6" />
-                  </svg>
-                </a>
-                <a
-                  href="#tabs-with-card-4"
-                  class="text-sm font-medium text-blue-600 underline decoration-blue-300 underline-offset-4 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-                >
-                  Install with a command
-                </a>
+                    <svg class="size-6 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d={osIcons[download.key]} />
+                    </svg>
+                    <span class="min-w-0 flex-1">
+                      <span class="block text-sm font-bold">{download.os} <span class="font-medium opacity-80">({download.detail})</span></span>
+                      <span class="block truncate text-xs opacity-70">{download.file}</span>
+                    </span>
+                    <span class="hidden shrink-0 rounded-full bg-white/20 px-2 py-0.5 text-xs font-semibold group-data-[recommended]:inline">For your device</span>
+                    <svg class="size-5 shrink-0 transition duration-300 group-hover:translate-y-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <path d="M7 10l5 5 5-5" />
+                      <path d="M12 15V3" />
+                    </svg>
+                  </a>
+                ))}
+              </div>
+              <p class="mt-3 text-xs text-neutral-500 dark:text-neutral-400">
+                Each file has a .minisig signature.
+              </p>
+              <p class="mt-3 text-sm text-neutral-600 dark:text-neutral-400">
+                These are .tar.gz archives. On Windows and macOS the command install is the easiest, because it installs and signs the app for you.
+                <a href="#tabs-with-card-4" data-pavii-open-install class="font-medium text-blue-600 underline decoration-blue-300 underline-offset-4 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">Install with a command</a>
+              </p>
+              <div class="mt-4 border-t border-neutral-200 pt-4 dark:border-neutral-700">
+                <p class="text-sm font-semibold text-neutral-800 dark:text-neutral-200">Other ways to install</p>
+                <div class="mt-2 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+                  <a href={hyperoxReleasesUrl} class="font-medium text-blue-600 underline decoration-blue-300 underline-offset-4 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">All downloads and releases on GitHub</a>
+                  <a href="#tabs-with-card-4" data-pavii-open-install class="font-medium text-blue-600 underline decoration-blue-300 underline-offset-4 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">Install with a command</a>
+                </div>
               </div>
               <p class="mt-4 text-sm text-neutral-600 dark:text-neutral-400">
                 Enterprise version coming soon: teams and admin controls.
-                <a
-                  href="https://cal.com/buckleson-group/30min"
-                  class="font-medium text-blue-600 underline decoration-blue-300 underline-offset-4 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-                >
-                  Book a demo
-                </a>
+                <a href="https://cal.com/buckleson-group/30min" class="font-medium text-blue-600 underline decoration-blue-300 underline-offset-4 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">Book a demo</a>
               </p>
               <p class="mt-4 max-w-2xl text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">
                 HyperOx counts downloads by operating system and country. The
@@ -224,12 +243,16 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
   {product.data.flows?.length ? (
     <section class="mx-auto max-w-[85rem] px-4 pt-6 pb-4 sm:px-6 lg:px-8" aria-labelledby="flows-title">
       <p class="text-sm font-semibold tracking-wide text-blue-600 uppercase dark:text-blue-400">See it work</p>
-      <h2 id="flows-title" class="mt-2 max-w-2xl text-3xl font-bold text-balance text-neutral-800 md:text-4xl dark:text-neutral-200">Follow one request through {product.data.title}</h2>
-      <p class="mt-3 max-w-2xl text-lg text-pretty text-neutral-600 dark:text-neutral-400">Each request moves down the layers. A safe request reaches the end. A harmful one stops at the layer that catches it, and you see why.</p>
+      <h2 id="flows-title" class="mt-2 max-w-2xl text-3xl font-bold text-balance text-neutral-800 md:text-4xl dark:text-neutral-200">{isDevTools ? 'Follow one agent session through HyperOx' : `Follow one request through ${product.data.title}`}</h2>
+      <p class="mt-3 max-w-2xl text-lg text-pretty text-neutral-600 dark:text-neutral-400">{isDevTools ? 'Each step of a session passes through HyperOx. Context is reused, personal data is masked before it leaves your computer, and every step is recorded so you can see what happened.' : 'Each request moves down the layers. A safe request reaches the end. A harmful one stops at the layer that catches it, and you see why.'}</p>
       <div class="mt-8 grid gap-6">
         {product.data.flows.map(name => <FlowStack name={name} />)}
       </div>
+      {isDevTools ? (
+        <p class="mt-6 max-w-2xl text-sm text-pretty text-neutral-500 dark:text-neutral-400">Token saving, PII masking, observability and Workspaces need an account and are part of the full HyperOx app, which is invite-only (beta). The coding agents, tabs and split panes work without one.</p>
+      ) : (
       <p class="mt-6 text-pretty text-neutral-600 dark:text-neutral-400">Rules and receipts live on Hyper 0X, the post-quantum-resistant blockchain from Buckleson. <a href="https://buckleson.com/products/hyper-0x/" class="font-semibold text-blue-600 underline-offset-4 hover:underline dark:text-blue-400">See how Hyper 0X works</a> or read <a href="https://buckleson.com/blog/proof-of-execution-ai/" class="font-semibold text-blue-600 underline-offset-4 hover:underline dark:text-blue-400">why receipts need a blockchain</a>.</p>
+      )}
     </section>
   ) : null}
 
@@ -439,6 +462,26 @@ const previewAlt = `${product.data.title} ${product.data.tabs[2]?.title ?? 'prev
     )
   }
 </MainLayout>
+
+<script>
+  // Put the visitor's OS first and mark it. Without JS the list keeps its
+  // default order (Windows, macOS, Linux x64, Linux ARM64).
+  const ua = navigator.userAgent;
+  const os = /Android/i.test(ua) ? '' : /Win/i.test(ua) ? 'windows' : /Mac/i.test(ua) && !/iPhone|iPad/i.test(ua) ? 'macos' : /Linux|X11/i.test(ua) ? 'linux' : '';
+  const isArm = /aarch64|arm64/i.test(ua);
+  const links = [...document.querySelectorAll<HTMLElement>('[data-pavii-os]')];
+  const match = links.filter(l => l.dataset.paviiOs === os);
+  const pick = match.find(l => (l.dataset.architecture === 'aarch64') === isArm) ?? match[0];
+  if (pick) {
+    pick.setAttribute('data-recommended', '');
+    pick.style.order = '-1';
+  }
+  document.querySelectorAll<HTMLElement>('[data-pavii-open-install]').forEach(a => {
+    a.addEventListener('click', () => {
+      document.querySelector<HTMLElement>('[data-target="#tabs-with-card-4"]')?.click();
+    });
+  });
+</script>
 
 <script>
   // Live release version: the displayed number follows the newest GitHub
