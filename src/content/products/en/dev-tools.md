@@ -1,10 +1,10 @@
 ---
 title: 'HyperOx'
-description: 'A desktop app for running coding agents, version 0.1.33'
+description: 'A desktop app for running coding agents'
 main:
   id: 1
   content: |
-    HyperOx is a desktop app for running coding agents. Run Claude Code, Codex, OpenCode and Gemini CLI in tabs and split panes, and see what each agent is doing. It is in early access. Version 0.1.33 is the current release.
+    HyperOx is a desktop app for running coding agents. Run Claude Code, Codex, OpenCode and Gemini CLI in tabs and split panes, and see what each agent is doing. It is in early access.
   imgCard: '@/images/product-image-1.avif'
   imgMain: '@/images/product-image-main-1.avif'
   imgAlt: 'HyperOx desktop app running coding agents'
